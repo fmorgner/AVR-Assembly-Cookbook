@@ -1,6 +1,29 @@
-; Shift SRAM
+; shift-sram.asm
+; -------------------------------------------------------------------------
+; begin                 : 2012-01-12
+; copyright             : Copyright (C) 2012 by Felix Morgner
+; email                 : manfred.morgner@gmx.net
+; =========================================================================
+;                                                                         |
+;   This program is free software; you can redistribute it and/or modify  |
+;   it under the terms of the GNU General Public License as published by  |
+;   the Free Software Foundation; either version 2 of the License, or     |
+;   (at your option) any later version.                                   |
+;                                                                         |
+;   This program is distributed in the hope that it will be useful,       |
+;   but WITHOUT ANY WARRANTY; without even the implied warranty of        |
+;   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         |
+;   GNU General Public License for more details.                          |
+;                                                                         |
+;   You should have received a copy of the GNU General Public License     |
+;   along with this program; if not, write to the                         |
+;                                                                         |
+;   Free Software Foundation, Inc.,                                       |
+;   59 Temple Place Suite 330,                                            |
+;   Boston, MA  02111-1307, USA.                                          |
+; =========================================================================
 ;
-; Copyright (c) Felix Morgner
+; Shift SRAM
 ;
 ; This program aims to demonstrate the use of a CD4094BCN shift register to
 ; expand the number of available pins of an Atmel(r) AVR(tm) microcontroller.
@@ -26,15 +49,6 @@
 ;
 ; At the end one fun fact: This program fits exactly into 100 bytes of program
 ; memory.
-;
-; This program is free software; you can redistribute it and/or modify
-; it under the terms of the GNU General Public License as published by
-; the Free Software Foundation; version 3 of the License.
-; 
-; This program is distributed in the hope that it will be useful,
-; but WITHOUT ANY WARRANTY; without even the implied warranty of
-; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-; GNU General Public License for more details.
 
 .DEVICE atmega164p                      ; set controller type
 
