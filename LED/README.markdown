@@ -1,6 +1,6 @@
-* LED Examples
+# LED Examples
 
-** Let there be light!
+## Let there be light!
 
 The simplest program doing something: Set a LED under power.
 
