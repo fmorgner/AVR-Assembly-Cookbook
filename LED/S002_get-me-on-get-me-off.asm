@@ -49,7 +49,7 @@ main:
             sbic    PINB,         4                        ; skip next command if bit 4 of PORTB is 0
             rjmp    led_on                                 ; jump to LED ON
             cbi     PORTB,        5                        ; set LED on bit 5 to 'off'
-            rjmp    led_ok                                 ; LED handling will end for this squence
+            rjmp    led_ok                                 ; LED handling will end for this sequence
 led_on:
             sbi     PORTB,        5                        ; set LED on bit 5 to 'on'
 led_ok:
