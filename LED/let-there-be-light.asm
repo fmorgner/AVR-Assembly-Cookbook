@@ -38,7 +38,7 @@
 
 start:
                                                            ; Arduino Pin 13 is PORTB Pin 5 on the ATmega MC
-            sbi     DDRB,         5                        ; set PORTB/BIT5 to output mode
+            sbi     DDRB,         5                        ; set PORTB/bit5 to output mode
             sbi     PORTB,        5                        ; set output pin to 'on'
 
 main:
