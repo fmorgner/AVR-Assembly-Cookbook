@@ -5,11 +5,11 @@ Please note that it is in a very early development stage.
 
 ## Shift registers
 
-  - shift-sram
+  - shift sram
 
 ## LED
 
-  - let-there-be-light
-	- get-me-on-get-me-off
-	- stable-decisions
-	- stable-decisions+symbols
+  - let there be light
+  - get me on get me off
+  - stable decisions
+  - stable decisions + symbols
