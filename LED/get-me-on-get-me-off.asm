@@ -22,9 +22,14 @@
 ;   59 Temple Place Suite 330,                                            |
 ;   Boston, MA  02111-1307, USA.                                          |
 ; =========================================================================
+;
+; This programm will switch on the light on the Arduino LED at Connector 13
+; or on your ATmega MC at PORTB Bit 5 (which is the same)
+;
+; Furhter it will shut off the light as long as you pull Arduino Connector 12
+; to ground or - respectively - PORTB Bit 4 on your ATmega MC
 
 ; choose the device you wish to use:
-
 .DEVICE atmega8
 ;.DEVICE atmega168
 ;.DEVICE atmega328
@@ -36,17 +41,15 @@
 
 start:
                                                            ; Arduino Pin 13 is PORTB bit 5 on the ATmega MC
-            ldi     r16,          1 << 5                   ; so we need to set bit 5 to output mode
-            out     DDRB,         r16                      ; and doing so on PORTB
-
-            ldi     r16,          1 << 4                   ; address PORTB bit 4
-            out     PORTB,        r16                      ; enable pullup resistor on PORTB bit 4
+            sbi     DDRB,         5                        ; set PORTB/bit5 to output mode
+            cbi     DDRB,         4                        ; set PORTB/bit4 to input mode
+            sbi     PORTB,        4                        ; enable pullup resistor on PORTB/bit4
 
 main:
-            sbic    PORTB,        4                        ; skip next if bit 4 of PORTB is 0
+            sbic    PINB,         4                        ; skip next command if bit 4 of PORTB is 0
             rjmp    led_on                                 ; jump to LED ON
             cbi     PORTB,        5                        ; set LED on bit 5 to 'off'
-            rjmp    led_ok                                 ; LED handling is finishd for this squence
+            rjmp    led_ok                                 ; LED handling will end for this squence
 led_on:
             sbi     PORTB,        5                        ; set LED on bit 5 to 'on'
 led_ok:
