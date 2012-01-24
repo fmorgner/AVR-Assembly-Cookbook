@@ -36,10 +36,9 @@
 
 start:
                                                            ; Arduino Pin 13 is PORTB Pin 5 on the ATmega MC
-            ldi     r16,          1 << 5                   ; so we need to set pin 5 to output mode
-            out     DDRB,         r16                      ; and doing so on PORTB
+            sbi     DDRB,         5                        ; set PORTB/BIT5 to output mode
 
-            out     PORTB,        r16                      ; set output pin to 'on'
+            sbi     PORTB,        5                        ; set output pin to 'on'
 
 main:
             rjmp    main                                   ; loop forever, nothings more to do
