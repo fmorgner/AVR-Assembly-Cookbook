@@ -22,9 +22,11 @@
 ;   59 Temple Place Suite 330,                                            |
 ;   Boston, MA  02111-1307, USA.                                          |
 ; =========================================================================
+;
+; This programm will switch on the light on the Arduino LED at Connector 13
+; or on your ATmega MC at PORTB Bit 5 (which is the same)
 
 ; choose the device you wish to use:
-
 .DEVICE atmega8
 ;.DEVICE atmega168
 ;.DEVICE atmega328
