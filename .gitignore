@@ -1,2 +1,10 @@
+.DS_Store
+
 *.hex
 *.lst
+
+*.aux
+*.log
+*.out
+*.toc
+*.gz
