@@ -1,0 +1,74 @@
+\section{Let there be light}
+
+The first sample in this chapter is the smallest program I can think of which does something.
+This program will switch on the LED on your Arduino on pin 13.
+
+Programming in Assembler means you're in control. But as you know, power requires knowledge and responsibility. If you're entering the world of assembly programming, you have absolute power if you wish to or not. Consequently you need both, knowledge to become responsible.
+
+At first you need to know what 'Arduino pin 13' really means! As consequence of the Arduino design it is not pin 13 on your \at. Knowing this is yet the half way thru. Knowing the pin is a step you need to know if are working with a plain chip. What you need to know is the MC internal addressing for Arduino pin 13. To find out, look at \url{http://arduino.cc/hu/Hacking/PinMapping}. After we know anything we have to know to be responsible, we generate our 8byte machine program that will set our 'LED 13' under power.
+
+\begin{lstlisting}
+.DEVICE atmega8
+
+.org 0x0000
+            rjmp    start 
+
+start:
+            sbi     DDRB,         5
+            sbi     PORTB,        5
+            
+main:
+            rjmp    main
+\end{lstlisting}
+
+As simple as the program is, I believe there is some need for explanation.
+
+At first we have to declare the type of micro controller we are intuited to use with the program. This is necessary because different micro controllers do have different assignments in their inner structure and need different addressing for their components. We do this by:
+
+\begin{lstlisting}
+.DEVICE atmega8
+\end{lstlisting}
+
+Next we need to declare where our world will start. Funny thing is, we done really know! So we are forced to use symbols to deal with this necessity. As indicated below, different micro controllers will have different inner values. But not only this, to be honest, where our program lives is due to additional effect a most uncertain thing. We come to this later in the book.
+
+As we are forced to use symbols, we have to do so. We will set a symbol to our programs starting point later and this symbol will be named 'start' in out code. Whatever starts our program it must be informed where to goto to do so:
+
+\begin{lstlisting}
+.org 0x0000
+            rjmp     start 
+\end{lstlisting}
+
+With '.org' (don't forget the leading dot!) we build up a sequence of command positioned at the addressed position. This sequence, some times named a table, is a list of action to be taken for different requests. The only request we have is to start our program and fortunately the entry for this request is expected as the first in our table.
+
+For those who really want to know: The addressing in this table is relative to wherever it is placed in real life! So it always starts with 0. Strictly speaking, at this point we already enter the realms of a dreamworld. We don't know what really happens! But sometimes this is irrelevant
+
+To declare our first magic point, we only need to postulate:
+
+\begin{lstlisting}
+start:
+\end{lstlisting}
+
+'start:'  is a label and represent the final address for the first memory position used afterwards. In our case the address of the first command in our program.
+
+The next label is already behind all things we need to do in our program. It is the starting point of an unconditional infinite loop. This sequence is necessary because the processor (CPU) of our MC is running as long as it has power. We can't stop it, so we have to lead it into a controlled way of doing nothing because we don't wish that our MC does anything after it did all things we expected it to do.
+
+Between 'start:' und 'main:' is our program. I call this the 'first form of a standard program'. A program which runs ones after the system awakes. Such program may be of limited use, but not completely useless. And the schema of this 'first form' is the basic schema of all derived form. The program 
+
+\begin{itemize}
+  \item{starts}
+  \item{does something}
+  \item{loops forever, possibly doing something}
+\end{itemize}
+
+If the program does something in the 'infinite loop' then this may be called the 'second form of a standard program'. A third form should be expected to pop into existence later on. But anyway. Our program of the first form is specifically designed to show some important rules for good programming.
+
+The two commands which full fill our programs mission will do two things:
+
+\begin{itemize}
+  \item{declare pin 5 at PORTB as output pin}
+  \item{set pin 5 at PORTB under power to enlighten our LED}
+\end{itemize}
+
+This is all the program does and there is nothing more about it. You will discover, that this program demonstrates prudence and thrift. But for the moment, our knowledge is insufficient to explain it.
+
+

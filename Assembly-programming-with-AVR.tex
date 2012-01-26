@@ -1,0 +1,101 @@
+%\documentclass[twoside,a4paper,ngerman, german,12pt,authoryear,openright]{book}
+\documentclass[twoside,english,12pt,authoryear,openright]{book}
+\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
+\geometry{a4paper} % or letter or a5paper or ... etc
+
+\usepackage{graphicx}
+\usepackage{pslatex}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{fancyhdr}
+
+
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{color}
+\lstset{
+         basicstyle=\footnotesize\ttfamily, % Standardschrift
+%         numbers=left,               % Ort der Zeilennummern
+         numberstyle=\tiny,          % Stil der Zeilennummern
+%         stepnumber=2,               % Abstand zwischen den Zeilennummern
+         numbersep=5pt,              % Abstand der Nummern zum Text
+         tabsize=4,                  % Groesse von Tabs
+         extendedchars=true,         %
+%         breaklines=true,            % Zeilen werden Umgebrochen
+         keywordstyle=\color{blue}\textbf,
+                frame=tb,         
+ %        keywordstyle=[1]\textbf,    % Stil der Keywords
+ %        keywordstyle=[2]\textbf,    %
+ %        keywordstyle=[3]\textbf,    %
+ %        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
+         stringstyle=\color{white}\ttfamily, % Farbe der String
+         showspaces=false,           % Leerzeichen anzeigen ?
+         showtabs=false,             % Tabs anzeigen ?
+         xleftmargin=17pt,
+%         framexleftmargin=17pt,
+         framexleftmargin=3pt,
+         framexrightmargin=5pt,
+         framexbottommargin=4pt,
+%         backgroundcolor=\color{lightgray},
+         showstringspaces=true      % Leerzeichen in Strings anzeigen ?        
+ }
+ \lstset{language=C++}
+
+\usepackage{hyperref}
+
+\selectlanguage{english}
+
+\pagestyle{fancy}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setlength\parskip{\medskipamount}
+\setlength\parindent{0pt}
+
+\makeatletter
+\makeatother
+
+\newcommand{\at}{\textit{ATmega8} }
+
+\begin{document}
+\inputencoding{utf8}
+
+\title{Assembly programming with Atmel AVR Micro Controllers}
+
+\author{Felix Morgner and Manfred Morgner}
+
+
+\maketitle
+
+If you wish to follow our ways, it would be a good idea to get a copy of  ,ATMEL 8bit AVR instruction set manual':
+
+\url{http://www.atmel.com/dyn/resources/prod_documents/doc0856.pdf}
+
+We will not explain the command we are use because all explanation is already word out in this document. Clearly we will discuss why we are using specific commands if there are known (as in the context of the book) alternatives.
+
+This book is mainly based on \at because we need to push aside micro controller model specifics. At some point we have to start dealing with this problem but we try to prevent this from happening as hard as we possibly can.
+
+\tableofcontents{}
+
+
+\part{Simple Samples}
+
+\chapter{LED}
+
+In this chapter we will demonstrate the basics of assembly programming with AVR Micro Controllers. These samples
+will only require the simplest of additional hardware. If you use an Arduino, you will need only a simple wire for the first
+examples.
+
+
+\input{LED/S000_let-there-be-light}
+
+
+
+\part{External devices}
+
+\chapter{Shift Registers}
+
+\input{Shift-Register/S000_shift-sram}
+
+\end{document}
