@@ -1,0 +1,109 @@
+\section{Stable decisions}
+
+This program stores one of two states and sets the LED on or off, keeping it according to the stored state. This explanation is slightly wrong. I try it again.
+
+This program recognises an input signal consisting of two phases. A complete input signal consist of a LOW phase followed by a HIGH phase. The signal ends with entering the HIGH phase. We are interested only in change, as we always should.
+
+If the Input signal changes from HIGH to LOW, our program changes the LED from its current state to the other state. If the LED was ON it will be set to OFF and vice versa. The state is only changed as reaction of changing the Input state from HIGH to LOW because 'no action' at the Input device leads to HIGH state in the input register as the result of using an internal 'pull up resistor' who does what he is called - he pulls the input signal up - to HIGH.
+
+The electrical signal we use on our micro controller input pin is: Pulling it down to LOW (GND) which is the signal we are waiting for. And finally this is the Code to do it:
+
+\begin{lstlisting}
+.DEVICE atmega8
+
+.org 0x0000
+            rjmp    start
+
+start:
+            sbi     DDRB,         5
+            cbi     DDRB,         4
+            sbi     PORTB,        4
+
+            ldi     r16,          1
+
+main:
+            sbic    PINB,         4
+            rjmp    led_keep
+            tst     r16
+            breq    led_ok
+            sbis    PINB,         5
+            rjmp    led_on
+            cbi     PORTB,        5
+            clr     r16
+            rjmp    led_ok
+led_on:
+            sbi     PORTB,        5
+            clr     r16
+            rjmp    led_ok
+led_keep:
+            ldi     r16,          1
+led_ok:
+            rjmp    main
+\end{lstlisting}
+
+
+As you can see, this Code is not easy to understand. To do better, we add symbolic names to the soup. The basics are easy:
+
+\begin{itemize}
+  \item \texttt{.equ} means: 'a name for a number'
+  \item \texttt{.def} means: 'a name for an entity'
+\end{itemize}
+
+So for example \texttt{DDRB} alread is a number. This number is defined in an include file chosen by you device selection. But in our case, whatever number is hidden behind the name DDRB it will be our Input/Output control port. So die name it \texttt{ctl} as prefix for 'control' and \texttt{IO} as name for Input\&Output.
+
+In another example \texttt{bit} stands for 'bit number' and \texttt{Input} for 'Input bit' which makes \texttt{bitInput}, the bit where we red the input state.
+
+You may define you own naming convention which should hold throughout your project.
+
+\begin{lstlisting}
+.DEVICE atmega8
+
+.equ ctlIO     = DDRB    ; DDRB  is our I/O control register
+.equ prtIO     = PORTB   ; PORTB is our I/O output port register
+.equ pinIO     = PINB    ; PINB  is our I/O input pin register
+
+.equ bitOutput = 5       ; pin 5 is our output bit
+.equ bitInput  = 4       ; pin 4 is our input bit
+
+.equ FALSE     = 0       ; 0 will be FALSE or OFF
+.equ TRUE      = 1       ; 1 will be TRUE  or ON
+
+.def bStatus   = r16     ; the last state will be stored in 'r16'
+\end{lstlisting}
+
+As you may not have expected, this makes the soup - or code - somehow better readable and so much easier to understand. Now it looks more like a higher language:
+
+\begin{lstlisting}
+.org 0x0000
+            rjmp    start
+
+start:
+            sbi     ctlIO,        bitOutput
+            cbi     ctlIO,        bitInput
+            sbi     prtIO,        bitInput
+
+            ldi     bStatus,      TRUE
+
+main:
+            sbic    pinIO,        bitInput
+            rjmp    led_keep
+            tst     bStatus
+            breq    led_ok
+            sbis    pinIO,        bitOutput
+            rjmp    led_on
+            cbi     prtIO,        bitOutput
+            clr     bStatus
+            rjmp    led_ok
+led_on:
+            sbi     prtIO,        bitOutput
+            clr     bStatus
+            rjmp    led_ok
+led_keep:
+            ldi     bStatus,      TRUE
+led_ok:
+            rjmp    main
+\end{lstlisting}
+
+Even if its a better reading, it seems no really to be easy to follow the program flow. So at first, we should introduce a program flow chart:
+
+

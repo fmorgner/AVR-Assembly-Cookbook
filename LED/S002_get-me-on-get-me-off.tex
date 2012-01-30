@@ -1,0 +1,26 @@
+\section{Get me on, get me off}
+
+At first the code
+
+\begin{lstlisting}
+.DEVICE atmega8
+
+.org 0x0000
+           rjmp     start
+
+start:
+            sbi     DDRB,         5
+            cbi     DDRB,         4
+            sbi     PORTB,        4
+
+main:
+            sbic    PINB,         4
+            rjmp    led_on
+            cbi     PORTB,        5
+            rjmp    led_ok
+led_on:
+            sbi     PORTB,        5
+led_ok:
+            rjmp    main
+\end{lstlisting}
+

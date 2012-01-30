@@ -41,8 +41,8 @@
 .equ prtIO     = PORTB
 .equ pinIO     = PINB
 
-.equ bitInput  = 5
-.equ bitOutput = 4
+.equ bitOutput = 5
+.equ bitInput  = 4
 
 .equ FALSE     = 0
 .equ TRUE      = 1
@@ -56,24 +56,24 @@
 
 start:
                                                            ; Arduino Pin 13 is PORTB bit 5 on the ATmega MC
-            sbi     ctlIO,        bitInput                 ; set PORTB/bit5 to output mode
-            cbi     ctlIO,        bitOutput                ; set PORTB/bit4 to input mode
-            sbi     prtIO,        bitOutput                ; enable pullup resistor on PORTB/bit4
+            sbi     ctlIO,        bitOutput                ; set PORTB/bit5 to output mode
+            cbi     ctlIO,        bitInput                 ; set PORTB/bit4 to input mode
+            sbi     prtIO,        bitInput                 ; enable pullup resistor on PORTB/bit4
 
             ldi     bStatus,      TRUE                     ; 'last state' will be 'high' to begin with
 
 main:
-            sbic    pinIO,        bitOutput                ; skip next command if bit 4 of PORTB is 0
+            sbic    pinIO,        bitInput                 ; skip next command if bit 4 of PORTB is 0
             rjmp    led_keep                               ; nothings to do, we skip the whole procedure
             tst     bStatus                                ; find out if bStatus already is NULL
             breq    led_ok                                 ; if so, we already chenged the LED state
-            sbis    pinIO,        bitInput                 ; to change the LED state we have to read it
+            sbis    pinIO,        bitOutput                ; to change the LED state we have to read it
             rjmp    led_on                                 ; it was set to 'on'
-            cbi     prtIO,        bitInput                 ; set LED on bit 5 to 'off'
+            cbi     prtIO,        bitOutput                ; set LED on bit 5 to 'off'
             clr     bStatus                                ; we did it - set 'last state' to 'low = done'
             rjmp    led_ok                                 ; LED handling will end for this squence
 led_on:
-            sbi     prtIO,        bitInput                 ; set LED on bit 5 to 'on'
+            sbi     prtIO,        bitOutput                ; set LED on bit 5 to 'on'
             clr     bStatus                                ; we did it - set 'last state' to 'low = done'
             rjmp    led_ok                                 ; LED handling will end for this sequence
 led_keep:
