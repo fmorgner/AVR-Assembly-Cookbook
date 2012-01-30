@@ -6,7 +6,7 @@ This program recognises an input signal consisting of two phases. A complete inp
 
 If the Input signal changes from HIGH to LOW, our program changes the LED from its current state to the other state. If the LED was ON it will be set to OFF and vice versa. The state is only changed as reaction of changing the Input state from HIGH to LOW because 'no action' at the Input device leads to HIGH state in the input register as the result of using an internal 'pull up resistor' who does what he is called - he pulls the input signal up - to HIGH.
 
-The electrical signal we use on our micro controller input pin is: Pulling it down to LOW (GND) which is the signal we are waiting for. And finally this is the Code to do it:
+The electrical signal we are waiting for with our micro controller on our input pin is: Pulling it down to LOW (GND). And finally this is the Code to do it:
 
 \begin{lstlisting}
 .DEVICE atmega8
@@ -104,6 +104,11 @@ led_ok:
             rjmp    main
 \end{lstlisting}
 
-Even if its a better reading, it seems no really to be easy to follow the program flow. So at first, we should introduce a program flow chart:
+Even if it's a better reading, it seems no really to be easy to follow the program flow. So at first, we should introduce a program flow chart. And for good measure two of the. We need two of them to demonstrate a major point in assembler programming.
 
+We have to take watch about WHAT we wish to do, but equally too about HOW we are going to do it.
+
+\subsection{WHAT to do}
+
+\subsection{HOW to do it}
 
