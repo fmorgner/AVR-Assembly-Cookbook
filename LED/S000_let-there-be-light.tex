@@ -5,7 +5,7 @@ This program will switch on the LED on your Arduino on pin 13.
 
 Programming in Assembler means you're in control. But as you know, power requires knowledge and responsibility. If you're entering the world of assembly programming, you have absolute power if you wish to or not. Consequently you need both, knowledge to become responsible.
 
-At first you need to know what 'Arduino pin 13' really means! As consequence of the Arduino design it is not pin 13 on your \at. Knowing this is yet the half way thru. Knowing the pin is a step you need to know if are working with a plain chip. What you need to know is the MC internal addressing for Arduino pin 13. To find out, look at \url{http://arduino.cc/hu/Hacking/PinMapping}. After we know anything we have to know to be responsible, we generate our 8byte machine program that will set our 'LED 13' under power.
+At first you need to know what 'Arduino pin 13' really means! As consequence of the Arduino design it is not pin 13 on your \at. Knowing this is yet the half way thru. Knowing the pin is a step you need to know if are working with a plain chip. What you need to know is the MC internal addressing for Arduino pin 13. To find out, look at \url{http://arduino.cc/hu/Hacking/PinMapping}. After we know everything we have to know to be responsible, we generate our 8byte machine program that will set our 'LED 13' under power.
 
 \begin{lstlisting}
 .DEVICE atmega8
@@ -65,9 +65,21 @@ If the program does something in the 'infinite loop' then this may be called the
 The two commands which full fill our programs mission will do two things:
 
 \begin{itemize}
-  \item{declare pin 5 at PORTB as output pin}
-  \item{set pin 5 at PORTB under power to enlighten our LED}
+  \item  declare pin 5 at PORTB as output pin
+  \item  set pin 5 at PORTB under power to enlighten our LED
 \end{itemize}
+
+\begin{lstlisting}
+            sbi     DDRB,         5
+            sbi     PORTB,        5
+\end{lstlisting}
+
+Finally the never ending loop:
+
+\begin{lstlisting}
+main:
+            rjmp    main
+\end{lstlisting}
 
 This is all the program does and there is nothing more about it. You will discover, that this program demonstrates prudence and thrift. But for the moment, our knowledge is insufficient to explain it.
 
