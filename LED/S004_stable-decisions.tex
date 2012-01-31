@@ -1,6 +1,6 @@
 \section{Stable decisions}
 
-Next step we need to do something more useful.
+Next step we need to do something more useful. And we reach the 'second form of a standard program', which means: A program that does something in it infinite loop.
 
 This program stores one of two states and sets the LED on or off, keeping it according to the stored state. This explanation is slightly wrong. I try it again.
 
@@ -28,14 +28,13 @@ main:
             rjmp    led_keep
             tst     r16
             breq    led_ok
+            clr     r16
             sbis    PINB,         5
             rjmp    led_on
             cbi     PORTB,        5
-            clr     r16
             rjmp    led_ok
 led_on:
             sbi     PORTB,        5
-            clr     r16
             rjmp    led_ok
 led_keep:
             ldi     r16,          1
@@ -91,14 +90,13 @@ main:
             rjmp    led_keep
             tst     bStatus
             breq    led_ok
+            clr     bStatus
             sbis    pinIO,        bitOutput
             rjmp    led_on
             cbi     prtIO,        bitOutput
-            clr     bStatus
             rjmp    led_ok
 led_on:
             sbi     prtIO,        bitOutput
-            clr     bStatus
             rjmp    led_ok
 led_keep:
             ldi     bStatus,      TRUE
