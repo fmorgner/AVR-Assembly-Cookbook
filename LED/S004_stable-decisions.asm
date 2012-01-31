@@ -54,14 +54,13 @@ main:
             rjmp    led_keep                               ; nothings to do, we skip the whole procedure
             tst     r16                                    ; find out if r16 already is NULL
             breq    led_ok                                 ; if so, we already chenged the LED state
+            clr     r16                                    ; if not, we finally register that input became 'LOW'
             sbis    PINB,         5                        ; to change the LED state we have to read it
             rjmp    led_on                                 ; it was set to 'on'
             cbi     PORTB,        5                        ; set LED on bit 5 to 'off'
-            clr     r16                                    ; we did it - set 'last state' to 'low = done'
             rjmp    led_ok                                 ; LED handling will end for this squence
 led_on:
             sbi     PORTB,        5                        ; set LED on bit 5 to 'on'
-            clr     r16                                    ; we did it - set 'last state' to 'low = done'
             rjmp    led_ok                                 ; LED handling will end for this sequence
 led_keep:
             ldi     r16,          1                        ; we are in 'pin high' mode - reset state to 'high'
