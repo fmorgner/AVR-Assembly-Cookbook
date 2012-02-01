@@ -1,4 +1,4 @@
-; stable-decisions.asm
+; stable-decisions+symbols.asm
 ; -------------------------------------------------------------------------
 ; begin                 : 2012-01-22
 ; copyright             : Copyright (C) 2012 by Manfred Morgner
