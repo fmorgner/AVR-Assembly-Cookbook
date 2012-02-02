@@ -60,7 +60,7 @@ start:
             cbi     ctlIO,        bitInput                 ; set PORTB/bit4 to input mode
             sbi     prtIO,        bitInput                 ; enable pullup resistor on PORTB/bit4
 
-            ldi     bStatus,      TRUE                     ; 'last state' will be 'high' to begin with
+            ldi     bStatus,      HIGH                     ; 'last state' will be 'high' to begin with
 
 main:
             sbic    pinIO,        bitInput                 ; skip next command if bit 4 of PORTB is 0
@@ -76,6 +76,6 @@ led_on:
             sbi     prtIO,        bitOutput                ; set LED on bit 5 to 'on'
             rjmp    led_ok                                 ; LED handling will end for this sequence
 led_keep:
-            ldi     bStatus,      TRUE                     ; we are in 'pin high' mode - reset bStatus to 'high'
+            ldi     bStatus,      HIGH                     ; we are in 'pin high' mode - reset bStatus to 'high'
 led_ok:
             rjmp    main                                   ; loop forever

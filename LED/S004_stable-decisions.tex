@@ -83,7 +83,7 @@ start:
             cbi     ctlIO,        bitInput
             sbi     prtIO,        bitInput
 
-            ldi     bStatus,      TRUE
+            ldi     bStatus,      HIGH
 
 main:
             sbic    pinIO,        bitInput
@@ -99,7 +99,7 @@ led_on:
             sbi     prtIO,        bitOutput
             rjmp    led_ok
 led_keep:
-            ldi     bStatus,      TRUE
+            ldi     bStatus,      HIGH
 led_ok:
             rjmp    main
 \end{lstlisting}
