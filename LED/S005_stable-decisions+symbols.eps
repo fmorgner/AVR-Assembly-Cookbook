@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: /home/manfred/Entwicklung/AVR-Tutorial/LED/S005_stable-decisions+symbols.dia
 %%Creator: Dia v0.97.1
-%%CreationDate: Fri Feb  3 20:17:51 2012
+%%CreationDate: Fri Feb  3 21:13:39 2012
 %%For: manfred
 %%Orientation: Portrait
 %%Magnification: 1.0000
@@ -386,6 +386,7 @@ n -3.000000 10.000000 m -3.000000 42.999999 l s
 n 10.000000 10.000000 m 10.000000 42.999999 l s
 n -2.000000 42.999999 1.000000 1.000000 90.000000 180.000000 ellipse s
 n 9.000000 42.999999 1.000000 1.000000 0.000000 90.000000 ellipse s
+/Helvetica-latin1 ff 0.560000 scf sf
 0.847059 0.988235 0.878431 srgb
 n -1.500000 10.000000 m -1.500000 37.500000 l 7.500000 37.500000 l 7.500000 10.000000 l f
 n -1.500000 11.000000 m -1.500000 11.000000 1.000000 1.000000 180.000000 270.000000 ellipse f
@@ -815,16 +816,16 @@ n 3.500000 41.888197 m 3.250000 41.388197 l 3.500000 41.513197 l 3.750000 41.388
  gs 1 -1 sc sh gr
 /Courier-latin1 ff 0.560000 scf sf
 0.498039 0.498039 0.498039 srgb
-(sbi    ctlIO,   bitOutput) 13.500000 2.840000 m
+(sbi    ctlIO,   bitOutput) 13.500000 2.340000 m
  gs 1 -1 sc sh gr
 /Helvetica-latin1 ff 0.560000 scf sf
 /Courier-latin1 ff 0.560000 scf sf
-(cbi    ctlIO,   bitInput) 13.500000 5.340000 m
+(cbi    ctlIO,   bitInput) 13.500000 4.340000 m
  gs 1 -1 sc sh gr
-(sbi    prtIO,   bitInput ) 13.500000 6.140000 m
+(sbi    prtIO,   bitInput ) 13.500000 5.140000 m
  gs 1 -1 sc sh gr
 /Courier-latin1 ff 0.560000 scf sf
-(ldi    bStatus, HIGH) 13.500000 8.340000 m
+(ldi    bStatus, HIGH) 13.500000 7.340000 m
  gs 1 -1 sc sh gr
 /Courier-latin1 ff 0.560000 scf sf
 (sbic   pinIO,   bitInput) 13.500000 15.340000 m
@@ -855,17 +856,29 @@ n 3.500000 41.888197 m 3.250000 41.388197 l 3.500000 41.513197 l 3.750000 41.388
 (        rjmp   led_ok) 10.500000 33.640000 m
  gs 1 -1 sc sh gr
 /Courier-latin1 ff 0.560000 scf sf
-(ldi    bStatus, HIGH ) 13.500000 36.340000 m
+(ldi    bStatus, HIGH ) 13.500000 36.840000 m
  gs 1 -1 sc sh gr
 /Courier-latin1 ff 0.560000 scf sf
 (rjmp   main) 13.500000 42.340000 m
  gs 1 -1 sc sh gr
 /Helvetica-latin1 ff 0.560000 scf sf
 0.000000 0.000000 0.000000 srgb
-(yield) -2.100000 9.500000 m
+(yield) -2.100000 9.540000 m
  gs 1 -1 sc sh gr
-(main) -1.597500 10.487500 m
+/Helvetica-latin1 ff 0.560000 scf sf
+(main) -1.597500 10.527500 m
  gs 1 -1 sc sh gr
-(init / setup) -2.074529 0.972707 m
+/Helvetica-latin1 ff 0.560000 scf sf
+(init / setup) -2.074530 1.012710 m
+ gs 1 -1 sc sh gr
+/Courier-latin1 ff 0.560000 scf sf
+0.498039 0.498039 0.498039 srgb
+(led_keep:) 10.500000 35.840000 m
+ gs 1 -1 sc sh gr
+(led_ok:) 10.500000 39.840000 m
+ gs 1 -1 sc sh gr
+(main:) 10.500000 10.840000 m
+ gs 1 -1 sc sh gr
+(start:) 10.500000 0.840000 m
  gs 1 -1 sc sh gr
 showpage
