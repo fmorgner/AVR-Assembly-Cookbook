@@ -52,7 +52,7 @@
 
 
 .org 0x0000
-           rjmp     start                                  ; register 'start' as Programm Start Routine
+            rjmp    start                                  ; register 'start' as Programm Start Routine
 
 
 start:
