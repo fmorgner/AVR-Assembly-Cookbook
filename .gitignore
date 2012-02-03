@@ -8,3 +8,5 @@
 *.out
 *.toc
 *.gz
+
+*-eps-converted-to.pdf
