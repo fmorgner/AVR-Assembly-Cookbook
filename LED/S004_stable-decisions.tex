@@ -110,19 +110,36 @@ We have to take watch about WHAT we wish to do, but equally too about HOW we are
 
 \subsection{WHAT to do}
 
+\begin{itemize}
+  \item Initialise system and devices
+  \item Wait for the change "input pin was HIGH and became LOW"
+  \item Invert LED status
+  \item Restart at (2)
+\end{itemize}
 
 
 \subsection{HOW to do it}
 
+To get an impression on how to it, at first, we take a look at a flow diagram. This diagram shows the program flow outside the 'invert LED status' part. Changing the LED status currently is out of our focus. It is the very thing we try to deal with, but it is the more easy part of the solution.
 
 \begin{figure}[htbp]
   \centering
-  \fbox
-   {
-     \includegraphics{LED/S005_stable-decisions+symbols.eps}
-   }
+  \includegraphics[height=210mm]{LED/S005_stable-decisions+symbols.eps}
   \caption{Stable Decisions Flow Diagram}
   \label{S005FlowDiagam}
 \end{figure}
 
+As you may found out until now, dealing with the 'human device interface' is the most complicated thing in informatics. It starts by the unbearable slowness of humans and does not end with humans expectations against machines.
+
+At the moment out project restricts the 'human device problem' the unbearable slowness of humans.
+
+A living entity presses a button and our device has to react. Our device may ask the input pin about 1.000.000 times per second. A human for example may to a short pressing of the button in about 0.2 seconds. Which means, our System reads the state 'button pressed' about 500.000 times during our humans action. But what the human expects is:
+
+"Change the LED status ones as I press (in my view) the button ones!"
+
+A second problem we will not deal with in this phase of our development is, that electric switches may flicker during status change.
+
+So we simply have to ensure, that changing the LEDs status only happens ones per button press action. There are only two moments in all this endless button down phase where it is suitable to really change the LEDs status. At the beginning, as the signal changes from HIGH to LOW or at the end, where the signal changes from LOW to HIGH again.
+
+To give the human who uses our device immediate feedback about success or failure of his action, we decide to use the first phase to do all the action. So we have a simple mission: If the signal is LOW now and was HIGH the last time we looked, we change the LEDs state. This satisfies also the endless LOW state of the input signal and the change from LOW to HIGH where we have to do nothing. Not even accidentally! This way, the human feels his request immediately answered, even if he is unable to comprehend how immediately it real is answered.
 
