@@ -5,6 +5,7 @@
 
 *.aux
 *.log
+*.lof
 *.out
 *.toc
 *.gz
