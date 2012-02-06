@@ -78,6 +78,7 @@ main:
      in      bData,        pinIO                           ; read in data of IO Port
      mov     bTemp,        bData                           ; copy data for manipulation
      andi    bData,        0xFF - mskLightShift            ; mask out all bits not used in light shifting (to restore them later)
+     ori     bData,        1 << bitInput                   ; ensure 'input bit' keeps his rissitor pulled up
 
      andi    bTemp,        mskLightShift                   ; mask out all bits used in light shifting (to be sure)
      lsr     bTemp                                         ; shift the active light to the right
@@ -86,7 +87,6 @@ main:
      ldi     bTemp,        1 << bitLightStart              ; we have to set the start light to on
 shift_ok:
      or      bData,        bTemp                           ; mix previouse data with manipulated bits
-     ori     bData,        1 << bitInput                   ; ensure 'input bit' keeps his rissitor pulled up
      out     prtIO,        bData                           ; output the result
 
      rjmp    led_ok                                        ; LED handling will end for this sequence
