@@ -1,4 +1,4 @@
-\section{Stable decisions}
+\section{Stable Decisions}
 
 Next step we need to do something more useful. And we reach the 'second form of a standard program', which means: A program that does something in it infinite loop.
 
@@ -11,6 +11,8 @@ If the Input signal changes from HIGH to LOW, our program changes the LED from i
 The electrical signal we are waiting for with our micro controller on our input pin is: Pulling it down to LOW (GND). And finally this is the Code to do it:
 
 \begin{lstlisting}
+; LED/S004_stable-decisions.asm
+
 .DEVICE atmega8
 
 .org 0x0000
@@ -57,6 +59,8 @@ In another example \texttt{bit} stands for 'bit number' and \texttt{Input} for '
 You may define you own naming convention which should hold throughout your project.
 
 \begin{lstlisting}
+; LED/S005_stable-decisions+symbols.asm
+
 .DEVICE atmega8
 
 .equ ctlIO     = DDRB    ; DDRB  is our I/O control register
@@ -142,4 +146,27 @@ A second problem we will not deal with in this phase of our development is, that
 So we simply have to ensure, that changing the LEDs status only happens ones per button press action. There are only two moments in all this endless button down phase where it is suitable to really change the LEDs status. At the beginning, as the signal changes from HIGH to LOW or at the end, where the signal changes from LOW to HIGH again.
 
 To give the human who uses our device immediate feedback about success or failure of his action, we decide to use the first phase to do all the action. So we have a simple mission: If the signal is LOW now and was HIGH the last time we looked, we change the LEDs state. This satisfies also the endless LOW state of the input signal and the change from LOW to HIGH where we have to do nothing. Not even accidentally! This way, the human feels his request immediately answered, even if he is unable to comprehend how immediately it real is answered.
+
+
+\subsection{Finding the right moment}
+
+To find the moment the signal has gone to ground, we have to be aware of the status of the signal from the previous query cycle. Which is easy but expensive. We simply use a register to store the previous input status.
+
+So we simply have to check if the last seen status was HIGH as log as the current status is LOW. The status accumulator register follows the status of the input signal after being used to query the change event.
+
+If the one moment we are waiting for passes, we invert the LED status. That's all
+
+\subsection{And some modesty}
+
+In respect of things to come, we have to be modest in our style. The 'endless loop' which keeps the micro controller running and waiting without going wild, will be used for some important things:
+
+\begin{itemize}
+  \item It mostly contains the main program
+  \item It possibly consist of multiple parts to do
+  \item It consist of an unknown amount of program parts
+\end{itemize}
+
+So we have to ensure, to don't make any shortcut back to the 'main' label. As there can only be one Highlander, there can only be one jump back to 'main'. This jump resides at the very end of the main sequence.
+
+In our flow diagram one part has to reach the next part regardless of how the program flow is flowing. The rounded rectangle 'next' represents the central point behind our (currently) one part. This is the position where the next program part will follow in the same manner.
 

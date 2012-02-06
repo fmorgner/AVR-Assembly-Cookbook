@@ -1,0 +1,71 @@
+\section{Light Shift}
+
+Next we will start with showing off. A little bitt at least. We will put three lights in a row and lighten one of them up each time we press the button.
+
+It would be much easier to do this with 8 lights, but here we are. We will keep the existing circuit as untouched as possible and, not at last, we are constantly on he search for a challenge.
+
+So here is the code:
+
+\begin{lstlisting}
+; LED/S010_light-shift.asm
+
+.DEVICE atmega8
+
+
+.equ ctlIO         = DDRB
+.equ prtIO         = PORTB
+.equ pinIO         = PINB
+
+.equ bitSignal     = 5
+.equ bitInput      = 4
+.equ bitLightStart = 3
+
+.equ mskLightShift = 0x0E
+
+.equ LOW           = 0
+.equ HIGH          = 1
+
+.def bStatus       = r16
+.def bTemp         = r17
+.def bData         = r18
+
+
+.org 0x0000
+            rjmp    start
+
+
+start:
+            ldi     bTemp,        mskLightShift | 1 << bitSignal
+            out     ctlIO,        bTemp
+            ldi     bTemp,        1 << bitInput | 1 << bitSignal
+            out     prtIO,        bTemp
+
+            ldi     bStatus,      HIGH
+
+main:
+            sbic    pinIO,        bitInput
+            rjmp    led_keep
+            tst     bStatus
+            breq    led_ok
+            clr     bStatus
+
+            in      bData,        pinIO
+            mov     bTemp,        bData
+            andi    bData,        0xFF - mskLightShift
+
+            andi    bTemp,        mskLightShift
+            lsr     bTemp
+            andi    bTemp,        mskLightShift
+            brne    shift_ok
+            ldi     bTemp,        1 << bitLightStart
+shift_ok:
+            or      bData,        bTemp
+            ori     bData,        1 << bitInput
+            out     prtIO,        bData
+
+            rjmp    led_ok
+led_keep:
+            ldi     bStatus,      HIGH
+led_ok:
+            rjmp    main
+\end{lstlisting}

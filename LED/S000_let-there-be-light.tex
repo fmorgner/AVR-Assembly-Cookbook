@@ -8,6 +8,8 @@ Programming in Assembler means you're in control. But as you know, power require
 At first you need to know what 'Arduino pin 13' really means! As consequence of the Arduino design it is not pin 13 on your \at. Knowing this is yet the half way thru. Knowing the pin is a step you need to know if are working with a plain chip. What you need to know is the MC internal addressing for Arduino pin 13. To find out, look at \url{http://arduino.cc/hu/Hacking/PinMapping}. After we know everything we have to know to be responsible, we generate our 8byte machine program that will set our 'LED 13' under power.
 
 \begin{lstlisting}
+; LED/S000_let-there-be-light.asm
+
 .DEVICE atmega8
 
 .org 0x0000
