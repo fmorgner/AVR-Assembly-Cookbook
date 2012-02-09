@@ -26,3 +26,43 @@ led_on:
 led_ok:
             rjmp    main
 \end{lstlisting}
+
+As you may have guessed, this code represents the 'second form of a standard program'. It does something before the loop - ones - but only does something in the main loop. This program is really busy as we will see in the next program.
+
+The first difference to the former program is, that we use an additional pin. This time for input. To set this pin, pin 4, to input mode, we send a '0' to its data direction register (DDR). Further we send a '1' to the port as if we would set the port to output +5V. But this pin is in 'output mode'. In this case, sending '1' to the pin at the port means: 'Switch on the internal pull-up resistor!'
+
+After this, the signal read from this pin is 'ON' oder '1'. To interact with the MC and change the signal, we need to pull-down the pin to GND.
+
+If we do so, our program switches the light off as long as we ground pin 4, which is not really an impressive application to boast around with. For us it is great anyway because we understand what happens.
+
+If you follow the programs flow:
+
+\begin{enumerate}
+  \item Reading pin 4
+  \item Set pin 5 accordingly
+  \item Start with (1)
+\end{enumerate}
+
+You may ask why we permanently output a signal that nearly never changes. Assuming our program reads the input pin one million times per second, a human will not be able to do any business to this program. If you pick on your signal line as fast as you can then in the eye of your program, sig signal nearly never changes.
+
+Is there room for optimisation? We believe not.
+
+Are there alternatives? Yes there are!
+
+We could save the output status, compare the status from the input pin with the stored status the light was set to and only change the output signal if the input signal changes.
+
+This sounds easy, but it is not! It is not only not easy, it is dangerous, costly and complicated. And is is of no use, because you do a lot of commands without any effect.
+
+The concept is dangerous because you may be out of synchronisation with your light. In this case you light may react inverse to your intension or does not react at all.
+
+It is costly not only because the program would be much larger but you need at least a CPU register and we only have 32 of them at all.
+
+And it is complicated because you have to synchronise two entities (the light and the light status register) to generate one effect. Which is a major risk and drawback.
+
+Because of this, we might be right in our assumption that the developer of out \at MC created the chip in a way that nothings happens if we switch on a pin that is on already.
+
+Another alternative may be to 'stop' the program as long as it waits for the input signal to change. This may be possible, but this lies far behind our current knowledge.
+
+There is no command that makes the MC wait for an input signal. But there are way to reach a similar effect.
+
+Which means, for now we are out of options and have to stay with the solution as presented in this section.
