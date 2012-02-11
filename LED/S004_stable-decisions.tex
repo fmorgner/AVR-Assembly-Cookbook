@@ -1,14 +1,23 @@
 \section{Stable Decisions}
 
-Next step we need to do something more useful. And we reach the 'second form of a standard program', which means: A program that does something in it infinite loop.
+Next step we need to do something more useful. And we reach the 'second form of a standard program', which means: A program that does something in its infinite loop.
 
-This program stores one of two states and sets the LED on or off, keeping it according to the stored state. This explanation is slightly wrong. I try it again.
+This program stores one of two states ;-) and sets the light on or off, keeping it according to the stored status. This explanation is slightly wrong. I try it again.
 
-This program recognises an input signal consisting of two phases. A complete input signal consist of a LOW phase followed by a HIGH phase. The signal ends with entering the HIGH phase. We are interested only in change, as we always should.
+This program recognises an input signal consisting of two phases. A complete input signal consist of a LOW phase starting from a HIGH phase followed by the next HIGH phase. The signal ends with entering the HIGH phase. We are interested only in change, as we always should.
 
-If the Input signal changes from HIGH to LOW, our program changes the LED from its current state to the other state. If the LED was ON it will be set to OFF and vice versa. The state is only changed as reaction of changing the Input state from HIGH to LOW because 'no action' at the Input device leads to HIGH state in the input register as the result of using an internal 'pull up resistor' who does what he is called - he pulls the input signal up - to HIGH.
+If the Input signal changes from HIGH to LOW, our program changes the light from its current status to the other status. If the light was ON it will be set to OFF and vice versa. The status is only changed as reaction of changing the Input from HIGH to LOW because 'no action' at the Input device leads to HIGH status in the input register as the result of using an internal pull-up resistor who does what he is called - he pulls the input signal up to HIGH.
 
-The electrical signal we are waiting for with our micro controller on our input pin is: Pulling it down to LOW (GND). And finally this is the Code to do it:
+The electrical signal we are waiting for with our micro controller on our input pin is: Pulling the status down to LOW (GND). We may phrase:
+
+\begin{center}
+The \emph{Signal} we are waiting for it the \emph{Change} form HIGH to LOW.
+\end{center}
+ 
+
+So for the first time we have to be aware of a dynamic process. If the Change is the Signal, then we have to recognise if the status is change. If a status appears after the opposite status was recognised before - in the past - which is no more present (!) we have to deal with 'historical' status management and so for the first time with remembering a status from one processing cycle to the next.
+
+Finally this here is the Code to do it:
 
 \begin{lstlisting}
 ; LED/S004_stable-decisions.asm

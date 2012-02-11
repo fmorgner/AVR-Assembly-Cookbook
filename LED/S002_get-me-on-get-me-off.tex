@@ -43,7 +43,7 @@ If you follow the programs flow:
   \item Start with (1)
 \end{enumerate}
 
-You may ask why we permanently output a signal that nearly never changes. Assuming our program reads the input pin one million times per second, a human will not be able to do any business to this program. If you pick on your signal line as fast as you can then in the eye of your program, sig signal nearly never changes.
+You may ask why we permanently output a signal that nearly never changes. Assuming our program reads the input pin one million times per second, a human will not be able to put any business to this program. If you pick on your signal line as fast as you can then in the eye of your program the signal nearly never changes.
 
 Is there room for optimisation? We believe not.
 
@@ -51,18 +51,18 @@ Are there alternatives? Yes there are!
 
 We could save the output status, compare the status from the input pin with the stored status the light was set to and only change the output signal if the input signal changes.
 
-This sounds easy, but it is not! It is not only not easy, it is dangerous, costly and complicated. And is is of no use, because you do a lot of commands without any effect.
+This sounds easy, but it is not! It is not only not easy, it is dangerous, costly and complicated. And it is of no use, because you do a lot of commands without any effect.
 
 The concept is dangerous because you may be out of synchronisation with your light. In this case you light may react inverse to your intension or does not react at all.
 
-It is costly not only because the program would be much larger but you need at least a CPU register and we only have 32 of them at all.
+It is costly not only because the program would be much larger but you need at eat up one CPU register and we only have 32 of them at all.
 
-And it is complicated because you have to synchronise two entities (the light and the light status register) to generate one effect. Which is a major risk and drawback.
+And it is complicated because you have to synchronise two entities (the light and the status register) to generate one effect. Which is a major risk and drawback.
 
-Because of this, we might be right in our assumption that the developer of out \at MC created the chip in a way that nothings happens if we switch on a pin that is on already.
+Because of this, we might be right in our assumption that the developers of our \at MC created the chip in such a way that nothings happens if we switch on a pin that is ON already.
 
-Another alternative may be to 'stop' the program as long as it waits for the input signal to change. This may be possible, but this lies far behind our current knowledge.
+Another alternative may be to 'stop' the program as long as it waits for the input signal to change. This may be possible, but it lies far behind our current knowledge.
 
-There is no command that makes the MC wait for an input signal. But there are way to reach a similar effect.
+There is no command that makes the MC wait for an input signal. But there are ways to reach a similar effect.
 
-Which means, for now we are out of options and have to stay with the solution as presented in this section.
+Which means, for now we are out of options and have to stay with the solution as presented in this section. But we come to status management soon.
