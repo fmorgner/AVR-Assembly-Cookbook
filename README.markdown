@@ -1,6 +1,6 @@
 # Tutorial for AVR assembly programming
 
-This is a collection of assembler code used in my AVR assembler tutorial.
+This is a joined effort to provide the community with a guide to nice and clean AVR assembly programming.
 Please note that it is in a very early development stage.
 
 ## Shift registers

@@ -2,7 +2,7 @@
 ; -------------------------------------------------------------------------
 ; begin                 : 2012-01-12
 ; copyright             : Copyright (C) 2012 by Felix Morgner
-; email                 : manfred.morgner@gmx.net
+; email                 : felix.morgner@gmail.com
 ; =========================================================================
 ;                                                                         |
 ;   This program is free software; you can redistribute it and/or modify  |
