@@ -1,6 +1,6 @@
 \section{Light Shift}
 
-Next we will start with showing off. A little bitt at least. We will put three lights in a row and lighten one of them up each time we press the button.
+Next we will start with showing off. A little bit at least. We will put three lights in a row and lighten one of them up. Each time we press the button the light will shift to the next LED. After the last light, we start with the first one.
 
 It would be much easier to do this with 8 lights, but here we are. We will keep the existing circuit as untouched as possible and, not at last, we are constantly on he search for a challenge.
 
@@ -13,8 +13,9 @@ So here is the enhanced circuit:
   \label{atmega8-light-shift-schema}
 \end{figure}
 
+As you can see, we added the three LEDs to the remaining pins on the right side of the chip, so it is easy to build in Hardware on a breadboard. For this we have to pay with a higher degree of complexity in our code
 
-And here is the code:
+And this is the code:
 
 \begin{lstlisting}
 ; LED/S010_light-shift.asm
@@ -80,11 +81,11 @@ led_ok:
             rjmp    main
 \end{lstlisting}
 
-As you can see, we have some changes to the former code. This is, in the hole, because we will deal with four instead of one lights. One light (the one we toggled last time) will serve as signal light, lighting up after out micro controller has finished booting. The other will used to shift the light. In our case, this means, we start off with one light ON and each time we press our button the next light lights up whilst the former active light shuts off.
+As you can see, we have some changes to the former code. This is, in the hole, because we have to deal with four instead of one lights. One light (the one we toggled last time) will serve as signal light. It is lighting up after our micro controller has finished booting. The other three LEDs will be used to shift the light. In our case this means we start off with one of the three lights ON and each time we press our button the next light lights up whilst the former light shuts off.
 
-Our code reflects this at the first look with more constants and more named registers. Already we are using 10\% of all registers present and 20\% of all registers usable for generic purpose. This is bad news! Hopefully our resource consumption will not grow with constant speed.
+Our code reflects the higher complexity at the first look with more constants and more named registers. Already we are using 10\% of all available registers and 20\% of all registers usable for generic purpose. This is bad news! Hopefully our resource consumption will not grow with constant speed.
 
-Names for values (not resources) we need besides the ones from the former sample are
+Names for constants (not resources) we need besides the ones from the former sample are
 
 \begin{lstlisting}
 .equ bitLightStart = 3     ; as in  0b00001000
@@ -92,22 +93,29 @@ Names for values (not resources) we need besides the ones from the former sample
 .equ mskLightShift = 0x0E  ; builds 0b00001110
 \end{lstlisting}
 
-\texttt{bitLightStart} is the number of the pin on the output port where the first LED of our LED chain resides. The other LEDs are expected to use the two lower pins (2 and 1). Pin B0 on the \at can be found on the other side of the chips, so for our physical breadboard circuit it's a bit too complicated to use it.
+\texttt{bitLightStart} is the number of the pin on the output port where the LED light of our light chain resides. A bit will be shifted this time to the left. The other LEDs are expected to use the two lower pins (2 and 1). Pin B0 on the \at can be found on the other side of the chips, so for our physical breadboard circuit it's a bit too far away to use it.
 
-Please remember, such decisions are no fun. In reality you may sometimes be driven to compensate in software for simplification of hardware as PCB layout, different chips and so on. So we accept this situation as example of what may happen in real life.
+Please remember, such decisions are no fun. In reality you may sometimes be driven to compensate in software for simplification of hardware as PCB layout, different chip pinouts and so on. So we accept this situation as example of what may happen in real life.
 
-\texttt{mskLightShift} is a bit mask containing bits ate all pins of the output port where our light chain is connected to. We need such a bit mask because we need to shift the 'LED ON' bit around but won't shift any other bits found in the port data.
+\texttt{mskLightShift} is a bit mask containing bits at all pins of the output port where our light chain is connected to. We need such a bit mask because we need to shift the 'LED ON' bit around but won't shift any other bits found in the port data. So we use this bit mask to
 
-Named registers (resources) we need in addition are:
+\begin{itemize}
+  \item mask out the relevant light chain bits from the rest
+  \item mask out a too far shifted 'LED ON' bit (logical overflow)
+  \item mask out the light chain bits in input data after querying our PORT
+\end{itemize}
+
+
+Named registers (resources) we need in addition to the former program are:
  
 \begin{lstlisting}
 .def bTemp         = r17
 .def bData         = r18
 \end{lstlisting}
 
-\texttt{bTemp} will be used to shift our 'lED ON' bit around but \texttt{bData} has to give us the 'big picture' about our ports status. First before, second after shifting the 'LED ON' bit.
+\texttt{bTemp} will be used to shift our 'LED ON' bit around but \texttt{bData} has to give us the 'big picture' about our ports status. First before, second after shifting the 'LED ON' bit.
 
-We start, as usual, by initialising the micro controller where it needs to be initialised. This time, we need to set all pins on our port the same time because the alternative is (for the moment) not acceptable. So we build a bit mask to send it to our IO ports data direction register (DDR):
+We start, as usual, by initialising the micro controller where it needs to be initialised. This time, we need to set all pins on our port the same time because the alternative is (for the moment) much too expensive. So we build a bit mask to send it to our IO ports data direction register (DDR):
 
 \texttt{mskLightShift} combined with \texttt{1 << bitSignal} makes \texttt{0b00101110}. Sending this byte to DDRx will set pins 1, 2, 3, 5 to output and all other pins to input mode.
 
@@ -153,8 +161,8 @@ We need to get the ports state and unfortunately we have to understand more abou
 
 Next we need to split the read byte/data in two parts. The one containing constant data and the other one containing the bits to be shifted.
 
-Phase one therefore copies \texttt{bData} to \texttt{bTemp}, then masks out all bits dealer with in the bit shifting process and finally adding/regenerating the 'pull up' bit for port \texttt{bitInput}.
+Phase one therefore copies \texttt{bData} to \texttt{bTemp}, then masks out all bits dealt with in the bit shifting process and finally adding/regenerating the 'pull up' bit for port \texttt{bitInput}.
 
-Phase two masks out all bits not related to the bis shifting operation, shifts the remaining bit and masks the result again with the same mask. If this operation leads to a result of ZERO/EQ/NULL, then we have shifted out our bit and need to insert a new bit at the start position inside the byte \texttt{bitLightStart}.
+Phase two masks out all bits not related to the bis shifting operation, shifts the remaining bit and masks the result again with the same mask. If this operation leads to a result of ZERO/EQ/NULL, then we have shifted out our bit and need to insert a new one at the start position inside the byte where the bit starts its decent, at: \texttt{bitLightStart}.
 
-Phase three then combines our static bits with our manipulated one and put all together to our combined input/output port.
+Phase three then combines our static bits with our manipulated one and output all together to our combined input/output port.
