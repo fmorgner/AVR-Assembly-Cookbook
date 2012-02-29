@@ -50,7 +50,7 @@
 ; At the end one fun fact: This program fits exactly into 100 bytes of program
 ; memory.
 
-.DEVICE atmega164p                      ; set controller type
+.DEVICE atmega8p                       ; set controller type
 
 .def    temp1 = r16                     ; Register for temporary storage
 .def    clock = r17                     ; Register for the shift-register clock selection
