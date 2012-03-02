@@ -1,0 +1,59 @@
+Cmp-Mod V01 Created by CvPcb (2011-nov-30)-testing date = Fre 02 Mär 2012 13:35:46 CET
+
+BeginCmp
+TimeStamp = /4F50B45E;
+Reference = D1;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F50B3BB;
+Reference = IC1;
+ValeurCmp = ATMEGA8-P;
+IdModule  = DIP-28__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F50BE45;
+Reference = P1;
+ValeurCmp = PWR;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F50BE54;
+Reference = P2;
+ValeurCmp = ISP;
+IdModule  = pin_array_3x2;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F50B706;
+Reference = R1;
+ValeurCmp = 10k;
+IdModule  = R3-5;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F50B5F6;
+Reference = R2;
+ValeurCmp = 470;
+IdModule  = R3-5;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F50B6AA;
+Reference = SW1;
+ValeurCmp = RESET_BUT;
+IdModule  = SW_PUSH_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F50B56F;
+Reference = SW2;
+ValeurCmp = INPUT_BUT;
+IdModule  = SW_PUSH_SMALL;
+EndCmp
+
+EndListe

@@ -1,0 +1,264 @@
+EESchema Schematic File Version 2  date Fre 02 Mär 2012 13:36:01 CET
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:basic-led-board-cache
+EELAYER 25  0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Basic LED Board"
+Date "2 mar 2012"
+Rev "1"
+Comp "The AVR Assembly Cookbook"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L ATMEGA8-P IC1
+U 1 1 4F50B3BB
+P 5850 3950
+F 0 "IC1" H 5150 5200 50  0000 L BNN
+F 1 "ATMEGA8-P" H 6200 2550 50  0000 L BNN
+F 2 "DIL28" H 5250 2600 50  0001 C CNN
+	1    5850 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D1
+U 1 1 4F50B45E
+P 7150 3550
+F 0 "D1" H 7150 3650 50  0000 C CNN
+F 1 "LED" H 7150 3450 50  0000 C CNN
+	1    7150 3550
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR01
+U 1 1 4F50B491
+P 7150 4450
+F 0 "#PWR01" H 7150 4450 30  0001 C CNN
+F 1 "GND" H 7150 4380 30  0001 C CNN
+	1    7150 4450
+	1    0    0    -1  
+$EndComp
+$Comp
+L SW_PUSH SW2
+U 1 1 4F50B56F
+P 7450 3250
+F 0 "SW2" H 7600 3360 50  0000 C CNN
+F 1 "INPUT_BUT" H 7450 3170 50  0000 C CNN
+	1    7450 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR02
+U 1 1 4F50B5BC
+P 7950 3250
+F 0 "#PWR02" H 7950 3250 30  0001 C CNN
+F 1 "GND" H 7950 3180 30  0001 C CNN
+	1    7950 3250
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R2
+U 1 1 4F50B5F6
+P 7150 4100
+F 0 "R2" V 7230 4100 50  0000 C CNN
+F 1 "470" V 7150 4100 50  0000 C CNN
+	1    7150 4100
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR03
+U 1 1 4F50B666
+P 5850 5600
+F 0 "#PWR03" H 5850 5600 30  0001 C CNN
+F 1 "GND" H 5850 5530 30  0001 C CNN
+	1    5850 5600
+	1    0    0    -1  
+$EndComp
+$Comp
+L +5V #PWR04
+U 1 1 4F50B68F
+P 5850 2050
+F 0 "#PWR04" H 5850 2140 20  0001 C CNN
+F 1 "+5V" H 5850 2140 30  0000 C CNN
+	1    5850 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L SW_PUSH SW1
+U 1 1 4F50B6AA
+P 4350 2850
+F 0 "SW1" H 4500 2960 50  0000 C CNN
+F 1 "RESET_BUT" H 4350 2770 50  0000 C CNN
+	1    4350 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR05
+U 1 1 4F50B6DC
+P 4050 3100
+F 0 "#PWR05" H 4050 3100 30  0001 C CNN
+F 1 "GND" H 4050 3030 30  0001 C CNN
+	1    4050 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R1
+U 1 1 4F50B706
+P 4650 2400
+F 0 "R1" V 4730 2400 50  0000 C CNN
+F 1 "10k" V 4650 2400 50  0000 C CNN
+	1    4650 2400
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6850 2850
+NoConn ~ 6850 2950
+NoConn ~ 6850 3050
+NoConn ~ 6850 3550
+NoConn ~ 6850 3650
+NoConn ~ 6850 3750
+NoConn ~ 6850 3850
+NoConn ~ 6850 3950
+NoConn ~ 6850 4050
+NoConn ~ 6850 4250
+NoConn ~ 6850 4350
+NoConn ~ 6850 4450
+NoConn ~ 6850 4550
+NoConn ~ 6850 4650
+NoConn ~ 6850 4750
+NoConn ~ 6850 4850
+NoConn ~ 6850 4950
+NoConn ~ 4950 3750
+NoConn ~ 4950 3550
+NoConn ~ 4950 3250
+NoConn ~ 4950 3150
+NoConn ~ 4950 3050
+$Comp
+L +5V #PWR06
+U 1 1 4F50BD5B
+P 4650 2050
+F 0 "#PWR06" H 4650 2140 20  0001 C CNN
+F 1 "+5V" H 4650 2140 30  0000 C CNN
+	1    4650 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P1
+U 1 1 4F50BE45
+P 9250 2900
+F 0 "P1" V 9200 2900 40  0000 C CNN
+F 1 "PWR" V 9300 2900 40  0000 C CNN
+	1    9250 2900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_3X2 P2
+U 1 1 4F50BE54
+P 9300 5050
+F 0 "P2" H 9300 5300 50  0000 C CNN
+F 1 "ISP" V 9300 5100 40  0000 C CNN
+	1    9300 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L +5V #PWR07
+U 1 1 4F50C08D
+P 9150 3400
+F 0 "#PWR07" H 9150 3490 20  0001 C CNN
+F 1 "+5V" H 9150 3490 30  0000 C CNN
+	1    9150 3400
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR08
+U 1 1 4F50C093
+P 9350 3450
+F 0 "#PWR08" H 9350 3450 30  0001 C CNN
+F 1 "GND" H 9350 3380 30  0001 C CNN
+	1    9350 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6850 3350 7150 3350
+Wire Wire Line
+	7150 3850 7150 3750
+Wire Wire Line
+	7150 3250 6850 3250
+Wire Wire Line
+	7950 3250 7750 3250
+Wire Wire Line
+	5850 2550 5850 2050
+Wire Wire Line
+	4950 2850 4650 2850
+Wire Wire Line
+	4650 2850 4650 2650
+Wire Wire Line
+	4050 2850 4050 3100
+Wire Wire Line
+	7150 4450 7150 4350
+Wire Wire Line
+	5850 5600 5850 5450
+Wire Wire Line
+	4650 2050 4650 2150
+Wire Wire Line
+	9350 3450 9350 3250
+Wire Wire Line
+	9150 3250 9150 3400
+Text Label 8900 4900 2    60   ~ 0
+MISO
+Text Label 8900 5000 2    60   ~ 0
+SCK
+Text Label 8900 5100 2    60   ~ 0
+~RESET
+Text Label 9700 4900 0    60   ~ 0
+VCC
+Text Label 9700 5000 0    60   ~ 0
+MOSI
+Text Label 9700 5100 0    60   ~ 0
+GND
+Text Label 9350 3250 0    60   ~ 0
+GND
+Text Label 9150 3250 2    60   ~ 0
+VCC
+Text Label 6850 3350 0    60   ~ 0
+SCK
+Text Label 6850 3250 0    60   ~ 0
+MISO
+Text Label 6850 3150 0    60   ~ 0
+MOSI
+Text Label 4950 2850 2    60   ~ 0
+~RESET
+$EndSCHEMATC
