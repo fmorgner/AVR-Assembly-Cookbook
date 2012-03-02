@@ -11,3 +11,8 @@
 *.gz
 
 *-eps-converted-to.pdf
+
+# KiCAD noise
+*.000
+*.bak
+*-cache.lib
