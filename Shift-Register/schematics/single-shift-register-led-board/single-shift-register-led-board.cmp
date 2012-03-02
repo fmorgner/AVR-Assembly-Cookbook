@@ -1,0 +1,157 @@
+Cmp-Mod V01 Created by CvPcb (2011-nov-30)-testing date = Fre 02 Mär 2012 00:41:07 CET
+
+BeginCmp
+TimeStamp = /4F4E8379;
+Reference = D1;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E8031;
+Reference = D2;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E8033;
+Reference = D3;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E804A;
+Reference = D4;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E804C;
+Reference = D5;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E805B;
+Reference = D6;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E8066;
+Reference = D7;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E806B;
+Reference = D8;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E8376;
+Reference = IC1;
+ValeurCmp = ATMEGA8-P;
+IdModule  = DIP-28__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /00000000;
+Reference = P1;
+ValeurCmp = CONN_3X2;
+IdModule  = pin_array_3x2;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F500568;
+Reference = P2;
+ValeurCmp = PWR;
+IdModule  = PINHEAD1-2;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E837A;
+Reference = R1;
+ValeurCmp = 470;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E8297;
+Reference = R2;
+ValeurCmp = 470;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E8299;
+Reference = R3;
+ValeurCmp = 470;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E829A;
+Reference = R4;
+ValeurCmp = 470;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E82A6;
+Reference = R5;
+ValeurCmp = 470;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E82A5;
+Reference = R6;
+ValeurCmp = 470;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E82A4;
+Reference = R7;
+ValeurCmp = 470;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E82A3;
+Reference = R8;
+ValeurCmp = 470;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4FED44;
+Reference = R9;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4FEDAE;
+Reference = SW1;
+ValeurCmp = SW_PUSH;
+IdModule  = SW_PUSH_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F4E8377;
+Reference = U1;
+ValeurCmp = 74HC595;
+IdModule  = DIP-16__300;
+EndCmp
+
+EndListe
