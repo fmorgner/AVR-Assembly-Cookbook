@@ -27,7 +27,7 @@
 ; or on your ATmega MC at PORTB Bit 5 (which is the same)
 ;
 ; Furhter it will switch the light to the other state if you pull Arduino
-; Connector 12 to ground or - respectively - PORTB Bit 4 on your ATmega MC
+; Connector 8 to ground or - respectively - PORTB Bit 0 on your ATmega MC
 ;
 ; Which means, we have to manage a state
 
@@ -42,8 +42,8 @@
 .equ pinIO         = PINB                                  ; the PINs of the PORT
 
                                                            ; Arduino Pin 13 is PORTB bit 5 on the ATmega MC
-.equ bitSignal     = 5                                     ; signal PIN (Pin 13 on Arduino)
-.equ bitInput      = 4                                     ; input PIN (Pin 12 on Arduino)
+.equ bitSignal     = 5                                     ; signal bit (Pin 13 on Arduino)
+.equ bitInput      = 0                                     ; input bit (Pin 8 on Arduino)
 .equ bitLightStart = 3                                     ; the start LED for light shifting (Pin 11 on Arduino)
 
 .equ mskLightShift = 0x0E                                  ; = 0b00001110, (Pins 9 to 11 on Arduino)
@@ -63,13 +63,13 @@
 start:
      ldi     bTemp,        mskLightShift | 1 << bitSignal  ; set PORTB/bits 1,2,3,5 to output rest to input
      out     ctlIO,        bTemp
-     ldi     bTemp,        1 << bitInput | 1 << bitSignal  ; enable pullup resistor on PORTB/bit4 and
+     ldi     bTemp,        1 << bitInput | 1 << bitSignal  ; enable pullup resistor on PORTB/bit0 and
      out     prtIO,        bTemp                           ; ... set ON LED on PORTB/bit5
 
      ldi     bStatus,      HIGH                            ; 'last state' will be 'high' to begin with
 
 main:
-     sbic    pinIO,        bitInput                        ; skip next command if bit 4 of PORTB is 0
+     sbic    pinIO,        bitInput                        ; skip next command if bit 0 of PORTB is 0
      rjmp    led_keep                                      ; nothings to do, we skip the whole procedure
      tst     bStatus                                       ; find out if bStatus already is NULL
      breq    led_ok                                        ; if so, we already chenged the LED state

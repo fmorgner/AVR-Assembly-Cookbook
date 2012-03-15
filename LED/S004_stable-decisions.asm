@@ -44,13 +44,13 @@
 start:
                                                            ; Arduino Pin 13 is PORTB bit 5 on the ATmega MC
             sbi     DDRB,         5                        ; set PORTB/bit5 to output mode
-            cbi     DDRB,         4                        ; set PORTB/bit4 to input mode
-            sbi     PORTB,        4                        ; enable pullup resistor on PORTB/bit4
+            cbi     DDRB,         0                        ; set PORTB/bit4 to input mode
+            sbi     PORTB,        0                        ; enable pullup resistor on PORTB/bit4
 
             ldi     r16,          1                        ; 'last state' will be 'high' to begin with
 
 main:
-            sbic    PINB,         4                        ; skip next command if bit 4 of PORTB is 0
+            sbic    PINB,         0                        ; skip next command if bit 4 of PORTB is 0
             rjmp    led_keep                               ; nothings to do, we skip the whole procedure
             tst     r16                                    ; find out if r16 already is NULL
             breq    led_ok                                 ; if so, we already chenged the LED state

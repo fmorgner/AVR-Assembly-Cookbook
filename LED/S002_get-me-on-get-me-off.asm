@@ -42,11 +42,11 @@
 start:
                                                            ; Arduino Pin 13 is PORTB bit 5 on the ATmega MC
             sbi     DDRB,         5                        ; set PORTB/bit5 to output mode
-            cbi     DDRB,         4                        ; set PORTB/bit4 to input mode
-            sbi     PORTB,        4                        ; enable pullup resistor on PORTB/bit4
+            cbi     DDRB,         0                        ; set PORTB/bit4 to input mode
+            sbi     PORTB,        0                        ; enable pullup resistor on PORTB/bit4
 
 main:
-            sbic    PINB,         4                        ; skip next command if bit 4 of PORTB is 0
+            sbic    PINB,         0                        ; skip next command if bit 4 of PORTB is 0
             rjmp    led_on                                 ; jump to LED ON
             cbi     PORTB,        5                        ; set LED on bit 5 to 'off'
             rjmp    led_ok                                 ; LED handling will end for this sequence
