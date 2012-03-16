@@ -57,13 +57,13 @@ led_ok:
 As you can see, this Code is not easy to understand. To do better, we add symbolic names to the soup. The basics are easy:
 
 \begin{itemize}
-  \item \texttt{.equ} means: 'a name for a number'
+  \item \texttt{.equ} means: 'a name for a value'
   \item \texttt{.def} means: 'a name for an entity'
 \end{itemize}
 
-So for example \texttt{DDRB} already is a number. This number is defined in an include file chosen by you device selection. So in our case, whatever number is hidden behind the name DDRB it will be our Input/Output control port. So the name will be \texttt{ctl} as prefix for 'control' and \texttt{IO} as name for Input\&Output.
+So for example \texttt{DDRB} already is a number. This number is defined in an include file chosen by you device selection. In our case, whatever number is hidden behind the name DDRB it will be our Input/Output control port. So the name will be \texttt{ctl} as prefix for 'control' and \texttt{IO} short for Input\&Output.
 
-In another example \texttt{bit} stands for 'bit number' and \texttt{Input} for 'Input bit' which makes \texttt{bitInput}, the bit where we read the input state.
+In another sample \texttt{bit} stands for 'bit number' and \texttt{Input} for 'Input' which makes \texttt{bitInput}, the bit where we read the input status.
 
 You may define you own naming convention which better should hold throughout your project.
 
@@ -85,7 +85,7 @@ You may define you own naming convention which better should hold throughout you
 .def bStatus   = r16     ; the last state will be stored in 'r16'
 \end{lstlisting}
 
-As you may not have expected, this makes the soup - or code - somehow better readable and so much easier to understand. Now it looks more like a higher language:
+As you may not have expected, this makes the soup - or code - somehow better readable and much easier to understand. Now it looks more like a higher language:
 
 \begin{lstlisting}
 .org 0x0000
@@ -117,7 +117,9 @@ led_ok:
             rjmp    main
 \end{lstlisting}
 
-Even if it's a better reading, it seems no really to be easy to follow the program flow. So at first, we should introduce a program flow chart. And for good measure two of them. We need two of them to demonstrate a major point in assembler programming.
+Also it provides us with the possibility of changing things with reduced risk. Shortly we had to change the schema a bit to support additional ideas and we changed \texttt{bitInput} from 4 to 0. Using symbolic names this was much easier and much less risky to do because we only needed to change the definition for \texttt{bitInput}!
+
+Even if symbols make a better reading than constants, it seems not really to be easy to follow the program flow. So at first, we should introduce a program flow chart. And for good measure two of them. We need two of them to demonstrate a major point in assembler programming.
 
 We have to take watch about WHAT we wish to do, but equally to about HOW we are going to do it.
 
@@ -138,23 +140,39 @@ To get an impression on how to it, at first, we take a look at a flow diagram. T
 \begin{figure}[htbp]
   \centering
   \includegraphics[height=210mm]{LED/S005_stable-decisions+symbols.eps}
-  \caption{Stable Decisions Flow Diagram}
+  \caption{Stable Decisions - Flow Diagram}
   \label{S005FlowDiagam}
 \end{figure}
 
-As you may have found out until now, dealing with the 'human device interface' is the most complicated thing in informatics. It starts by the unbearable slowness of humans and does not end with humans expectations against machines. The user is problem number one and for this has to be the main focus in software development!
+As you may have found out until now, dealing with the 'human device interface' is the most complicated thing in informatics. It starts by the unbearable slowness of bio entities and does not end with humans expectations against machines. Which means the user is problem number one in software development and for this has to be the main focus! Otherwise your product will not be accepted by those who should pay your wages.
 
-At the moment our project restricts the 'human device problem' to the unbearable slowness of humans.
+\subsubsection{Slow users}
 
-A living entity presses a button and our device has to react. Our device may ask the input pin about 1.000.000 times per second. A human for example may do a short pressing of a button in about 0.2 seconds. Which means, our System reads the state 'button pressed' about 500.000 times during our humans action. But what the human expects is:
+A living entity presses a button and our device has to react. Our device may ask the input pin about 1.000.000 times per second. A human for example may do a very short pressing of a button in about 0.2 seconds. Which means, our System reads the status 'button pressed' about 500.000 times during our humans action. But what the human expects is:
 
-"Change the LED status ones as I press (in my view) the button ones!"
+"Change the light ones as I press (in my view) the button ones!"
 
-A second problem we will not deal with in this phase of our development is, that electric switches may flicker during status change. In general this is dealt with by electronically measures.
+A problem we will not deal with in this phase of our development is, that electric switches may flicker during status change. Flickery leads to problems because it will generate random additional signals during the action phase. In general this is dealt with by electronically measures. Therefore we simply have to ensure that changing the LEDs status only happens ones per button press action and we will ignore any flickery event by not doing anything about it.
 
-Therefore we simply have to ensure, that changing the LEDs status only happens ones per button press action. There are only two moments in all this endless button down phase where it is suitable to really change the LEDs status. At the beginning, as the signal changes from HIGH to LOW or at the end, where the signal changes from LOW to HIGH again.
+\subsubsection{Fast feedback}
 
-To give the human who uses our device immediate feedback about success or failure of his action, we decide to use the first phase to do all the action. So we have a simple mission: If the signal is LOW now and was HIGH the last time we looked, we change the LEDs state. This satisfies also the endless LOW state of the input signal and the change from LOW to HIGH where we have to do nothing. Not even accidentally! This way, the human feels his request immediately answered, even if he is unable to comprehend how immediately it real is answered.
+Our feedback device - working with a real world application - is the light we control. We have no display oder acoustic device to us as feedback but the very same object that goes to be controlled. User feedback therefore simply means to manipulate the status of the light. You may call this 'immediate feedback'.
+
+This is the signal we have to expect (idealised)
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=120mm]{LED/S005_stable-decisions_ideal_signal.png}
+  \caption{Stable Decisions - Signal Diagram}
+  \label{S005SignalDiagam}
+\end{figure}
+
+
+
+There are only two moments in all this endless button down phase - between 't1' and 't2' in Figure \ref{S005SignalDiagam} - where it is suitable to really change the LEDs status. At the beginning, as the signal changes from HIGH to LOW (t1) or at the end, where the signal changes from LOW to HIGH again (t2).
+
+To give the human who uses our device (the user) immediate feedback about success or failure of his action, we decide to use the first phase to do all the action. So we have a simple mission: If the signal is LOW now and was HIGH the last time we looked, we change the LEDs state. This satisfies also the endless LOW state of the input signal and the change from LOW to HIGH where we have to do nothing. Not even accidentally! This way, the human feels his request immediately answered, even if he is unable to comprehend how immediately it real is answered.
 
 
 \subsection{Finding the right moment}
