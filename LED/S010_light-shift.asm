@@ -44,9 +44,9 @@
                                                            ; Arduino Pin 13 is PORTB bit 5 on the ATmega MC
 .equ bitSignal     = 5                                     ; signal bit (Pin 13 on Arduino)
 .equ bitInput      = 0                                     ; input bit (Pin 8 on Arduino)
-.equ bitLightStart = 3                                     ; the start LED for light shifting (Pin 11 on Arduino)
+.equ bitLightStart = 4                                     ; the start LED for light shifting (Pin 12 on Arduino)
 
-.equ mskLightShift = 0x0E                                  ; = 0b00001110, (Pins 9 to 11 on Arduino)
+.equ mskLightShift = 0x1C                                  ; = 0b00011100, (Pins 10 to 12 on Arduino)
 
 .equ LOW           = 0                                     ; 0 or "clr register"
 .equ HIGH          = 1
