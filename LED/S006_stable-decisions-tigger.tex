@@ -1,0 +1,18 @@
+\section{Stable Decisions Triggered}
+
+If you feel a bit uncertain about our solution or if you have the feeling that all this should be made better you may be right. We would not ensure you that the following solution is better under every circumstance, but for some application, there is a much better way.
+
+This was we need to introduce the concept of interrupts.
+
+The magic behind interrupts in micro controllers is much more as in simple CPUs!
+
+Interrupts are special mechanics in processing units to enable the execution of code at a certain time or after a certain event by interrupting the normal processing, doing something else and after this continue whatever was interrupted.
+
+In micro processors this mechanic is much more sophisticated. In micro controllers you may interrupt the system from nothing! Meaning, its possible to nearly shut off the whole system, interrupt it from his deep sleep, let it do something and send it back to sleep.
+
+Such applications are useful if energy resources are small. For example, if you wish to drive your weather station one year on a single AAA cell or less, possibly supported by solar power.
+
+In such applications you wish to reduce power consumption of your system as far as possible. There is no need to let your micro controller do eight million cycles per second if you take a measurement every ten minutes! It may be much better so stop the whole system until the next measurement is to start.
+
+You already my expect it. Such code does not need to loop with full processing power to do nothing, such code really does nothing while waiting:
+
