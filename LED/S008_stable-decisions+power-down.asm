@@ -237,12 +237,14 @@ main:
             sbis    pinInput,     bitINT0                  ; Test if INT0 Button is released yet
             rjmp    no_sleep                               ; Not released => dont SLEEP!
 
-            in      regTemp,      GICR                     ; General Interrupt Control Register
-            ori     regTemp,      1 << INT0                ; Switch on INT0 bit as Interrupt Source
-            out     GICR,         regTemp                  ; Rewrite Register Bits
-
             DEB_LOF prtOutput,    bitDebug                 ; Set debug LED to 'OFF' (sleeping)
 
+            in      regTemp,      GICR                     ; General Interrupt Control Register
+            ori     regTemp,      1 << INT0                ; Switch on INT0 bit as Interrupt Source
+            cli                                            ; from here on, we must not be interrupted!
+            out     GICR,         regTemp                  ; Rewrite Register Bits
+
+            sei                                            ; hopefully, no one interrupts with INT0 before 'sleep'
             sleep                                          ; Sleep as hard as possible (Power Down Mode)
 
 no_sleep:
@@ -264,9 +266,11 @@ led_on:
 
 ext_int0_end:                                              ; 'leave ISR' subroutine
 
+            push    regTemp                                ; next step we modify regTemp, so we have to keep the content back
 ; switch off Interrupts for INT0 to forget pending signal
             in      regTemp,      GICR                     ; General Interrupt Control Register
             andi    regTemp,      ~(1 << INT0)             ; switch off INT0 bit
             out     GICR,         regTemp
+            pop     regTemp                                ; here es the old regTemp content again
 
             reti
