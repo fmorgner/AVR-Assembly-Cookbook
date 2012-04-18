@@ -104,7 +104,7 @@
 ; Interrupt Trigger Mode constants
 
 .equ mskaExtInt0        = 0b11111100                       ; to Mask Out 'External INT0' trigger reason bits
-.equ mskoExtInt0LvlLow  = 0b00000000                       ; level low - enables wake up from power donw mode
+.equ mskoExtInt0LvlLow  = 0b00000000                       ; level low - enables wake up from power down mode
 .equ mskoExtInt0LvlChng = 0b00000001                       ; any level change
 .equ mskoExtInt0EdgeH2L = 0b00000010                       ; falling edge
 .equ mskoExtInt0EdgeL2H = 0b00000011                       ; rising edge
@@ -232,7 +232,7 @@ start:
 main:
 ; Program loop code here
 
-; Program goes to sleep if INT0 bit if left HIGH (button not pressed)
+; Program goes to sleep if INT0 bit is left HIGH (button not pressed)
 
             sbis    pinInput,     bitINT0                  ; Test if INT0 Button is released yet
             rjmp    no_sleep                               ; Not released => dont SLEEP!
