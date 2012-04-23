@@ -1,12 +1,28 @@
-\section{Let there be light}
+!en \section{Let there be light!}
+!de \section{Es werde Licht!}
 
-The first sample in this chapter is the smallest program I can think of which does something.
+!en The first sample in this chapter is the smallest program I can think of which does something.
 
-This program will switch on the LED on your Arduino pin 13.
+!de Das erste Beispiel in diesem Kapitel ist das kleinste Programm, das ich mir vorstellen kann, das tatsächlich auch etwas sichtbares tut.
 
-Programming in Assembler means you're in control. But as you know, power requires knowledge and responsibility. If you're entering the world of assembly programming, you have absolute power if you wish to or not. Consequently you need knowledge to become responsible.
 
-At first you need to know what 'Arduino pin 13' really means. As consequence of the Arduino design it is not pin 13 on your \at. Knowing this is yet the half way thru. Knowing the pin is a step you need to know if are working with a plain chip. What you need to know is the micro controllers internal addressing for Arduino pin 13. To find out, look at \url{http://www.arduino.cc/hu/Hacking/PinMapping}.
+
+!en This program will switch on the LED on your Arduino pin 13.
+
+!de Es schaltet die LED am Arduinoanschluss 13 ein.
+
+
+
+!en Programming in Assembler means you're in control. But as you know, power requires knowledge and responsibility. If you're entering the world of assembly programming, you have absolute power if you wish to or not. Consequently you need knowledge to become responsible.
+
+!de In Assembler Programmieren heisst, Du hast die Macht! Aber wie wir wissen, erfordert Macht Wissen und Verantwortungsbewusstsein. Jemand der Micro Controller in Assembler programmiert, hat die absolute Macht, ob er es will oder nicht! Demzufolge ist ein Mindestmass an Fachwissen erforderlich um verantwortlich zu handeln.
+
+
+
+!en At first you need to know what 'Arduino pin 13' really means. As consequence of the Arduino design it is not pin 13 on your \at. Knowing this is yet the half way thru. Knowing the pin is a step you need to know if are working with a plain chip. What you need to know is the micro controllers internal addressing for Arduino pin 13. To find out, look at \url{http://www.arduino.cc/hu/Hacking/PinMapping}.
+
+!de Als erstes musste Du wissen, was Anschluss 13 am Arduino in Wirklichkeit heisst. Infolge des Arduinodesigns ist Anschluss 13 am Arduino nicht Pin 13 am \at. Das zu wissen ist erst die halbe Miete. Das tatsächliche Pin am \at zu kennen ist erforderlich um mit dem blanken Chip zu arbeiten. Was Du ausserdem wissen musst ist, wie dieser Anschluss im Micro Controller adressiert werden muss. Um das alles heraus zu finden gibt es ein sehr schönes Schaubild: \url{http://www.arduino.cc/hu/Hacking/PinMapping}
+
 
 \begin{figure}[htbp]
   \centering
@@ -15,7 +31,10 @@ At first you need to know what 'Arduino pin 13' really means. As consequence of 
   \label{arduino-to-atmega-pins}
 \end{figure}
 
-After we know everything we need to know to be responsible, we generate our 8byte program that will set our 'LED 13' under power.
+!en After we know everything we need to know to be responsible, we generate our 8byte program that will set our 'LED 13' under power.
+
+!de Nachdem wir zunächst vermutlich genug wissen um verantwortungsvoll zu handeln, programmieren wir unser 8 Byte grosses Programm , dass 'Adruino LED 13' erleuchtet.
+
 
 \begin{lstlisting}
 ; LED/S000_let-there-be-light.asm
@@ -33,7 +52,9 @@ main:
             rjmp    main
 \end{lstlisting}
 
-As simple as the program is, I believe there is some need for explanation.
+!en As simple as the program is, I believe there is some need for explanation.
+
+!de So einfach dieses Programm auch ist, es gibt doch ein paar Kleinigkeiten zu beleuchten.
 
 At first we have to declare the type of micro controller we are intended to use with the program. This is necessary because different micro controllers do have different assignments in their inner structure and need different addressing for their components. We do this by:
 
