@@ -6,9 +6,12 @@
 *.aux
 *.log
 *.lof
+*.lot
 *.out
 *.toc
 *.gz
+Assembly-programming-with-AVR-de.tex
+Assembly-programming-with-AVR-en.tex
 
 *-eps-converted-to.pdf
 
