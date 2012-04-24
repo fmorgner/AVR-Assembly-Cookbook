@@ -56,22 +56,35 @@ main:
 
 !de So einfach dieses Programm auch ist, es gibt doch ein paar Kleinigkeiten zu beleuchten.
 
-At first we have to declare the type of micro controller we are intended to use with the program. This is necessary because different micro controllers do have different assignments in their inner structure and need different addressing for their components. We do this by:
+
+
+!en At first we have to declare the type of micro controller we are intended to use with the program. This is necessary because different micro controllers do have different assignments in their inner structure and need different addressing for their components. The assembler need to know which values to assign for which elements. In out example the assembler needs to know who to address DDRB and PORTB We do this by:
+
+!de Zunächst müssen wir angeben, welchen konkreten Micro Controller wir verwenden. Das ist erforderlich weil die verschiedenen Modelle verschiedene Adressen für ihre Elemente aufweisen. Dem Assembler wird auf diese Weise mitgeteilt, welche Werte er für welche Elemente verwenden muss. In unserem Beispiel für DDRB und PORTB. Das geschieht durch:
 
 \begin{lstlisting}
 .DEVICE atmega8
 \end{lstlisting}
 
-Next we need to declare where our world will begin. Funny thing is, we will never really know! So we are forced to use symbols to deal with this necessity. As indicated below, different micro controllers will have different inner values. But not only this, to be honest, where our program lives is due to additional effects a most uncertain thing. We come to this later in the book.
 
-As we are forced to use symbols, we have to do so. We will set a symbol to our programs starting point later and this symbol will be named 'start' in out code. Whatever starts our program it must be informed where to goto to do so:
+
+!en Next we need to declare where our world will begin. Funny thing is, we will never really know! So we are forced to use symbols to deal with this necessity. As indicated below, different micro controllers will have different inner values. But not only this, to be honest, where our program lives is due to additional effects a most uncertain thing. We come to this later in the book.
+
+!de Als nächstes müssen wir den Anfang der Welt benennen. Der Witz hierbei ist, dass wir die volle Wahrheit nie wirklich erfahren! Wir verwenden Symbole um mit dieser Anforderung umzugehen. Wie bereits beschrieben, haben verschiedene Micro Controller verschiedene innere Werte. Aber nicht nur das. Wo exakt sich unser Programm am Ende tatsächlich befinden wird ist eine kaum beantwortbare Frage. Später werden wir nochmals darauf zurück kommen.
+
+
+!en As we are forced to use symbols, we have to do so. We will set a symbol to our programs starting point later and this symbol will be named 'start' in out code. Whatever starts our program it must be informed where to goto to do so:
+
+!de Da wir als zur Verwendung von Symbolen gezwungen sind, werden wir dementsprechend handeln. Wir werden mit einem Symbol den Startpunkt unseres Programms markieren. Dieses Symbol werden wir 'start' nennen. Was immer auch unser Programm starten wird, es muss diesen ominösen Startpunkt kennen:
 
 \begin{lstlisting}
 .org 0x0000
             rjmp     start 
 \end{lstlisting}
 
-With '.org' (don't forget the leading dot!) we build a sequence of command positioned at the addressed position. This sequence, some times named a table, is a list of actions to do for different requests. At the moment he only request we have is to start our program and fortunately the entry for this request is expected as the first in our table.
+
+
+With '.org' (don't forget the leading dot!) we build a sequence of commands positioned at the addressed position. This sequence, some times named a table, is a list of actions to do for different requests. At the moment he only request we have is to start our program and fortunately the entry for this request is expected as the first in our table.
 
 For those who really want to know: The addressing in this table is relative to wherever it is placed in real life! So it always starts with 0. Strictly speaking, at this point we already enter the realms of a dreamworld. We don't know what really happens! But sometimes we don't need to. To declare our first magic point, we only need to postulate:
 

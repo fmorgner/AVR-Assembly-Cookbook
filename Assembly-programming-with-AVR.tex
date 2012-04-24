@@ -64,7 +64,7 @@
 \makeatletter
 \makeatother
 
-\newcommand{\at}{\textit{ATmega8} }
+\newcommand{\at}{\textit{ATmega8}}
 
 \begin{document}
 \inputencoding{utf8}
@@ -99,7 +99,7 @@
 
 !en This book is mainly based on \at because we need to push aside micro controller model specifics. At some point we have to start to deal with this problem but we try to prevent this from happening as hard as we possibly can.
 
-!de Dieses Buch verwendet für die Umsetzung entweder durchgehend oder überwiegend \at. Diese Einschränkung dient der Vereinfachung der Codebeispiele. Wir wollen und nicht in den Spezifika der Micro Controller Modelle verlieren und unnötig komplexen Quelltest produzieren.
+!de Dieses Buch verwendet für die Umsetzung entweder durchgehend oder überwiegend \at. Diese Einschränkung dient der Vereinfachung der Codebeispiele. Wir wollen und nicht in den Spezifika der Micro Controller Modelle verlieren und unnötig komplexen Quelltext produzieren.
 
 
 
@@ -109,9 +109,9 @@
 
 
 
-!en This book is about Assembler Programming. We do not share the view that Assembler Programming will rescue the world. Each programming language has its purpose and some of them are useful too. The reader of this book wishes to learn Assembler Programming by example and has a tendency to experiment with the real thing. We try to satisfy this kind of reader by keeping the circuits simple and so price and requirements low.
+!en This book is about Assembler Programming. We do not share the view that Assembler Programming will rescue the world. Even if its easier to safe the world using Assembler Programming ;-) Each programming language has its purpose and some of them are useful too. The reader of this book wishes to learn Assembler Programming by example and has a tendency to experiment with the real thing. We try to satisfy this kind of reader by keeping the circuits simple and so price and requirements low.
 
-!de Dieses Buch dreht sich um Assemblerprogrammierung. Wir glauben nicht, das Assemblerprogramme die Welt retten werden. Jede Programmiersprache hat ihren Zweck und manche sind sogar sinnvoll. Der Leser dieses Buches möchte Assemblerprogrammierung anhand von Beispielen erlernen und experimentiert gern mit echter Hardware. Wir versuchen diese Lesergruppe zu bedienen indem wir versuchen, die Schaltungen einfach zu halten und die Kosten dafür niedrig.
+!de Dieses Buch dreht sich um Assemblerprogrammierung. Wir glauben nicht, das Assemblerprogramme die Welt retten werden. Auch wenn es einfacher ist, die Welt zu retten wenn man in Assembler programmiert ;-) Jede Programmiersprache hat ihren Zweck und manche sind sogar sinnvoll. Der Leser dieses Buches möchte Assemblerprogrammierung anhand von Beispielen erlernen und experimentiert gern mit echter Hardware. Wir versuchen diese Lesergruppe zu bedienen indem wir versuchen, die Schaltungen einfach zu halten und die Kosten dafür niedrig.
 
 \tableofcontents{}
 \listoffigures{}
@@ -143,11 +143,22 @@
   \label{atmega8-let-there-be-light-schema}
 \end{figure}
 
-If not, you may build a circuit like in figure \ref{atmega8-get-me-on-get-me-off-schema} on page \pageref{atmega8-get-me-on-get-me-off-schema}. The breadboard layout is shown in file \texttt{LED/S000\_LED-Basic-Circuit.fz} in Fritzing file format.
+!en If not, you may build a circuit like in figure \ref{atmega8-get-me-on-get-me-off-schema} on page \pageref{atmega8-get-me-on-get-me-off-schema}. The breadboard layout is shown in file \texttt{LED/S000\_LED-Basic-Circuit.fz} in Fritzing file format.
 
-As you may find out, we are focused on Free and Open Source Software. All published program code here is Free Software, the book itself and all used attachments are as free as we allowed to make them.
+!de Du kannst auch Deine eigene Schaltung aufbauen, wie in Abbildung \ref{atmega8-get-me-on-get-me-off-schema} auf Seite \pageref{atmega8-get-me-on-get-me-off-schema} gezeigt. Das Breadboard Layout kannst Du der Datei \texttt{LED/S000\_LED-Basic-Circuit.fz} entnehmen, eine Fritzing-Datei.
 
-Also we will prevent usage of non free 'things' as hard as we can. We will not force anyone to use non free products to follow our ways. On of our main goals is an intellectual contribution to the world of Free Thinking, Libre Software and cooperative work.
+
+
+!en As you may find out, we are focused on Free and Open Source Software. All published program code here is Free Software, the book itself and all used attachments are as free as we allowed to make them.
+
+!de Wie Du feststellen wirst, konzentrieren wir und darauf, nach Möglichkeit Freie und Opens Source Software zu verwenden. Aller Programmcode, den wir hier zeigen ist Freie Software. Das Buch und alles darin ist so frei wie es uns erlaubt wird es zu machen.
+
+
+
+!en Also we will prevent usage of non free 'things' as hard as we can. We will not force anyone to use non free products to follow our ways. On of our main goals is an intellectual contribution to the world of Free Thinking, Libre Software and cooperative work.
+
+!de Ausserdem versuchen wir, 'Dinge' zu verwenden, die nicht frei sind. Wir möchten niemanden zwingen nicht freie Produkte zu benutzen nur um diesem Buch zu folgen. Eins unserer wichtigeren Ziele ist ein Beitrag zur grossen Welt des Freien Denkens, der Libre Software und der Zusammenarbeit.
+
 
 
 \input{LED/S000_let-there-be-light.tex}
