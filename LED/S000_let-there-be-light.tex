@@ -84,33 +84,64 @@ main:
 
 
 
-With '.org' (don't forget the leading dot!) we build a sequence of commands positioned at the addressed position. This sequence, some times named a table, is a list of actions to do for different requests. At the moment he only request we have is to start our program and fortunately the entry for this request is expected as the first in our table.
+!en With '\texttt{.org}' (don't forget the leading dot!) we build a sequence of commands positioned at the addressed position. This sequence, some times named a table, is a list of actions to do for different requests. At the moment he only request we have is to start our program and fortunately the entry for this request is expected as the first in our table.
 
-For those who really want to know: The addressing in this table is relative to wherever it is placed in real life! So it always starts with 0. Strictly speaking, at this point we already enter the realms of a dreamworld. We don't know what really happens! But sometimes we don't need to. To declare our first magic point, we only need to postulate:
+!de Mit '\texttt{.org}' (bitte den Punkt am Anfang nicht vergessen) eröffnen wir eine Sequenz von Befehlen, die an der bezeichnete Position (hier 0x0000) beginnt. Diese Sequenz, die auch Tabelle genannt wird, ist eine Liste Aktionen, die für bestimmte Anforderungen ausgeführt werden sollen. Für unser Programm besteht die einzige Anforderung darin, unser Programm zu starten. Und glücklicher Weise findet sich der Eintrag für diese Anforderung, also "Starte das Programm", an der ersten Stelle diese Tabelle.
+
+
+
+!en For those who really want to know: The addressing in this table is relative to wherever it is placed in real life! So it always starts with 0. Strictly speaking, at this point we already enter the realms of a dreamworld. We don't know what really happens! But sometimes we don't need to. To declare our first magic point, we only need to postulate:
+
+!de Für die Neugierigen unter uns: Die Adressierung innerhalb dieser Tabelle, ist immer relativ zum Anfang der Tabelle. Die Tabelle befindet sich in Wirklichkeit kaum an der Position \texttt{0x0000}, aber darauf müssender keine Rücksicht nehmen. Genau genommen betreten wir hier bereits eine Art Traumwelt: Wir wissen nicht wirklich, was passiert! Aber in manchen Fällen, wie hier, müssen wir das nur sehr selten wissen. Um unseren ersten 'Magischen Weltpunkt' zu bestimmen, formulieren wir lediglich:
 
 \begin{lstlisting}
 start:
 \end{lstlisting}
 
-'start:'  is a label and represent the final address for the first memory position used afterwards. In our case the address of the first command in our program.
 
-The next label is already behind all things we need to do in our program. It is the starting point of an unconditional infinite loop. This sequence is necessary because the processor (CPU) of our micro controller (MC) is running as long as it has power. We can't stop it, so we have to lead it into a controlled way of doing 'nothing' because we don't wish our MC to do anything after it did all things we expected it to do.
 
-Between 'start:' und 'main:' is our program. I call this the 'first form of a standard program'. A program which runs ones after the system awakes. Such program may be of limited use, but not completely useless. And the schema of this 'first form' is the basic schema of all derived form. The program 
+!en '\texttt{start:}' is a label and represent the final address for the first memory position used afterwards. In our case the address of the first command in our program.
+
+!de '\texttt{start:}' ist eine Marke, ein Label. In unserem Fall ist es eine Sprungmarke. Sie repräsentiert die Adresse der ersten Speicherstelle nach ihrem Erscheinen. In unserem Fall die Adresse des ersten Befehls unseres Programms.
+
+
+
+!en The next label is already behind all things we need to do in our program. It is the starting point of an unconditional infinite loop. This sequence is necessary because the processor (CPU) of our micro controller (MC) is running as long as it has power. We can't stop it, so we have to lead it into a controlled way of doing 'nothing' because we don't wish our MC to do anything after it did all things we expected it to do.
+
+!de Die nächste Sprungarke befindet sich bereits hinter dem eigentlichen Ende unseres Programms. Sie sit der Beginn einer unbedingten undenklichen Schleife. Diese Schleife ist erforderlich, weil der Prozessor (CPU) unseres Micro Controllers (MC) operiert, solange er Strom hat. Diese Aussage stimmt nicht, in Wirklichkeit kann man nicht nur die CPU anhalten. Das Anhalten der CPU ist aber bereits ein recht komplizierter Vorgang. Wichtig, aber kompliziert. Darum tue ich hier so als wäre es nicht möglich. Da wir die CPU also (momentan) nicht stoppen können, müssen wir ihr etwas zu tun geben was das Ergebnis unseres Programms nicht beeinträchtigt.
+
+
+
+!en Between '\texttt{start:}' and '\texttt{main:}' is our program. I call this the 'first form of a standard program'. A program which runs ones after the system awakes. Such program may be of limited use, but not completely useless. The schema of this 'first form' is the basic schema of all derived forms. The program 
+
+!de Zwischen '\texttt{start:}' und '\texttt{main:}' befindet sich momentan unser eigentliches Programm. Ich nenne das ein Programm der 'Ersten Form'. Ein solches Programm mag nur begrenzten Nutzen haben, aber es ist ganz scher nicht völlig sinnlos. Diese 'Erste Form' ist die Basis aller erweiterten Programmformen. Ein solches Programm
 
 \begin{itemize}
-  \item  starts
-  \item  does something
-  \item  loops forever, possibly doing something
+!en   \item  starts
+!de   \item  startet
+!en   \item  does something
+!de   \item  tut etwas
+!en   \item  loops forever, possibly doing something
+!de   \item  tritt in eine Endlosschleife, tut vielleicht etwas dabei
 \end{itemize}
 
-If the program does something inside the 'infinite loop' then this may be called the 'second form of a standard program'. A third form should be expected to pop into existence later on. But anyway. Our program of the first form is specifically designed to show some important rules for good programming.
 
-The two commands which full fill our programs mission will do two things:
+
+
+!en If the program does something inside the 'infinite loop' then this may be called the 'second form of a standard program'. A third form should be expected to pop into existence later on. But anyway, our current program of the first form is specifically designed to show some important rules for good MC programming.
+
+!de Sofern das Programm im inneren der Endlosschleife etwas tut, nenne ich das die 'Zweite Form' eines Programms. Eine 'Dritte Form' darf für später erwartet werden. Sei es wie es sei, unser aktuelles Programm wurde speziell entworfen um einige wichtige Regeln guter MC Programmierung zu demonstrieren.
+
+
+!en The two commands which full fill our programs mission will do two things:
+
+!de Die beiden Befehle, die die Aufgabe unseres Programms erfüllen tun das folgende:
 
 \begin{itemize}
-  \item  declare pin 5 at PORTB as output pin
-  \item  set pin 5 at PORTB under power to enlighten our LED
+!en   \item  declare pin 5 at PORTB as output pin
+!de   \item  Pin 5 an PORTB als Ausgabepin festlegen
+!en   \item  set pin 5 at PORTB under power to enlighten our LED
+!de   \item  Pin 5 an PORTB einschalten um die LED zu erleuchten
 \end{itemize}
 
 \begin{lstlisting}
