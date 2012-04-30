@@ -149,46 +149,84 @@ start:
             sbi     PORTB,        5
 \end{lstlisting}
 
-Finally the never ending loop:
+!en Finally the never ending loop:
+
+!de Am Ende die nicht endenwollende Schleife:
 
 \begin{lstlisting}
 main:
             rjmp    main
 \end{lstlisting}
 
-This is all the program does and there is nothing more about it. You will discover, that this program demonstrates prudence and thrift. 
+!en This is all the program does and there is nothing more about it. You will discover, that this program demonstrates prudence and thrift. 
 
-A PORT of an 8bit MC controls eight bit unsung eight pins on the outside. In our \at each one of these pins can be used to:
+!de Das ist alles was das Programm tut. Allerdings wirst Du feststellen, dass dieses Programm bedacht und sparsam operiert.
 
-\begin{itemize}
-  \item Put a signal to his pin
-  \item Read a signal from its pin which may be +5V or GND as 1 or 0
-  \item Read a signal from its pin which may be 'not GND' oder GND as 1 or 0
-\end{itemize}
 
-Each pin as can be controlled to do one of these things freely, independent of all the other pins on the same port.
+!en A PORT of an 8bit MC controls eight bit unsing eight pins on the outside. In our \at each one of these pins can be used to:
 
-On some pins are additional features possible like
+!de Ein PORT eines 8bit Micro Controllers verwaltet 8 Bits um 8 Beine in der Aussenwelt zu steuern. An unserem \at kann jedes dieser Beine verwendet werden um eine der folgenden Funktionen zu erfüllen:
 
 \begin{itemize}
-  \item power saving modes
-  \item PWM modes
-  \item analog to digital converting
-  \item interrupts
+!en   \item Put a signal to his pin
+!de   \item Ein Signal ausgeben
+!en   \item Read a signal from its pin which may be +5V or GND as 1 or 0
+!de   \item Ein Signal lesen, dass +5V oder GND ist als Repräsentation für 1 or 0
+!en   \item Read a signal from its pin which may be 'not GND' or GND as 1 or 0
+!de   \item Ein Signal lesen, dass 'nicht GND' oder GND ist als Repräsentation für 1 or 0
 \end{itemize}
 
-In our program we use the command \texttt{sbi} to set pin 5 instead of the alternative command \texttt{out} with parameter \texttt{1 << 5} which would do the same but not really the same. We wish to manipulate pin 5 only! \texttt{out} would not only send 1 to pin 5 but also 0 to all other pins.
+!en Each pin as can be controlled to do one of these things freely, independent of all the other pins on the same port.
 
-Even if we - at the moment - know that all other pins are unused, we face to situations:
+!de Jedes Bein kann unabhängig von jedem anderen Bein konfiguriert werden um eine dieser Operationen auszuführen. Alles am gleichen Port!
+
+
+
+!en On some pins are additional features possible like
+
+!de An einigen Beinen sind weitere Funktionen möglich wie
+
+\begin{itemize}
+!en   \item power saving modes (the pin becomes deaf)
+!de   \item Energiesparmodus (das Bein wird abgeschaltet)
+!en   \item PWM modes
+!de   \item Pulsbreitenpodulierter Signalgenerator
+!en   \item analog to digital converting
+!de   \item Analog-Digital-Wandlung
+!en   \item interrupts
+!de   \item Interruptempfang
+\end{itemize}
+
+!en In our program we use the command \texttt{sbi} to set bit 5 instead of the alternative command \texttt{out} with parameter \texttt{1 << 5} which would do the same but not really the same. We wish to manipulate bit 5 only! \texttt{out 1 << 5} would not only send 1 to bit 5 but also 0 to all other pins.
+
+!de In unserem Programm verwenden wir den Befehl \texttt{sbi} im das Bit 5 anzusteuern anstatt den Befehl \texttt{out} mit dem Parameter \texttt{1 << 5} zu verwenden, was auf den ersten Blick zum gleichen Ergebnis führen würde. Wir wollen aber einzig bit 5 ansteuern! \texttt{out 1 << 5} würde dummer Weise aber nicht nur bit 5 auf 1 setzen, sondern gleichzeitig alle anderen Bits auf 0!
+
+
+!en Even if we - at the moment - know that all other pins are unused, we face to situations:
+
+!de Auch wenn wir - für den Augenblick - wissen, dass alle anderen Bits nicht benutzt sind, werden wir bald mit den eher typischen Situationen konfrontiert:
 
 \begin{enumerate}
-  \item We will become less and less sure about the usage of pins we don't use in a particular situation.
-  \item We don't know what happens if we send 0's to pins we don't know.
+!en   \item We will become less and less sure about the usage of bits we don't use in a particular situation. Especially if we are developing a library.
+!de   \item Wir werden zunehmen unsicher werden, welche Bits tatsächlich benutzt werden, während wir etwas bestimmtes programmieren. Auch und besonders wenn es sich um Bibliotheken handelt. Dann sowieso nicht!
+!en   \item We don't know what happens if we send 0's to pins we don't know.
+!de   \item Wir wissen nicht was passiert, was passiert, wenn wir 0 an Bits senden, die wir momentan gar nicht betrachten.
 \end{enumerate}
 
-\emph{One major concept of good programming is, to do as less as any possible.}
 
-If there is nothing to be done, don't do it! Especially in micro controllers where action means energy loss! So if we need to manipulate a bit, we should not manipulate others bits except we have a good reason to do so. Currently we have not.
 
-We don't want to wake up pins if they could sleep in peace. Because possibly, these otherwise unused pins will eat up our energy.
+!en \emph{One major concept of good programming is, to do as less as any possible.}
 
+!de \emph{Ein wichtiges Konzept guten Programmierstils ist, so wenig wir irgend möglich zu tun.}
+
+
+
+!en If there is nothing to be done, don't do it! Especially in micro controllers where action means energy loss. So if we need to manipulate a bit, we should not manipulate others bits except we have a good reason to do so. Currently we have not.
+
+!de Wenn nichts zu tun ist, dann tu's nicht! Das gilt besonders bei Microcontrollern, wo jede Aktion Energieverbrauch bedeutet. Wenn wir also ein Bit ansteuern wollen, sollten wir genau ein Bit ansteuern und nicht mehr, ausser wir haben gut Gründe, diese Regel nicht zu beachten. Momentan haben wir die nicht.
+
+
+
+!en We don't want to wake up pins if they could sleep in peace. Because possibly, these otherwise unused pins will eat up our energy.
+
+!de We wollen nicht Beine Aufwecken, wenn sie auch in Ruhe schlafen könnten. Denn möglicher Weise würden diese Anschlüsse alle zur Verfügung stehende Energie verheizen.
