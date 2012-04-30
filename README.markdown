@@ -7,11 +7,17 @@ Please note that it is in a very early development stage.
 
 ## Shift registers
 
-  - shift sram
+  - shift sram: move it as fast as you can
 
 ## LED
 
-  - let there be light
-  - get me on get me off
-  - stable decisions
-  - stable decisions + symbols
+  - let there be light: simplest program of all
+  - get me on get me off: toggle your lights
+  - stable decisions: switch the lights
+  - stable decisions + symbols: program like prosa
+
+## Coming soon
+
+  - rest in peace: deeper sleeping
+  - take a seat: long time timers
+  - take 2: the two wire interface
