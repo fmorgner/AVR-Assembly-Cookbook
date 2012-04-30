@@ -169,12 +169,12 @@ start:
 
 ; All port pins should be configured to use minimum power  => “Digital Input Enable and Sleep Modes” on page 55
 
-            ldi     regTemp,      0xFF                     ; Set all ports to output
+            ldi     regTemp,      0x00                     ; Set all pins on ports to input
             out     DDRB,         regTemp
             out     DDRC,         regTemp
             out     DDRD,         regTemp
 
-            ldi     regTemp,      0x00                     ; Set all pins to LOW 
+            ldi     regTemp,      0xFF                     ; Enable pull-ups on all pins
             out     PORTB,        regTemp
             out     PORTC,        regTemp
             out     PORTD,        regTemp
