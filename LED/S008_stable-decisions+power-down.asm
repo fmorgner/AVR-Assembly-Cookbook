@@ -81,7 +81,11 @@
 .equ prtOutput          = PORTB                            ; PORT we use for Output
 .equ pinOutput          = PINB                             ; PIN register associated to our Output Port
 
-.equ bitsToDeaf         = 0b00011000                       ; the bits with LEDs not used in this program
+.if DEBUG
+  .equ bitsToDeaf       = 0b00011000                       ; the bits with LEDs not used in this program
+.else
+  .equ bitsToDeaf       = 0b00011100                       ; the bits with LEDs not used in this program
+.endif
 
 .equ ddrInput           = DDRD                             ; Data Direction Register for the Input Port we use
 .equ prtInput           = PORTD                            ; PORT we us for Input
