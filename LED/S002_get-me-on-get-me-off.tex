@@ -17,7 +17,7 @@
 
 !en Second the code
 
-!en Als zweites das Programm
+!de Anschliessend das Programm
 
 
 \begin{lstlisting}
@@ -46,19 +46,19 @@ led_ok:
 
 !en As you may have guessed, this code represents the 'second form of a standard program'. It does something before the loop - ones - but also does something in the main loop. This program is really busy as we will see in the next program.
 
-!de We Du sicher schon vermutet hast ist dies bereits ein Programm der 'Zweiten Form'. Es tut nicht nur etwas vor der Endlosschleife, sondern ebenfalls etwas darin. Dieses Programm hat wirklich viel zu tun, wie im nächsten Programm noch sehen werden.
+!de Wie Du sicher schon vermutet hast ist dies bereits ein Programm der 'Zweiten Form'. Es tut nicht nur etwas \textit{vor} der Endlosschleife, sondern ebenfalls etwas darin. Dieses Programm hat wirklich viel zu tun, wie noch sehen werden.
 
 
 
-!en The first difference to the former program is, that we use an additional pin/bit. This time for input. To set this pin, bit 0 on port B at pin 14 of the micro controller, to input mode, we send a '0' to its data direction register (DDR). Further we send a '1' to this bit 0 of the port as if we would set the port to output +5V. But this bit is in 'output mode'. In this case, sending '1' to the bit at the port means: 'Switch on the internal pull-up resistor'.
+!en The first difference to the former program is, that we use an additional pin/bit. This time for input. To set this pin, bit 0 on port B at pin 14 of the micro controller, to input mode, we send a \texttt{0} to its data direction register (\texttt{DDR}). Further we send a \texttt{1} to this bit 0 of the port as if we would set the port to output +5V. But this bit is in 'output mode'. In this case, sending \texttt{1} to the bit at the port means: 'Switch on the internal pull-up resistor\footnote{A pull-up resistor is used to set a defined signal to not connected pins. It generate a signal which is VCC = +5V = logical \texttt{1}.}'.
 
-!de Der erste Unterschied zum vorherigen Programm ist, dass wir ein zusätzliches Bein benutzen, diesmal um ein Eingangssignal zu erkennen. Um dieses Bein, Bit 0 an Port B = Bein 14 am MC, auf den Input Modus zu schalten, senden wir eine '0' an das entsprechende 'Data Direction Register' (DDR). Ausserdem senden wir eine '1' auf das Bit am entsprechenden Port. Was im Ausgabemodus bedeuten würde 'Schalet +5V an das Pin', heisst im Ausgabemodus: 'Schalten den pull-up Widerstand zu'.
+!de Der erste Unterschied zum vorherigen Programm ist, dass wir ein zusätzliches Bein benutzen, diesmal um ein Eingangssignal zu erkennen. Um dieses Bein, Bit 0 an Port B = Bein 14 am MC, auf den Input Modus zu schalten, senden wir eine \texttt{0} an das entsprechende 'Data Direction Register' (\texttt{DDR}). Ausserdem senden wir eine \texttt{1} auf das Bit am entsprechenden Port. Was im Ausgabemodus bedeuten würde 'Schalte +5V an das Bein', heisst im Eingabemodus: 'Schalte den pull-up-Widerstand\footnote{Ein pull-up-Widerstand ist ein Widerstand, der dazu benutzt wird, um den Signalpegel an einem Bein 'hoch' zu legen. Hier auf die Betriebsspannung, VCC = +5V = Logisch \texttt{1}. Er dient dazu um an einem Eingangsbein auch dann einen stabilen Zustand zu erreichen, wenn kein Element angeschlossen ist.} zu'.
 
 
 
 !en After this, the signal read from this bit is 'ON' or '1'. To interact with the micro controller and change the signal to 'OFF', we need to pull-down the pin to GND.
 
-:de Danach können wir vom Eingangsbein den Status 'EIN' oder '1' lesen. Um eine Reaktion am MC zu erreichen und das Eingangssignal auf 'AUS' oder '0' zu setzen, müssen wir das Beim auf Masse legen.
+!de Danach können wir vom Eingangsbein den Status 'EIN' oder '1' lesen. Um eine Reaktion am MC zu erreichen und das Eingangssignal auf 'AUS' oder '0' zu setzen, müssen wir das Beim auf Masse legen.
 
 
 

@@ -27,13 +27,14 @@
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=120mm]{Media/www-arduino-cc_Arduino-To-Atmega8-Pins.png}
-  \caption{Arduino to \at pins}
+!en   \caption{Arduino to \at  pins}
+!de   \caption{Arduino zu \at  Anschlusszuordnung}
   \label{arduino-to-atmega-pins}
 \end{figure}
 
 !en After we know everything we need to know to be responsible, we generate our 8byte program that will set our 'LED 13' under power.
 
-!de Nachdem wir zunächst vermutlich genug wissen um verantwortungsvoll zu handeln, programmieren wir unser 8 Byte grosses Programm , dass 'Adruino LED 13' erleuchtet.
+!de Nachdem wir zunächst vermutlich genug wissen um verantwortungsvoll zu handeln, programmieren wir unser 8 Byte grosses Programm, dass 'Adruino LED 13' erleuchtet.
 
 
 \begin{lstlisting}
@@ -58,9 +59,9 @@ main:
 
 
 
-!en At first we have to declare the type of micro controller we are intended to use with the program. This is necessary because different micro controllers do have different assignments in their inner structure and need different addressing for their components. The assembler need to know which values to assign for which elements. In out example the assembler needs to know who to address DDRB and PORTB We do this by:
+!en At first we have to declare the type of micro controller we are intended to use with the program. This is necessary because different micro controllers do have different assignments in their inner structure and need different addressing for their components. The assembler need to know which values to assign for which elements. In our example the assembler needs to know who to address DDRB and PORTB. DDRB and PORTB are place holders or 'logical names' for numerical values. Declaring the micro controller assigned specific values to all such logical names. We do this by:
 
-!de Zunächst müssen wir angeben, welchen konkreten Micro Controller wir verwenden. Das ist erforderlich weil die verschiedenen Modelle verschiedene Adressen für ihre Elemente aufweisen. Dem Assembler wird auf diese Weise mitgeteilt, welche Werte er für welche Elemente verwenden muss. In unserem Beispiel für DDRB und PORTB. Das geschieht durch:
+!de Zunächst müssen wir angeben, welchen konkreten Micro Controller wir verwenden. Das ist erforderlich weil die verschiedenen Modelle verschiedene Adressen für ihre Elemente aufweisen. Dem Assembler wird auf diese Weise mitgeteilt, welche Werte er für welche Elemente verwenden muss. In unserem Beispiel für DDRB und PORTB. DDRB und PORTB sind Platzhalte oder auch 'logische Namen' für Zahlen. Welche Zahlen verwendet werden, entscheidet die Microcontrollerangabe. Das geschieht durch:
 
 \begin{lstlisting}
 .DEVICE atmega8
@@ -75,7 +76,7 @@ main:
 
 !en As we are forced to use symbols, we have to do so. We will set a symbol to our programs starting point later and this symbol will be named 'start' in out code. Whatever starts our program it must be informed where to goto to do so:
 
-!de Da wir als zur Verwendung von Symbolen gezwungen sind, werden wir dementsprechend handeln. Wir werden mit einem Symbol den Startpunkt unseres Programms markieren. Dieses Symbol werden wir 'start' nennen. Was immer auch unser Programm starten wird, es muss diesen ominösen Startpunkt kennen:
+!de Da wir also zur Verwendung von Symbolen gezwungen sind, werden wir dementsprechend handeln. Wir werden mit einem Symbol den Startpunkt unseres Programms markieren. Dieses Symbol werden wir 'start' nennen. Was immer auch unser Programm starten wird, es muss diesen ominösen Startpunkt kennen:
 
 \begin{lstlisting}
 .org 0x0000
@@ -86,7 +87,7 @@ main:
 
 !en With '\texttt{.org}' (don't forget the leading dot!) we build a sequence of commands positioned at the addressed position. This sequence, some times named a table, is a list of actions to do for different requests. At the moment he only request we have is to start our program and fortunately the entry for this request is expected as the first in our table.
 
-!de Mit '\texttt{.org}' (bitte den Punkt am Anfang nicht vergessen) eröffnen wir eine Sequenz von Befehlen, die an der bezeichnete Position (hier 0x0000) beginnt. Diese Sequenz, die auch Tabelle genannt wird, ist eine Liste Aktionen, die für bestimmte Anforderungen ausgeführt werden sollen. Für unser Programm besteht die einzige Anforderung darin, unser Programm zu starten. Und glücklicher Weise findet sich der Eintrag für diese Anforderung, also "Starte das Programm", an der ersten Stelle diese Tabelle.
+!de Mit '\texttt{.org}' (bitte den Punkt am Anfang nicht vergessen) eröffnen wir eine Sequenz von Befehlen, die an der bezeichnete Position (hier 0x0000) beginnt. Diese Sequenz, die auch Tabelle genannt wird, ist eine Liste von Aktionen, die für bestimmte Anforderungen ausgeführt werden sollen. Für unser Programm besteht die einzige Anforderung darin, unser Programm zu starten. Und glücklicher Weise findet sich der Eintrag für diese Anforderung, also 'Starte das Programm', an der ersten Stelle diese Tabelle.
 
 
 
@@ -108,23 +109,22 @@ start:
 
 !en The next label is already behind all things we need to do in our program. It is the starting point of an unconditional infinite loop. This sequence is necessary because the processor (CPU) of our micro controller (MC) is running as long as it has power. We can't stop it, so we have to lead it into a controlled way of doing 'nothing' because we don't wish our MC to do anything after it did all things we expected it to do.
 
-!de Die nächste Sprungarke befindet sich bereits hinter dem eigentlichen Ende unseres Programms. Sie sit der Beginn einer unbedingten undenklichen Schleife. Diese Schleife ist erforderlich, weil der Prozessor (CPU) unseres Micro Controllers (MC) operiert, solange er Strom hat. Diese Aussage stimmt nicht, in Wirklichkeit kann man nicht nur die CPU anhalten. Das Anhalten der CPU ist aber bereits ein recht komplizierter Vorgang. Wichtig, aber kompliziert. Darum tue ich hier so als wäre es nicht möglich. Da wir die CPU also (momentan) nicht stoppen können, müssen wir ihr etwas zu tun geben was das Ergebnis unseres Programms nicht beeinträchtigt.
+!de Die nächste Sprungarke befindet sich bereits hinter dem eigentlichen Ende unseres Programms. Sie ist der Beginn einer unbedingten unendlichen Schleife. Diese Schleife ist erforderlich, weil der Prozessor (CPU) unseres Micro Controllers (MC) operiert, solange er Strom hat. Diese Aussage stimmt nicht, in Wirklichkeit kann man nicht nur die CPU anhalten. Das Anhalten der CPU ist aber bereits ein recht komplizierter Vorgang. Wichtig, aber kompliziert. Darum tue ich hier so als wäre es nicht möglich. Da wir die CPU also (momentan) nicht stoppen können, müssen wir ihr etwas zu tun geben was das Ergebnis unseres Programms nicht beeinträchtigt.
 
 
 
 !en Between '\texttt{start:}' and '\texttt{main:}' is our program. I call this the 'first form of a standard program'. A program which runs ones after the system awakes. Such program may be of limited use, but not completely useless. The schema of this 'first form' is the basic schema of all derived forms. The program 
 
-!de Zwischen '\texttt{start:}' und '\texttt{main:}' befindet sich momentan unser eigentliches Programm. Ich nenne das ein Programm der 'Ersten Form'. Ein solches Programm mag nur begrenzten Nutzen haben, aber es ist ganz scher nicht völlig sinnlos. Diese 'Erste Form' ist die Basis aller erweiterten Programmformen. Ein solches Programm
+!de Zwischen '\texttt{start:}' und '\texttt{main:}' befindet sich momentan unser eigentliches Programm. Ich nenne das ein Programm der 'Ersten Form'. Ein solches Programm mag nur begrenzten Nutzen haben, aber es ist ganz sicher nicht völlig sinnlos. Diese 'Erste Form' ist die Basis aller erweiterten Programmformen. Ein solches Programm
 
 \begin{itemize}
 !en   \item  starts
 !de   \item  startet
 !en   \item  does something
 !de   \item  tut etwas
-!en   \item  loops forever, possibly doing something
-!de   \item  tritt in eine Endlosschleife, tut vielleicht etwas dabei
+!en   \item  loops forever, doing nothing
+!de   \item  tritt in eine Endlosschleife, tut nichts mehr
 \end{itemize}
-
 
 
 
@@ -139,9 +139,9 @@ start:
 
 \begin{itemize}
 !en   \item  declare pin 5 at PORTB as output pin
-!de   \item  Pin 5 an PORTB als Ausgabepin festlegen
+!de   \item  Bit 5 an PORTB als Ausgabepin festlegen
 !en   \item  set pin 5 at PORTB under power to enlighten our LED
-!de   \item  Pin 5 an PORTB einschalten um die LED zu erleuchten
+!de   \item  Bit 5 an PORTB einschalten um die LED zu erleuchten
 \end{itemize}
 
 \begin{lstlisting}
@@ -151,7 +151,7 @@ start:
 
 !en Finally the never ending loop:
 
-!de Am Ende die nicht endenwollende Schleife:
+!de Am Ende die nicht enden wollende Schleife:
 
 \begin{lstlisting}
 main:
@@ -163,9 +163,9 @@ main:
 !de Das ist alles was das Programm tut. Allerdings wirst Du feststellen, dass dieses Programm bedacht und sparsam operiert.
 
 
-!en A PORT of an 8bit MC controls eight bit unsing eight pins on the outside. In our \at each one of these pins can be used to:
+!en A PORT of an 8bit MC controls eight bit unsing eight pins on the outside. In our \at{} each one of these pins can be used to:
 
-!de Ein PORT eines 8bit Micro Controllers verwaltet 8 Bits um 8 Beine in der Aussenwelt zu steuern. An unserem \at kann jedes dieser Beine verwendet werden um eine der folgenden Funktionen zu erfüllen:
+!de Ein PORT eines 8bit Micro Controllers verwaltet 8 Bits um 8 Beine in der Aussenwelt zu steuern. An unserem \at{} kann jedes dieser Beine verwendet werden um eine der folgenden Funktionen zu erfüllen:
 
 \begin{itemize}
 !en   \item Put a signal to his pin
@@ -197,9 +197,9 @@ main:
 !de   \item Interruptempfang
 \end{itemize}
 
-!en In our program we use the command \texttt{sbi} to set bit 5 instead of the alternative command \texttt{out} with parameter \texttt{1 << 5} which would do the same but not really the same. We wish to manipulate bit 5 only! \texttt{out 1 << 5} would not only send 1 to bit 5 but also 0 to all other pins.
+!en In our program we use the command \texttt{sbi} to set bit 5 instead of the alternative command \texttt{out} with parameter \texttt{1 << 5} which would do the same but not really the same. We wish to manipulate bit 5 only! \texttt{out 1 << 5} would not only send \texttt{1} to bit 5 but also \texttt{0} to all other pins.
 
-!de In unserem Programm verwenden wir den Befehl \texttt{sbi} im das Bit 5 anzusteuern anstatt den Befehl \texttt{out} mit dem Parameter \texttt{1 << 5} zu verwenden, was auf den ersten Blick zum gleichen Ergebnis führen würde. Wir wollen aber einzig bit 5 ansteuern! \texttt{out 1 << 5} würde dummer Weise aber nicht nur bit 5 auf 1 setzen, sondern gleichzeitig alle anderen Bits auf 0!
+!de In unserem Programm verwenden wir den Befehl \texttt{sbi} um das Bit 5 anzusteuern anstatt den Befehl \texttt{out} mit dem Parameter \texttt{1 << 5} zu verwenden, was auf den ersten Blick zum gleichen Ergebnis führen würde. Wir wollen aber einzig bit 5 ansteuern! \texttt{out 1 << 5} würde dummer Weise aber nicht nur Bit 5 auf \texttt{1} setzen, sondern gleichzeitig alle anderen Bits, ihrer 7 Stück, auf \texttt{0}!
 
 
 !en Even if we - at the moment - know that all other pins are unused, we face to situations:
@@ -209,8 +209,8 @@ main:
 \begin{enumerate}
 !en   \item We will become less and less sure about the usage of bits we don't use in a particular situation. Especially if we are developing a library.
 !de   \item Wir werden zunehmen unsicher werden, welche Bits tatsächlich benutzt werden, während wir etwas bestimmtes programmieren. Auch und besonders wenn es sich um Bibliotheken handelt. Dann sowieso nicht!
-!en   \item We don't know what happens if we send 0's to pins we don't know.
-!de   \item Wir wissen nicht was passiert, was passiert, wenn wir 0 an Bits senden, die wir momentan gar nicht betrachten.
+!en   \item We don't know what happens if we send \texttt{0}'s to pins we don't know.
+!de   \item Wir wissen nicht was passiert wenn wir \texttt{0} an Bits senden, die wir momentan gar nicht betrachten.
 \end{enumerate}
 
 
@@ -223,10 +223,10 @@ main:
 
 !en If there is nothing to be done, don't do it! Especially in micro controllers where action means energy loss. So if we need to manipulate a bit, we should not manipulate others bits except we have a good reason to do so. Currently we have not.
 
-!de Wenn nichts zu tun ist, dann tu's nicht! Das gilt besonders bei Microcontrollern, wo jede Aktion Energieverbrauch bedeutet. Wenn wir also ein Bit ansteuern wollen, sollten wir genau ein Bit ansteuern und nicht mehr, ausser wir haben gut Gründe, diese Regel nicht zu beachten. Momentan haben wir die nicht.
+!de Wenn nichts zu tun ist, dann tu's nicht! Das gilt besonders bei Micro Controllern, wo jede Aktion Energieverbrauch bedeutet. Wenn wir also ein Bit ansteuern wollen, sollten wir genau ein Bit ansteuern und nicht mehr, ausser wir haben gut Gründe, diese Regel nicht zu beachten. Momentan haben wir die nicht.
 
 
 
 !en We don't want to wake up pins if they could sleep in peace. Because possibly, these otherwise unused pins will eat up our energy.
 
-!de We wollen nicht Beine Aufwecken, wenn sie auch in Ruhe schlafen könnten. Denn möglicher Weise würden diese Anschlüsse alle zur Verfügung stehende Energie verheizen.
+!de Wir wollen nicht Beine Aufwecken, wenn sie auch in Ruhe schlafen könnten. Denn möglicher Weise würden diese Anschlüsse alle zur Verfügung stehende Energie verheizen, im Sinn von heizen!
