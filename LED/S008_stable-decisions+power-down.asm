@@ -81,6 +81,8 @@
 .equ prtOutput          = PORTB                            ; PORT we use for Output
 .equ pinOutput          = PINB                             ; PIN register associated to our Output Port
 
+.equ bitsToDeaf         = 0b00011000                       ; the bits with LEDs not used in this program
+
 .equ ddrInput           = DDRD                             ; Data Direction Register for the Input Port we use
 .equ prtInput           = PORTD                            ; PORT we us for Input
 .equ pinInput           = PIND                             ; PIN register associated to our Input Port
@@ -178,6 +180,18 @@ start:
             out     PORTB,        regTemp
             out     PORTC,        regTemp
             out     PORTD,        regTemp
+
+; Some corrections. On the output port we have connected 2 LEDs not used in this program. Their Pins therfore mut become deaf
+; Which means: Set to output, output level LOW (matching our schema to stop current to flow through our 'deaf' LEDs)
+; This is no generic solution, it depends on a normal state for DDRn=0x00 and PORTn=0xFF. If the former sequence is not valid
+; in your program, the following sequence surely becomes questionable
+
+            ldi     regTemp,      bitsToDeaf               ; correct status setting for connected bits
+            out     ddrOutput,    regTemp                  ; deaf is, if the pin is set to output and signal 0
+
+            com     regTemp                                ; invert bit mask, all bits set to 1 in DDR have to set to 0 in PORT
+            out     prtOutput,    regTemp                  ; PORT we use for Output
+
 
 ; Prepair the ports and bits we need for our use
 
