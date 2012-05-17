@@ -19,3 +19,6 @@ Assembly-programming-with-AVR-en.tex
 *.000
 *.bak
 *-cache.lib
+
+*.sh~
+*.tex~
