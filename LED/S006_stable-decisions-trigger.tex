@@ -8,7 +8,7 @@ The magic behind interrupts in micro controllers is much more as in simple CPUs!
 
 Interrupts are special mechanics in processing units to enable the execution of code at a certain time or after a certain event by interrupting the normal processing, doing something else and after this continue whatever was interrupted.
 
-In micro processors this mechanic is much more sophisticated. In micro controllers you may interrupt the system from nothing! Meaning, it is possible to nearly shut off the whole system, interrupt it from his deep sleep, let it do something and send it back to sleep again.
+In micro processors this mechanic is much more sophisticated. There you may interrupt the system from nothing! Meaning, it is possible to nearly shut off the whole system, interrupt it from his deep sleep, let it do something and send it back to sleep again.
 
 Such applications are useful if energy resources are small. For example, if you wish to drive your weather station one year on a single AAA cell or less, possibly supported by solar power.
 
@@ -29,7 +29,7 @@ start:
             ...
             
 main:
-            sleep
+            sleep             ; shutting down the system!
             rjmp    main
 
 trigger0:
@@ -37,4 +37,5 @@ trigger0:
             reti
 \end{lstlisting}
 
-This approach also has the advantage to don't need the otherwise necessary status accumulator register and consequently no comparison between former and current status. It simple needs to change the current status of the light if called.
+This approach also has the advantage to not need the otherwise necessary status accumulator register and consequently no comparison between former and current status. It simple needs to change the current status of the light if called.
+
