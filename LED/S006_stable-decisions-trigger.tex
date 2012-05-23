@@ -1,23 +1,56 @@
 \section{Stable Decisions Triggered}
 
-If you feel a bit uncertain about our solution or if you have the feeling that all this should be done better you may be right. We would not ensure you that the following solution is better under every circumstance, but for some application, there is a much better way.
+!en If you feel a bit uncertain about our solution or if you have the feeling that all this should be done better you may be right. We would not ensure you that the following solution is better under every circumstance, but for some application, this is a much better way.
 
-For this way we need to introduce the concept of interrupts.
+!de Wenn Dir unsere Lösung etwas seltsam vorkommen sollte und Du das Gefühl entwickelst, dass es besser gehen müsste, liegst Du vielleicht richtig. Wir möchten nicht behaupten, dass die folgende Lösung unter allen Umständen die beste Lösung ist, aber unter bestimmten Umständen ist es so der bessere Weg.
 
-The magic behind interrupts in micro controllers is much more as in simple CPUs!
 
-Interrupts are special mechanics in processing units to enable the execution of code at a certain time or after a certain event by interrupting the normal processing, doing something else and after this continue whatever was interrupted.
 
-In micro processors this mechanic is much more sophisticated. There you may interrupt the system from nothing! Meaning, it is possible to nearly shut off the whole system, interrupt it from his deep sleep, let it do something and send it back to sleep again.
+!en For this way we need to introduce the concept of interrupts.
 
-Such applications are useful if energy resources are small. For example, if you wish to drive your weather station one year on a single AAA cell or less, possibly supported by solar power.
+!de Dafür benötigen wir das erste Mal einen Interrupt.
 
-In such applications you wish to reduce power consumption of your system as far as possible. There is no need to let your micro controller do eight million cycles per second if you take a measurement every ten minutes! It may be much better so stop the whole system until the next measurement is to start.
 
-You already may expect it. Such code does not need to loop with full processing power to do nothing, such code really does nothing while waiting:
+
+!en The magic behind interrupts in micro controllers is much more as in the simple CPU that drives your Computer.
+
+!de Die Magie im Interruptmechanismus von Mikro Controllern is viel bunter als bei einfachen Prozessoren wie in PCs.
+
+
+
+!en Interrupts are special mechanics in processing units to enable the execution of specific code after a certain event by interrupting the normal processing, doing something else and after this continue whatever was interrupted.
+
+!de Interrupts stellen spezielle Mechanismen bereit, die es ermöglichen, als Reaktion auf bestimmte Ereignisse entsprechende Programmteile auszuführen und anschliessend das, was immer unterbrochen wurde, weiter zu machen
+
+
+
+!en In micro controllers this mechanic is much more sophisticated. There you may interrupt the system from nothing! Meaning, it is possible to nearly shut off the whole system, interrupt it from his deep sleep, let it do something and send it back to sleep again. So it is possible to reduce the current consumption of an \at{} from 4.5mA to 0.0005mA with 'power down sleep' mode.
+
+!de In Micro Controllern sind diese Mechanismen viel umfassender als in landläufigen Prozessoren. Micro Controller kann man auch darin unterbrechen gar nichts zu tun! Das heisst, es ist möglich das gesamte System nahezu abzuschalten, es aus dem Tiefschlaf zu wecken um etwas zu tun und es danach wieder schlafen zu lassen. In einem solchen Zustand bleibt der Prozessor im Micro Controller effektiv stehen. Der Stromverbrauch eines \at{} kann in einer solchen Tiefschlafphase von 4.5mA auf 0.0005mA reduziert werden.
+
+
+
+!en Such applications are useful if energy resources are small. For example, if you wish to drive your weather station one or more years on a single AAA cell or less, possibly supported by solar power.
+
+!de Solche Anwendungen sind sinnvoll wenn es darum geht, besonders energiesparend zu arbeiten. Beispielsweise wenn es darum geht, eine Wetterstation ein oder mehr Jahre mit einer AAA Zelle zu betrieben, vielleicht auch mit Hilfe von Sonnenenergie.
+
+
+
+!en In such applications you wish to reduce power consumption of your system as far as possible. There is no need to let your micro controller permanently do eight million cycles per second if you take a measurement every ten minutes! It may be much better so stop the whole system until the next measurement is to start.
+
+
+!de n solchen Situationen geht es darum, den Energiebedarf des Systems so stark zu senken wie irgend möglich. Es gibt keinen Grund, die Micro Controller ununterbrochen acht Millionen Maschinenzyklen pro Sekunde ausführen zu lassen, wenn man nur alle zehn Minuten eine Messung durchführen will! Es sicher viel sinnvoller das System zu stoppen bis der Zeitpunkt der nächsten Messung eintritt.
+
+
+
+!en You already may expect it. Such code does not need to loop with full processing power to do nothing, such code really does nothing while waiting:
+
+!de Vielleicht hast Du den Verdacht schon entwickelt. Ein solches Programm muss nicht endlos in einer Programmschleife verharren um nicht zu tun, es tut wirklich nichts wenn nichts passiert.
+
+
 
 \begin{lstlisting}
-; LED/S005_stable-decisions-trigger.asm
+; LED/S006_stable-decisions-trigger.asm
 
 .DEVICE atmega8
 
@@ -37,5 +70,11 @@ trigger0:
             reti
 \end{lstlisting}
 
-This approach also has the advantage to not need the otherwise necessary status accumulator register and consequently no comparison between former and current status. It simple needs to change the current status of the light if called.
+!en This approach also has the advantage to not need the otherwise necessary status accumulator register and consequently no comparison between former and current status. It simple needs to change the current status of the light if called.
+
+!de Mit diesem Ansatz benötigen wir auch keine Zustandsspeicher oder Statusregister um den letzten Zustand zwischen zu speichern. Es genügt, den aktuellen Zustand de Ausgangssignals umzukehren wenn das Umschaltereignis eintritt.
+
+\begin{lstlisting}
+; LED/S006_stable-decisions-trigger.asm
+\end{lstlisting}
 
