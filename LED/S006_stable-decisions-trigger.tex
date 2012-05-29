@@ -59,7 +59,7 @@
             rjmp    trigger0
             
 start:
-            ...
+            ...               ; initialising MC and devices
             
 main:
             sleep             ; shutting down the system!
@@ -74,7 +74,34 @@ trigger0:
 
 !de Mit diesem Ansatz benötigen wir auch keine Zustandsspeicher oder Statusregister um den letzten Zustand zwischen zu speichern. Es genügt, den aktuellen Zustand de Ausgangssignals umzukehren wenn das Umschaltereignis eintritt.
 
+
+
+!en The two important application sections now look like this:
+
+!de Die beiden wesentlichen Programmabschnitte sehen damit so aus:
+
 \begin{lstlisting}
 ; LED/S006_stable-decisions-trigger.asm
+...
+
+; PROGRAM SECTION
+
+main:
+            sleep
+            rjmp    main
+
+; INTERRUPT SERVICE SECTION
+
+ext_int0:
+            sbis    pinOutput,    bitOutput
+            jmp     led_on
+led_off:
+            cbi     prtOutput,    bitOutput
+            jmp     ext_int0_end
+led_on:
+            sbi     prtOutput,    bitOutput
+
+ext_int0_end:
+            reti
 \end{lstlisting}
 
