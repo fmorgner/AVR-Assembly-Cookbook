@@ -77,6 +77,8 @@
 
 ;aaa nnnnnnnnnnnnnnnnnn = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
+; I/O assignments
+
 .equ ddrOutput          = DDRB                             ; Data Direction Register for the Output Port we use
 .equ prtOutput          = PORTB                            ; PORT we use for Output
 .equ pinOutput          = PINB                             ; PIN register associated to our Output Port
