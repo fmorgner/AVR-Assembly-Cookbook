@@ -1,11 +1,11 @@
 %\documentclass[twoside,a4paper,ngerman, german,12pt,authoryear,openright]{book}
 %\documentclass[twoside,english,12pt,authoryear,openright]{book}
-\documentclass[twoside,12pt,authoryear,openright]{book}
+\documentclass[twoside,12pt,authoryear,openright,a4paper]{book}
 
 !en \usepackage[english]{babel} 
 !de \usepackage[ngerman]{babel} 
 
-\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
+\usepackage[top=1.5cm, left=2.5cm, bottom=1.5cm, right=1.5cm, includefoot, includehead]{geometry} 
 \geometry{a4paper} % or letter or a5paper or ... etc
 
 \usepackage{graphicx}
@@ -13,10 +13,9 @@
 \usepackage{pslatex}
 \usepackage[utf8]{inputenc} 
 \usepackage[T1]{fontenc}
+%\usepackage[widemargins]{a4}
 \usepackage{fancyhdr}
 \usepackage{bookmark}
-
-
 \usepackage{listings}
 \usepackage{courier}
 \usepackage{color}
