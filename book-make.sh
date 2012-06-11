@@ -49,10 +49,19 @@ if [ ! -f $LATEX  ]
 for LANG in de en
   do
   FOUT="${FINP%%.tex}-$LANG.tex"
-  FLOG="${FINP%%.tex}-$LANG-compile.log"
+  FLOG="${FINP%%.tex}-$LANG.compile.log"
 
   `dirname $0`/book-helper.sh $FINP $LANG > $FOUT
 
-  $LATEX --file-line-error --interaction nonstopmode --shell-escape --synctex=1 $FOUT > $FLOG
+  $LATEX --file-line-error --interaction nonstopmode --shell-escape --synctex=1 $FOUT >  $FLOG
+  $LATEX --file-line-error --interaction nonstopmode --shell-escape --synctex=1 $FOUT >> $FLOG
+
+  for FCLEAN in `find ${FINP%%.tex}-$LANG.*`
+    do
+    if ! [ ${FCLEAN:(-4)} == ".pdf" ]
+      then 
+      rm $FCLEAN
+      fi
+    done
   done
 
