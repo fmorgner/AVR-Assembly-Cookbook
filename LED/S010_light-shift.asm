@@ -61,7 +61,7 @@
 
 
 start:
-     ldi     bTemp,        mskLightShift | 1 << bitSignal  ; set PORTB/bits 1,2,3,5 to output rest to input
+     ldi     bTemp,        mskLightShift | 1 << bitSignal  ; set PORTB/bits 1,2,3,5 to output, the rest to input
      out     ctlIO,        bTemp
      ldi     bTemp,        1 << bitInput | 1 << bitSignal  ; enable pullup resistor on PORTB/bit0 and
      out     prtIO,        bTemp                           ; ... set ON LED on PORTB/bit5
@@ -78,7 +78,7 @@ main:
      in      bData,        pinIO                           ; read in data of IO Port
      mov     bTemp,        bData                           ; copy data for manipulation
      andi    bData,        0xFF - mskLightShift            ; mask out all bits not used in light shifting (to restore them later)
-     ori     bData,        1 << bitInput                   ; ensure 'input bit' keeps his rissitor pulled up
+     ori     bData,        1 << bitInput                   ; ensure 'input bit' keeps his resitor pulled up
 
      andi    bTemp,        mskLightShift                   ; mask out all bits used in light shifting (to be sure)
      lsr     bTemp                                         ; shift the active light to the right
