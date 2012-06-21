@@ -1,7 +1,7 @@
 !en \section{Get me on, leave me off}
 !de \section{Mach' mich an, lass' mich aus}
 
-!en At first the enhanced schema
+!en X
 
 !de Zuerst die erweiterte Schaltung
 
@@ -34,35 +34,35 @@ start:
             sbi     PORTB,        0
 
 main:
-            sbic    PINB,         0
-            rjmp    led_on
-            cbi     PORTB,        5
-            rjmp    led_ok
+            sbic    PINB,         0 ; 1 cycles if false or 2
+            rjmp    led_on          ; 2 cycles
+            cbi     PORTB,        5 ; 1 cycle
+            rjmp    led_ok          ; 2 cycles
 led_on:
-            sbi     PORTB,        5
+            sbi     PORTB,        5 ; 1 cycle
 led_ok:
-            rjmp    main
+            rjmp    main            ; 2 cycles
 \end{lstlisting}
 
-!en As you may have guessed, this code represents the 'second form of a standard program'. It does something before the loop - ones - but also does something in the main loop. This program is really busy as we will see in the next program.
+!en X
 
-!de Wie Du sicher schon vermutet hast ist dies bereits ein Programm der 'Zweiten Form'. Es tut nicht nur etwas \textit{vor} der Endlosschleife, sondern ebenfalls etwas darin. Dieses Programm hat wirklich viel zu tun, wie noch sehen werden.
-
-
-
-!en The first difference to the former program is, that we use an additional pin/bit. This time for input. To set this pin, bit 0 on port B at pin 14 of the micro controller, to input mode, we send a \texttt{0} to its data direction register (\texttt{DDR}). Further we send a \texttt{1} to this bit 0 of the port as if we would set the port to output +5V. But this bit is in 'output mode'. In this case, sending \texttt{1} to the bit at the port means: 'Switch on the internal pull-up resistor\footnote{A pull-up resistor is used to set a defined signal to not connected pins. It generate a signal which is VCC = +5V = logical \texttt{1}.}'.
-
-!de Der erste Unterschied zum vorherigen Programm ist, dass wir ein zusätzliches Bein benutzen, diesmal um ein Eingangssignal zu erkennen. Um dieses Bein, Bit 0 an Port B = Bein 14 am MC, auf den Input Modus zu schalten, senden wir eine \texttt{0} an das entsprechende 'Data Direction Register' (\texttt{DDR}). Ausserdem senden wir eine \texttt{1} auf das Bit am entsprechenden Port. Was im Ausgabemodus bedeuten würde 'Schalte +5V an das Bein', heisst im Eingabemodus: 'Schalte den pull-up-Widerstand\footnote{Ein pull-up-Widerstand ist ein Widerstand, der dazu benutzt wird, um den Signalpegel an einem Bein 'hoch' zu legen. Hier auf die Betriebsspannung, VCC = +5V = Logisch \texttt{1}. Er dient dazu um an einem Eingangsbein auch dann einen stabilen Zustand zu erreichen, wenn kein Element angeschlossen ist.} zu'.
+!de Wie zu vermuten war, handelt es sich hier bereits ein Programm der 'Zweiten Form'. Es tut nicht nur etwas \textit{vor} der Endlosschleife, sondern ebenfalls etwas darin. Dieses Programm hat wirklich viel zu tun, wie noch sehen werden.
 
 
 
-!en After this, the signal read from this bit is 'ON' or '1'. To interact with the micro controller and change the signal to 'OFF', we need to pull-down the pin to GND.
+!en X
 
-!de Danach können wir vom Eingangsbein den Status 'EIN' oder '1' lesen. Um eine Reaktion am MC zu erreichen und das Eingangssignal auf 'AUS' oder '0' zu setzen, müssen wir das Beim auf Masse legen.
+!de Der erste Unterschied zum vorherigen Programm ist, dass wir ein zusätzliches Bein benutzen, diesmal um ein Eingangssignal zu erkennen. Um dieses Bein, Bit 0 an Port B = Bein 14 am MC, auf den Input Modus zu schalten, senden wir eine \texttt{0} an das entsprechende 'Data Direction Register' (\texttt{DDR}), also \texttt{cbi DDRB, 0}. Ausserdem senden wir eine \texttt{1} auf das Bit am entsprechenden Port, \texttt{sbi PORTB, 1}. Was im Ausgabemodus bedeuten würde 'Schalte VCC an das Bein', heisst im Eingabemodus: 'Schalte den pull-up-Widerstand\footnote{Ein pull-up-Widerstand ist ein Widerstand, der dazu benutzt wird, um den Signalpegel an einem Bein 'hoch' (auf VCC) zu legen = \texttt{1}. Er dient dazu um an einem Eingangsbein auch dann einen stabilen Zustand zu erreichen, wenn kein Element angeschlossen ist.} zu'.
 
 
 
-!en If we do so, our program switches the light off as long as we ground our input bit, which does not make real impressive application to boast around with. For us it is great anyway because we understand what happens!
+!en X
+
+!de Danach können wir vom Eingangsbein den Status 'EIN' oder '1' lesen. Um eine Reaktion am MC zu erreichen und das Eingangssignal auf 'AUS' oder '0' zu setzen, müssen wir das Beim auf GND ziehen.
+
+
+
+!en X
 
 !de Wenn wir das machen, schaltet unser Programm das Licht aus solange wir das Eingangsbein auf Masse legen. Das ist nicht direkt eine Anwendung mit der wir gross angeben können. Für uns ist es dennoch grossartig weil wir verstehen was passiert!
 
@@ -70,82 +70,139 @@ led_ok:
 
 !en If you follow the programs flow:
 
+%de Das Programm läuft folgendermassen ab:
+
 \begin{enumerate}
 !en   \item Initialise system and all connected devices
 !de   \item Initialisiere das System und die angeschlossenen Geräte
-!en   \item Read bit 0
-!de   \item Lese Bit 0
+!en   \item (*) Read bit 0
+!de   \item (*) Lese Bit 0
 !en   \item Set bit 5 accordingly
 !de   \item Setze Bit 5 entsprechend
-!en   \item Start with (2)
-!de   \item Weiter bei (2)
+!en   \item Continue with (*)
+!de   \item Weiter bei (*)
 \end{enumerate}
 
-!en You may ask why we permanently output a signal that nearly never changes. Assuming our program reads the input bit one million times per second, a human will not be able to put any business to this program by flipping the switch on and off. If you pick on your signal line as fast as you can then in the eye of your program the signal nearly never changes.
-
-!de Du wirst vielleicht fragen wollen, wieso ständig das gleiche Signal auf das Ausgabebit ausgegeben wird. Wenn wir einmal grob annehmen, dass unser Programm das Eingangsbit ca. eine Million mal pro Sekunde liest (eher 8 Mio. mal), ist einzusehen, dass ein Mensch mit einem Tasten kaum 'Last' für unseren MC erzeugen kann. Wenn Du auf dem Schalter einhämmerst so schnell Du kannst, passiert aus der Sicht des Micro Controllers so gut wir gar nichts, das Signal ändert sich dann für den MC in historischen Zeiträumen.
 
 
-!en Is there room for optimisation? We believe not.
+!en X
 
-!de Kann man das optimieren? Wir glauben nicht.
+!de Jemand, der dieses Programm unter dem Blickwinkel der Sparsamkeit betrachtet, wird sich womöglich fragen, wieso ständig das gleiche Signal auf das Ausgabebit ausgegeben wird. Wenn wir einmal grob annehmen, dass unser Programm das Eingangsbit ca. eine Million mal pro Sekunde liest (eher 8 Mio. mal bei 8MHz ), ist einzusehen, dass ein Mensch mit einem Tasten kaum 'Last' für unseren MC erzeugen kann. Wenn ein Mensch auf den Schalter einhämmert so schnell er kann, passiert aus der Sicht des Micro Controllers so gut wir gar nichts, das Signal ändert sich auf diese Weise für den MC in historischen Zeiträumen.
+
+
+!en X
+
+!de Die tatsächliche Abfragefrequenz ist möglicher Weise unterschiedlich für die beiden Systemzuständen (Signal \texttt{1} oder \texttt{0}). Wir rechnen kurz nach:
+
+\begin{enumerate}
+!en   \item X
+!de   \item Signal = '\texttt{1}' entspricht 5 Zyklen
+!en   \item X
+!de   \item Signal = '\texttt{0}' entspricht 7 Zyklen
+\end{enumerate}
 
 
 
-!en Are there alternatives? Yes there are!
+!en X
+
+!de Die Schleifendurchlauffrequenz können wir einfach berechnen, indem wir die Taktfrequenz des Prozessors durch die Anzahl der erforderlichen Taktzyklen für einen Schleifendurchlauf teilen.
+
+\begin{equation}
+f_{Loop} = \frac{f_{CPU}}{d}
+\end{equation}
+
+!en X
+
+!de Wobei d die 'Dauer' eines Schleifendurchlaufs in Zyklen pro Schleifendurchlauf ist. Das bedeutet, dass der MC ohne Druck auf den Taster 8/5 Mio. Mal pro Sekunde den Schaltzustand des Tasters anfragt und bei gedrücktem Taster 8/7 Mio. Mal pro Sekunde.
+
+
+!en X
+
+!de Solche Abfragefrequenzen sind im Allgemeinen unsinnig. Es gibt Fälle, in denen auch die Bedienung von Tasten durch Menschen zeitkritisch sind, wenn es sich um Musikinstrumente handelt, kommt es auf Millisekunden an. Aber um ein Licht einzuschalten, genügen problemlos 30 Schleifendurchläufe je Sekunde. Mehr kann der Mensch ohnehin nicht erkennen. Kann man das System also optimieren? Wir glauben nicht.
+
+
+
+!en X
 
 !de Gibt es andere Lösungen? Ja, die gibt es!
 
 
 
-!en We could save the output status, compare the status from the input bit with the stored status the light was set to and only change the output signal if the input signal has changed.
+!en \subsection{CPU Frequency}
+!de \subsection{CPU Frequenz anpassen}
 
-!de Wir könnten den zuletzt ausgegebenen Status speichern. Dann könnten wir in der nächsten Programmschleife prüfen ob sich der eingelesene Status zum vorherigen Status geändert hat und nur dann ein Signal an das Bein ausgeben, wenn eine solche Änderung vorliegt.
+!en X
 
-
-
-!en This sounds easy, but it is not! It is not only not easy, it is dangerous, costly and complicated. And it is of no use, because you do a lot of commands without any effect.
-
-!de Das klingt einfach, ist es aber leider nicht! Es ist nicht nur nicht einfach, es ist gefährlich, kostspielig und kompliziert. Und es ist effektiv sinnlos weil wir eine Menge Aufwand treiben würden, ohne dass sich etwas verbessert.
+!de Wir könnten die Taktfrequenz, mit der die CPU operiert senken. Je nach Einsatzfall kann das tatsächlich helfen, Energie zu sparen, wäre aber damit verbunden, die Rechenleistung des Systems zu reduzieren und kann nachteilig wirken, wenn zusätzliche Aufgaben erledigt werden.
 
 
 
-!en The concept is dangerous because you may be out of synchronisation with your light. In this case you light may react inverse to your intension or does not react at all.
+!en X
 
-!de Das Konzept ist gefährlich weil das Programm aus dem Rhythmus kommen könnte. Danach würde es falsch herum arbeiten oder überhaupt nicht mehr auf Eingangssignale reagieren.
-
-
-
-!en It is costly not only because the program would be much larger but you need to eat up one CPU register (for storing the status) and we only have 32 of them at all.
-
-!de Es ist kostspielig weil das Programm nicht nur viel grösser würde, wir würden ausserdem ein CPU Register verbrauchen (um den Status zu speichern) und wir haben total nur 32 Stück!
+!de Es kann allerdings nicht schaden, sich in jedem Fall Gedanken über die Taktfrequenzen zu machen, die in einem Micro Controller zusammenkommen. Sowohl nach unten wie auch nach oben. Letztlich beeinflusst eine solche Entscheidung auch die Auswahl des Micro Controllers als solchem.
 
 
 
-!en And it is complicated because you have to synchronise two entities (the light and the status register) to generate one effect. Which is a major risk and drawback.
+\subsection{Interrupts}
 
-!de Und es ist kompliziert weil wir zwei unabhängige Einheiten zusammenhalten müssen (das Licht und das Statusregister) um nur einen Effekt zu erzielen. Das ist ein grosses Risiko und ein Nachteil gegenüber der vorliegenden Lösung.
+!en X
 
-
-
-!en Because of this, we might be right in our assumption that the developers of our \at{} micro controller created the chip in such a way that nothing happens if we switch on a bit that is ON already.
-
-!de Deswegen liegen wir vielleicht nicht falsch mit der Vermutung, dass die Entwickler unseres \at{} Micro Controllers ihren Chip so entwickelt haben, dass in Wirklichkeit gar nichts gemacht wird, wenn wir eine '1' auf ein Steuerbit senden, dass bereit auf '1' gesetzt ist.
+!de Vielleicht könnte man auch Interrupts verwenden, um die Signalisierung des Schalterstatus umzukehren. Der Mikroprozessor erledigt dann die Abfrage für uns und signalisiert dem Programm aktiv, dass der Knopf gedrückt wurde. Dieses Verfahren macht einen ruhigeren Eindruck, läuft technisch aber auf das gleiche Prinzip hinaus, mit dem Unterschied, dass wir einen grossen Aufwand zur Initialisierung der Interruptauslösung betreiben müssten, ohne dass die CPU weniger rotieren hätte. Die Hauptprogrammschleife wäre dann leer. Doch sie würde sich auch leer mir dem vollen CPU Takt um sich selbst drehen.
 
 
 
-!en Another alternative may be to 'stop' the program as long as it waits for the input signal to change. This may be possible, but it lies far behind our current knowledge.
+!en X
 
-!de Ein anderer Vorlschlag könnte sein, das Programm anzuhalten solange wir auf ein Eingangssignal warten. Das sollte möglich sein, liegt aber momentan weiter über unseren Kenntnissen.
-
-
-
-!en There is no command that makes the micro controller wait for an input signal. But there are ways to reach a similar effect.
-
-!de Es gibt keinen Befehl, der einen MC veranlasst, auf ein Eingangssignal zu warten. Aber es ist durchaus möglich, ein Programm zu entwickeln, dass so wirkt als gäbe es einen solchen.
+!de Das heisst, das Programm wird komplizierter - wie wir sehen werden schränkt ein solches Verfahren sogar die Anzahl der Pins ein, die als Schaltereingang benutzt werden können - aber die CPU Last bleibt gleich.
 
 
+!en X
 
-!en Which means, for now we are out of options and have to stay with the solution as presented in this section. But we will come to status management later.
+!de Wirklich nützlich wird dieses Verfahren erst, wenn die CPU abgeschaltet werden könnte, während sie auf einen Interrupt wartet oder - dann sowieso - wenn das Programm parallel noch eine Reihe anderer Aufgaben zu lösen hätte. Beides werden wir noch demonstrieren. Beides ist in der aktuellen Phase aber noch zu komplex.
 
-!de das heisst, momentan haben wir keine Wahl und müssen bei der vorliegenden Lösung bleiben. Aber bald werden wir auch ins Reich der Statusverwaltung vordringen.
+
+
+!en \subsection{X}
+!de \subsection{Statusverwaltung}
+
+
+
+!en X
+
+!de Wir könnten den zuletzt ausgegebenen Status speichern. Dann könnten wir in der nächsten Programmschleife prüfen ob sich der eingelesene Status zum vorherigen Status geändert hat und nur dann ein Signal an das Bein ausgeben, wenn eine solche Änderung vorliegt. Das könnte uns ersparen, 8/5 oder 8/7 Mio. Mal pro Sekunde den unveränderten Status an die LED auszugeben.
+
+
+
+!en X
+
+!de Das klingt gut und einfach, ist es aber leider nicht! Es ist nicht nur nicht einfach, es ist gefährlich, kostspielig und kompliziert. Und es ist effektiv sinnlos weil wir eine Menge Aufwand treiben würden, ohne dass sich wirklich etwas verbessert.
+
+
+
+!en X
+
+!de Dieses Konzept ist gefährlich weil das Programm aus dem Rhythmus kommen könnte. Danach würde es falsch herum arbeiten oder überhaupt nicht mehr auf Eingangssignale reagieren.
+
+
+
+!en X
+
+!de Es ist kostspielig weil das Programm nicht nur viel grösser würde, wir würden ausserdem ein CPU Register verbrauchen (um den Status zu speichern) und wir haben um \at{} total nur 32 Stück von denen nur die Hälfte einfach zu benutzen ist!
+
+
+
+!en X
+
+!de Und es ist kompliziert weil wir zwei unabhängige Einheiten im Gleichlauf halten müssen (das Licht und das Statusregister) um vielleicht einen Effekt zu erzielen. Das ist ein grosses Risiko und ein Nachteil gegenüber der vorliegenden Lösung.
+
+
+
+!en X
+
+!de Aus diesen Gründen liegen wir vielleicht nicht falsch mit der Vermutung, dass die Entwickler unseres Micro Controllers ihren Chip so entwickelt haben, dass in Wirklichkeit gar nichts gemacht wird, wenn wir eine '1' auf ein Steuerbit senden, dass bereit auf '1' gesetzt ist. Diese Form der Optimierung darf man erwarten.
+
+
+
+!en X
+
+!de In der Summe heisst das, dass wir momentan am Ende unsere Möglichkeiten sind Wir müssen hier also bei der vorliegenden Lösung bleiben. Die Vorgeschlagenen Ansätze werden später allerdings noch aktuell werden.

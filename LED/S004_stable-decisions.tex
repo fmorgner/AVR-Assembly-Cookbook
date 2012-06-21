@@ -1,23 +1,57 @@
-\section{Stable Decisions}
+!en \section{Stable Decisions}
+!de \section{Stabile Entscheidungen}
 
-For the next step we need to do something more useful. But we stay with the 'second form of a standard program': A program that does something in its infinite loop.
 
-This program stores one of two states ;-) and sets the light on or off, keeping it according to the stored status. This explanation is slightly wrong. I try it again.
 
-This program recognises an input signal consisting of two phases. A complete input signal consist of a LOW phase starting from a HIGH phase followed by the next HIGH phase. The signal ends with entering the HIGH phase again. We are interested only in change, as we always should.
+!en X
 
-If the Input signal changes from HIGH to LOW, our program changes the light from its current status to the opposite status. If the light was ON it will be set to OFF and vice versa. The status is only changed as reaction of changing the Input from HIGH to LOW because 'no action' at the Input device leads to HIGH status in the input bit as result of using an internal pull-up resistor who does what he is called - he pulls the input signal up to HIGH.
+!de In diesem Beispiel sollten wir etwas sinnvolleres unternehmen. Das werden wir unter Beibehaltung des Programmrahmens. Es bleibt also zunächst bei einem Programm der 'zweiten Form': Ein Programm, dass etwas in seiner Endlossschleife tut.
 
-The electrical signal we are waiting for with our micro controller on our input bit is: Pulling the status down to LOW (GND). We may phrase:
+
+
+!en X
+
+!de Das Programm speichert einen von zwei Zuständen ;-) und stellte das Licht an oder aus, abhängig vom gespeicherten Zustand. Diese Erklärung ist nicht ganz richtig. Darum versuche ich es noch einmal.
+
+
+
+!en X
+
+!de Das Programm erkennt ein Signal am Eingang, an einem Phasenwechsel. Ein vollständiges Signal besteht aus dem Wechsel des Eingangspegels von HOCH nach NIEDRIG und wieder nach HOCH. Das Programm interessiert sich nur für den Wechsel, worauf auch wir uns immer konzentrieren sollten. Wenn der Signalpegel von HOCH nach NIEDRIG wechselt, kehrt unser Programm den Status der LED um. Wenn das Licht AN war, geht es AUS und umgekehrt. 
+
+
+
+!en X
+
+!de Das Ausgangssignal wird umgekehrt wenn der Eingangspegel von HOCH nach NIEDRIG wechselt weil durch die Verwendung eines 'pull up' Widerstandes der Pegel am Eingang HOCH ist, während der Knopf \textit{nicht} gedrückt wird. Auf den Wechsel von HOCH nach NIEDRIG zu reagieren bedeutet also, die Aktion in dem Moment auszulösen wenn der Schalter gedrückt wird.
+
+
+
+!en X
+
+!de Wir dürfen davon ausgehen, dass das das ist, was der Benutzer des Programms höchstwahrscheinlich erwartet. Denn ein solches Verhalten entspricht den meisten Lichtschaltern mit denen wir konfrontiert werden.
+
+
+
+!en X
+
+!de Das \textit{elektrische} Signal, auf das unser MC am gewählten Eingangsbein wartet ist der Wechsel des Spannungszustandes von HOCH (VCC) nach NIEDRIG (GND). Um exakt zu sein sollten wir die Erwartungshaltung so formulieren:
 
 \begin{center}
-The \emph{Signal} we are waiting for is the \emph{Change} form HIGH to LOW.
+!en The \emph{Signal} the MC is waiting for is the \emph{Change} form VCC to GND.
+!de Das \emph{Signal} auf dass der MC wartet ist der \emph{Wechsel} von VCC nach GND.
 \end{center}
 
 
-So for the first time we have to be aware of a dynamic process. If the change of the status is the signal, then we have to recognise if the status is change. If a status appears after the opposite status was recognised - in the past - which is then no more present (!) we have to deal with 'historical' status management and so for the first time we remember a status from one processing cycle to the next.
 
-Finally this here is the Code to do it:
+!en X
+
+!de Zum ersten Mal (und hoffentlich nicht zu oft) haben wir uns mit einem dynamischen Zustand zu beschäftigen. Wenn der Wechsel des Pegels das Signal ist, müssen wir den Umstand 'hat gewechselt' erkennen. Wenn also der Pegel NIEDRIG erkannt wird, \textit{unmittelbar} nachdem der Pegel HOCH war (also in der nahen Vergangenheit!), haben wir es gewissermassen mit Vergangenheitsbewältigung zu tun. Dafür muss sich unser Programm zum ersten Mal in einem Verarbeitungszyklus an einen vergangenen Pegel/Messwert aus dem vorherigen Verarbeitungszyklus erinnern.
+
+
+!en X:
+
+!de Und das geht so:
 
 \begin{lstlisting}
 ; LED/S004_stable-decisions.asm
@@ -54,18 +88,35 @@ led_ok:
 \end{lstlisting}
 
 
-As you can see, this Code is not easy to understand. To do better, we add symbolic names to the soup. The basics are easy:
+
+!en X:
+
+!de Wie man leicht erkennen kann, ist dieser Programmcode nicht leicht zu verstehen. Um dieses Missstand abzustellen, wollen wir ein paar symbolische Namen in die Suppe rühren. Die Grundlagen sind:
 
 \begin{itemize}
-  \item \texttt{.equ} means: 'a name for a value'
-  \item \texttt{.def} means: 'a name for an entity'
+!en   \item \texttt{.equ} means: 'a name for a value'
+!de   \item \texttt{.equ} heisst: 'ein Name für einen Wert' (Zahl oder Text)
+!en   \item \texttt{.def} means: 'a name for an entity'
+!de   \item \texttt{.def} heisst: 'ein Name für ein Ding' (z.B: CPU Register)
 \end{itemize}
 
-So for example \texttt{DDRB} already is a number. This number is defined in an include file chosen by you device selection. In our case, whatever number is hidden behind the name DDRB it will be our Input/Output control port. So the name will be \texttt{ctl} as prefix for 'control' and \texttt{IO} short for Input\&Output.
 
-In another sample \texttt{bit} stands for 'bit number' and \texttt{Input} for 'Input' which makes \texttt{bitInput}, the bit where we read the input status.
 
-You may define you own naming convention which better should hold throughout your project.
+!en X
+
+!de \texttt{DDRB} zum Beispiel ist bereits eine Nummer. Diese Nummer ist in einer Datei hinterlegt, die durch die Geräteauswahl bestimmt und geladen wird. In unserem Fall soll \texttt{DDRB}, unabhängig von seinem Wert, unsere Eingangs- und Ausgangsbeine bezeichnen. Wir bilden den Namen aus \texttt{ctl} als Präfix für 'Control Port' und \texttt{IO} als Abkürzung für Input\&Output. Das ergibt \texttt{ctlIO}.
+
+
+
+!en X
+
+!de Ein anderes Beispiel: \texttt{bit} für 'Bitnummer' und \texttt{Input} für Inputbit, macht \texttt{bitInput}. Oder \texttt{b} für 'Byte' und \texttt{Status} für 'Statusregister' macht \texttt{bStatus}
+
+
+
+!en X
+
+!de Es spricht nichts dagegen, eine eigene Namenskonvention zu entwickeln, eine sinnvolle Struktur sollte sich daraus aber ergeben. So könnte man beispielsweise auch \texttt{InputCtl} verwenden und \texttt{InputBit} usw. Wie es einem am leichtesten Fällt oder wie es einem vorgeschrieben wird.
 
 \begin{lstlisting}
 ; LED/S005_stable-decisions+symbols.asm
@@ -85,7 +136,11 @@ You may define you own naming convention which better should hold throughout you
 .def bStatus   = r16     ; the last state will be stored in 'r16'
 \end{lstlisting}
 
-As you may not have expected, this makes the soup - or code - somehow better readable and much easier to understand. Now it looks more like a higher language:
+
+
+!en X
+
+!de Diese Massnahme macht den Code meistens leichter lesbar und somit leichter zu verstehen und zu interpretieren. Jener sieht dann so aus (fast schon wie eine Hochsprache):
 
 \begin{lstlisting}
 .org 0x0000
@@ -117,48 +172,95 @@ led_ok:
             rjmp    main
 \end{lstlisting}
 
-Also it provides us with the possibility of changing things with reduced risk. Shortly we had to change the schema a bit to support additional ideas and we changed \texttt{bitInput} from 4 to 0. Using symbolic names this was much easier and much less risky to do because we only needed to change the definition for \texttt{bitInput}!
 
-Even if symbols make a better reading than constants, it seems not really to be easy to follow the program flow. So at first, we should introduce a program flow chart. And for good measure two of them. We need two of them to demonstrate a major point in assembler programming.
+!en X
 
-We have to take watch about WHAT we wish to do, but equally to about HOW we are going to do it.
+!de Zusätzlich vereinfacht die Verwendung von Symbolen Änderungen. Kürzlich mussten wir \texttt{bitInput} von \texttt{4} auf \texttt{0} ändern. Durch die Verwendung symbolischer Namen war diese Änderung leichter und mich weniger Risiko zu machen als bei der Verwendung unmittelbarer Werte. Man kann nicht einfach alle \texttt{4}en im Text durch \texttt{0}en ersetzen, darf bei einer solchen Änderung aber auch keine der zu ändernden \texttt{4}en vergessen. Mit symbolischen Namen allerdings muss man den Programmtext nur an einer einzigen Stelle ändern.
 
-\subsection{WHAT to do}
+
+
+!en X
+
+!de Doch auch wenn sich der Text mit Symbolen angenehmer lesen lässt, ist er, was man nicht auf den ersten Blick erkennen kann, noch nicht ohne weiteres zu verstehen. Darum zeigen wir hier für das erste Mal einen Programmablaufplan. Aus gutem Grund verwenden wir gleich zwei davon. Wir brauchen zwei um einen wesentlichen Punkt der Assemblerprogrammierung zu zeigen.
+
+
+
+!en X
+
+!de Wir müssen nicht nur verfolgen \textit{was} wir tun müssen, sondern auch \textit{wie} das getan wird.
+
+
+
+!en \subsection{WHAT to do}
+!de \subsection{\textit{Was} getan wird}
 
 \begin{enumerate}
-  \item Initialise system and devices
-  \item Wait for the change "input bit was HIGH and became LOW"
-  \item Invert LED status
-  \item Restart at (2)
+!en   \item Initialise system and devices
+!de   \item Das System un die Geräte initialisieren
+!en   \item Wait for the change "input bit was HIGH and became LOW"
+!de   \item Warten auf "Eingang war HIGH und ist jetzt LOW"
+!en   \item Invert LED status
+!de   \item Umkehren des LED Status
+!en   \item Restart at (2)
+!de   \item Neu starten bei (2)
 \end{enumerate}
 
 
-\subsection{HOW to do it}
 
-To get an impression on how to it, at first, we take a look at a flow diagram. This diagram shows the program flow.
+!en \subsection{HOW to do it}
+!de \subsection{\textit{Wie} es getan wird}
+
+
+
+!en X
+
+!de Um einen Eindruck zu erhalten wie es getan wird, werfen wir einen Blick auf den Ablaufplan.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[height=210mm]{LED/S005_stable-decisions+symbols.eps}
-  \caption{Stable Decisions - Flow Diagram}
+!en   \caption{Stable Decisions - Flow Diagram}
+!de   \caption{Stabile Entscheidungen - Ablaufplan}
   \label{S005FlowDiagam}
 \end{figure}
 
-As you may have found out until now, dealing with the 'human device interface' is the most complicated thing in informatics. It starts with the unbearable slowness of bio entities and does not end with humans expectations against machines. Which means the user is problem number one in software development and for this has to be the main focus! Otherwise your product will not be accepted by those who should pay our wages!
 
-\subsubsection{Slow users}
 
-A living entity presses a button and our device has to react. Our device may ask the input pin about 1.000.000 times per second. A human for example may do a very short pressing of a button in about 0.2 seconds. Which means, our System reads the status 'button pressed' about 200.000 times during our humans action. But what the human expects is:
+!en X
+
+!de Der grösster Störfaktor in der Informatik ist bekanntlich der Anwender. Nicht nur, dass seine Erwartungen von den Konzepten der Entwickler abweichen, es beginnt schon damit, dass er, in seinem Aufbau als Bioeinheit, unvorstellbar langsam ist. Die unglaubliche Langsamkeit des Anwenders ist ein technisches Problem, die Erwartungshaltung an die Art wie Geräte funktionieren ein ökonomisches. Wenn der gemeine Anwender unser Gerät nicht akzeptiert, wird er es nicht kaufen und wir haben nichts zu essen.
+
+
+
+!en \subsubsection{Slow users}
+!de \subsubsection{Die unglaubliche Langsamkeit des Anwenders}
+
+
+
+!en X
+
+!de Eine Bioeinheit drückt einen Knopf und unser Gerät hat zu reagieren. Dummer Weise prüft unser Gerät den Schalter vielleicht 1.000.000 Mal in jeder Sekunde. Ein Mensch z.B. mag einen Knopf sehr schnell drücken und den Kontakt im Schalter für 0.2s schliessen. Unser Gerät erkennt während dessen 200.000 Mal, dass der Schalter durchgeschaltet ist. Dies wohlgemerkt bei einem ganz schnellen Menschen. Was der Mensch aber erwartet ist:
 
 \begin{center}
-Change the light ones as I press (in my view) the button ones!
+!en Change the light ones as I press (in my view) the button ones!
+!de Schalte das Licht einmal um wenn ich (aus meiner Sicht) den Knopf einmal drücke. 
 \end{center}
 
-A problem we will not deal with in this phase of our development is, that electric switches may flicker during status change. Flickery leads to problems because it will generate random additional signals during the action phase. In general this is dealt with by electronically measures. Therefore we simply have to ensure that changing the LEDs status only happens ones per button press action and we will ignore any flickery event by not doing anything about it.
 
-\subsubsection{Fast feedback}
 
-Our feedback device is the light we control. We have no display oder acoustic device to us as feedback but the very same object that goes to be controlled. User feedback therefore simply means to manipulate the status of the light. Even if its cool in movies to do anything without any visible feedback, real living bio entities require 'immediate feedback' for every action. Otherwise they run into problems.
+!en X
+
+!de Das Gerät darf also nur einmal umschalten auch wenn es 200.000 Mal feststellt, dass der Knopf gedrückt ist. Aus diesem Grund verwendet unser Programm den Wechsel des Schaltzustandes um den Vorgang des Schaltens zu erkennen. Problematisch dabei ist, dass elektrische Schalter prellen. Das heisst, sie stellen den Kontakt nicht so her wie Nutzer es annehmen. Anstatt einmal einzuschalten, prallen die mechanischen Elemente beim Aufprall aufeinander voneinander ab und trennen die Verbindung wieder, um sie Millisekunden später wieder zu schliessen. Das kann sich unterschiedlich oft wiederholen. Wie das genau abläuft ist von unzähligen Faktoren abhängig. 
+
+
+
+!en \subsubsection{Fast feedback}
+!de \subsubsection{Schnelle Rückmeldung}
+
+!en Our feedback device is the light we control. We have no display oder acoustic device to us as feedback but the very same object that goes to be controlled. User feedback therefore simply means to manipulate the status of the light. Even if its cool in movies to do anything without any visible feedback, real living bio entities require 'immediate feedback' for every action. Otherwise they run into problems.
+
+!de Unser einziges Rückmeldegerät, dass dem 
+
 
 
 \begin{figure}[htbp]

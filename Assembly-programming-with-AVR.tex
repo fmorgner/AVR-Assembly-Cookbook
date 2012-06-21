@@ -1,11 +1,11 @@
 %\documentclass[twoside,a4paper,ngerman, german,12pt,authoryear,openright]{book}
 %\documentclass[twoside,english,12pt,authoryear,openright]{book}
-\documentclass[twoside,12pt,authoryear,openright,a4paper]{book}
+\documentclass[twoside,12pt,authoryear,openright]{book}
 
 !en \usepackage[english]{babel} 
 !de \usepackage[ngerman]{babel} 
 
-\usepackage[top=1.5cm, left=2.5cm, bottom=1.5cm, right=1.5cm, includefoot, includehead]{geometry} 
+\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
 \geometry{a4paper} % or letter or a5paper or ... etc
 
 \usepackage{graphicx}
@@ -13,9 +13,11 @@
 \usepackage{pslatex}
 \usepackage[utf8]{inputenc} 
 \usepackage[T1]{fontenc}
-%\usepackage[widemargins]{a4}
+\usepackage{a4wide}
 \usepackage{fancyhdr}
 \usepackage{bookmark}
+
+
 \usepackage{listings}
 \usepackage{courier}
 \usepackage{color}
@@ -76,55 +78,65 @@
 
 \maketitle
 
-!en This book is ongoing work. If you find errors, typos, other mistakes, please get in touch with us. We are always happy to be shown better ways, clearer views, faster solutions, lesser errors ... you name it.
+!en X
 
 !de Dieses Buch ist ein lebendes Werk. Wenn Du Fehler findest kannst Du uns kontaktieren, wir versuchen dann, die Beule auszubeulen. Wir freuen und immer, wenn uns jemand hilft, unser Buch zu verbessern, uns bessere Wege zeigt, verständlichere Beschreibungen demonstriert, schnellere Lösungen einbringt, Fehler beseitigt ... was immer nötig ist um das beste Kochbuch aller Zeiten zu entwickeln.
 
 
+!en X
 
-!en If you wish to follow our ways, it would be a good idea to get a copy of ,ATMEL 8bit AVR instruction set manual':
+!de Wir werden versuchen, die Beschreibungen kurz zu halten und im Fall von Nachfragen auszubauen. Auf diese Weise können wir uns auf das Wesentliche konzentrieren, was immer das ist.
 
-!de Wenn Du in mit diesem Buch arbeiten willst, empfehlen wir mindestens die folgende Dokumentation herunter zu laden ,ATMEL 8bit AVR instruction set manual':
+
+
+!en X:
+
+!de Wenn Du mit diesem Buch arbeiten willst, empfehlen wir mindestens die folgende Dokumentation herunter zu laden ,ATMEL 8bit AVR instruction set manual':
 
 \url{http://www.atmel.com/dyn/resources/prod_documents/doc0856.pdf}
 
 
 
-!en In our book we will not explain the commands we are using because all explanation is already worded out in the named document. Clearly we will discuss why we are using specific commands if there are known (as in the context of the book) alternatives.
+!en X
 
-!de In diesem Buch werden wir die verwendeten Befehle nicht grundlegend erklären. Diese Erläuterungen liegen bereits in der o.g. Dokumentation vor. Natürlich werden wir erläutern wieso wir bestimmte Befehle einsetzen wenn es, im Rahmen des Buches, offensichtliche Alternativen gäbe.
+!de In diesem Buch werden wir die verwendeten Befehle nicht grundlegend erklären. Diese Erläuterungen liegen bereits in der o.g. Dokumentation vor. Natürlich werden wir erläutern wieso wir bestimmte Befehle einsetzen wenn es, im Rahmen des Buches, offensichtliche Alternativen gibt oder bestimmte Spezifika beschreiben sofern es für das Verständnis einer Situation erforderlich ist.
 
 
 
-!en This book is mainly based on \at because we need to push aside micro controller model specifics. At some point we have to start to deal with this problem but we try to prevent this from happening as hard as we possibly can.
+!en X
 
 !de Dieses Buch verwendet für die Umsetzung entweder durchgehend oder überwiegend \at. Diese Einschränkung dient der Vereinfachung der Codebeispiele. Wir wollen und nicht in den Spezifika der Micro Controller Modelle verlieren und unnötig komplexen Quelltext produzieren.
 
 
 
-!en We are more destined to show what can be made and done with a small micro controller. It's clear for us, that more powerful platforms are available for a similar price. But our believe is, that learning Assembler Programming leaves deeper traces if the result of ones work is amazing in face of the used hardware, like a music instrument out of a micro controller some wire and some resistors.
+!en X
 
-!de Es geht uns auch darum zu zeigen, was bereits mit kleinen Micro Controllern erreicht werden kann. Es ist uns klar, dass grössere, schnellere Micro Controller für ähnliche Preise angeboten werden. Wir sind allerdings der Meinung, dass es viel eindrücklicher ist, mit einem sehr kleinen Micro Controller eine überraschend grosse Aufgabe zu lösen, wie zum Beispiel ein Musikinstrument aus einem \at ein paar Drähten und ein paar Widerständen.
+!de Es geht uns auch darum zu zeigen, was bereits mit kleinen Micro Controllern erreicht werden kann. Es ist uns klar, dass grössere, schnellere Micro Controller für ähnliche Preise angeboten werden. Wir sind allerdings der Meinung, dass es viel eindrücklicher ist, mit einem sehr kleinen Micro Controller eine überraschend grosse Aufgabe zu lösen, wie zum Beispiel ein Musikinstrument aus einem \at ein paar Drähten und ein paar Widerständen. Darüber hinaus ist es auch in grösseren Projekten mit umfangreicheren Ressourcen hilfreich zu wissen, worauf es im Kern der Sache ankommt. Und Assemblerprogramme sind notgedrungen in jedem Fall der Kern der Programmierung.
 
 
 
-!en This book is about Assembler Programming. We do not share the view that Assembler Programming will rescue the world. Even if its easier to save the world using Assembler Programming ;-) Each programming language has its purpose and some of them are useful too. The reader of this book wishes to learn Assembler Programming by example and has a tendency to experiment with the real thing. We try to satisfy this kind of reader by keeping the circuits simple and so price and requirements low.
+!en X
 
-!de Dieses Buch dreht sich um Assemblerprogrammierung. Wir glauben nicht, das Assemblerprogramme die Welt retten werden. Auch wenn es einfacher ist, die Welt zu retten wenn man in Assembler programmiert ;-) Jede Programmiersprache hat ihren Zweck und manche sind sogar sinnvoll. Der Leser dieses Buches möchte Assemblerprogrammierung anhand von Beispielen erlernen und experimentiert gern mit echter Hardware. Wir versuchen diese Lesergruppe zu bedienen indem wir versuchen, die Schaltungen einfach zu halten und die Kosten dafür niedrig.
+!de Dieses Buch dreht sich um Assemblerprogrammierung. Wir glauben nicht, das Assemblerprogramme die Welt retten wird. Auch wenn es einfacher ist, die Welt zu retten wenn man in Assembler programmiert ;-) Jede Programmiersprache hat ihren Zweck und manche sind sogar sinnvoll. Der Leser dieses Buches möchte Assemblerprogrammierung anhand von Beispielen erlernen und experimentiert gern mit echter Hardware. Wir versuchen diese Lesergruppe zu bedienen indem wir versuchen, die Schaltungen einfach zu halten und die Kosten dafür niedrig.
 
 \tableofcontents{}
 \listoffigures{}
 \listoftables{}
 
+
 !en \part{Simple Samples}
 !de \part{Einfache Beispiele}
+
 
 !en \chapter{Light}
 !de \chapter{Licht}
 
-!en In this chapter we will demonstrate the basics of assembly programming with AVR Micro Controllers. These samples will only require the simplest of additional hardware. If you use an Arduino, you will need only a simple wire for the first examples and the very first example nothings more than a powered Arduino.
 
-!de In diesem Kapitel demonstrieren wir die Grundlagen der Assemblerprogrammierung mit AVR Micro Controllern. In den Beispielen werden wir nur das Mindeste an Hardware verwenden. Für die ersten Beispiele wirst Du lediglich ein Stück Draht und Deinen mit Strom versorgten Arduino benötigen
+
+!en X
+
+!de In diesem Kapitel demonstrieren wir die Grundlagen der Assemblerprogrammierung mit AVR Micro Controllern. In den Beispielen werden wir nur das Mindeste an Hardware verwenden. Für die ersten Beispiele benötigen wir lediglich ein Stück Draht und einen mit Strom versorgten Arduino Uno.
+
 
 \begin{figure}[htbp]
   \centering
@@ -142,21 +154,23 @@
   \label{atmega8-let-there-be-light-schema}
 \end{figure}
 
-!en If not, you may build a circuit like in figure \ref{atmega8-get-me-on-get-me-off-schema} on page \pageref{atmega8-get-me-on-get-me-off-schema}. The breadboard layout is shown in file \texttt{LED/S000\_LED-Basic-Circuit.fz} in Fritzing file format.
+
+
+!en X
 
 !de Du kannst auch Deine eigene Schaltung aufbauen, wie in Abbildung \ref{atmega8-get-me-on-get-me-off-schema} auf Seite \pageref{atmega8-get-me-on-get-me-off-schema} gezeigt. Das Breadboard Layout kannst Du der Datei \texttt{LED/S000\_LED-Basic-Circuit.fz} entnehmen, eine Fritzing-Datei.
 
 
 
-!en As you may find out, we are focused on Free and Open Source Software. All published program code here is Free Software, the book itself and all used attachments are as free as we allowed to make them.
+!en X
 
-!de Wie Du feststellen wirst, konzentrieren wir und darauf, nach Möglichkeit Freie und Opens Source Software zu verwenden. Aller Programmcode, den wir hier zeigen ist Freie Software. Das Buch und alles darin ist so frei wie es uns erlaubt wird es zu machen.
+!de Wir konzentrieren uns darauf, nach Möglichkeit 'Freie und Open Source Software' zu verwenden. Aller Programmcode, den wir hier zeigen ist Freie Software. Das Buch und alles darin ist so frei wie es uns erlaubt wird es zu machen.
 
 
 
 !en Also we will prevent usage of non free 'things' as hard as we can. We will not force anyone to use non free products to follow our ways. On of our main goals is an intellectual contribution to the world of Free Thinking, Libre Software and cooperative work.
 
-!de Ausserdem versuchen wir, 'Dinge' zu verwenden, die nicht frei sind. Wir möchten niemanden zwingen nicht freie Produkte zu benutzen nur um diesem Buch zu folgen. Eins unserer wichtigeren Ziele ist ein Beitrag zur grossen Welt des Freien Denkens, der Libre Software und der Zusammenarbeit.
+!de Ausserdem versuchen wir zu vermeiden 'Dinge' zu verwenden, die nicht frei sind. Wir möchten niemanden zwingen unfreie Produkte zu benutzen nur um diesem Buch zu folgen. Eins unserer wichtigeren Ziele ist ein Beitrag zur grossen Welt des 'Freien Denkens', der 'Libre Software' und der Zusammenarbeit.
 
 
 
