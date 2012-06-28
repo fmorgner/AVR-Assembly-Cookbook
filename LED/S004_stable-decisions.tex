@@ -196,11 +196,13 @@ led_ok:
 
 \begin{enumerate}
 !en   \item Initialise system and devices
-!de   \item Das System un die Geräte initialisieren
-!en   \item Wait for the change "input bit was HIGH and became LOW"
-!de   \item Warten auf "Eingang war HIGH und ist jetzt LOW"
-!en   \item Invert LED status
-!de   \item Umkehren des LED Status
+!de   \item Das System und die Geräte initialisieren
+!en   \item Read input
+!de   \item Eingang auslesen
+!en   \item Check for 'input bit was HIGH and became LOW'
+!de   \item Prüfen ob 'Eingang war HIGH und ist jetzt LOW' vorliegt
+!en   \item If so: invert LED status
+!de   \item Wenn ja: Umkehren des LED Status
 !en   \item Restart at (2)
 !de   \item Neu starten bei (2)
 \end{enumerate}
@@ -218,7 +220,7 @@ led_ok:
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[height=210mm]{LED/S005_stable-decisions+symbols.eps}
+  \includegraphics[height=0.95\textheight]{LED/S005_stable-decisions+symbols.eps}
 !en   \caption{Stable Decisions - Flow Diagram}
 !de   \caption{Stabile Entscheidungen - Ablaufplan}
   \label{S005FlowDiagam}
@@ -241,64 +243,193 @@ led_ok:
 
 !de Eine Bioeinheit drückt einen Knopf und unser Gerät hat zu reagieren. Dummer Weise prüft unser Gerät den Schalter vielleicht 1.000.000 Mal in jeder Sekunde. Ein Mensch z.B. mag einen Knopf sehr schnell drücken und den Kontakt im Schalter für 0.2s schliessen. Unser Gerät erkennt während dessen 200.000 Mal, dass der Schalter durchgeschaltet ist. Dies wohlgemerkt bei einem ganz schnellen Menschen. Was der Mensch aber erwartet ist:
 
-\begin{center}
+\begin{center}\textit{
 !en Change the light ones as I press (in my view) the button ones!
 !de Schalte das Licht einmal um wenn ich (aus meiner Sicht) den Knopf einmal drücke. 
-\end{center}
+\end{center}}
 
 
 
 !en X
 
-!de Das Gerät darf also nur einmal umschalten auch wenn es 200.000 Mal feststellt, dass der Knopf gedrückt ist. Aus diesem Grund verwendet unser Programm den Wechsel des Schaltzustandes um den Vorgang des Schaltens zu erkennen. Problematisch dabei ist, dass elektrische Schalter prellen. Das heisst, sie stellen den Kontakt nicht so her wie Nutzer es annehmen. Anstatt einmal einzuschalten, prallen die mechanischen Elemente beim Aufprall aufeinander voneinander ab und trennen die Verbindung wieder, um sie Millisekunden später wieder zu schliessen. Das kann sich unterschiedlich oft wiederholen. Wie das genau abläuft ist von unzähligen Faktoren abhängig. 
+!de Das Gerät darf also nur einmal umschalten auch wenn es 200.000 Mal feststellt, dass der Knopf gedrückt ist. Aus diesem Grund halten wir uns am Wechsel des Schaltzustandes fest um den Vorgang des Schaltens zu erkennen. Wir müssen also erkennen, ob sich der Zustand am Eingangbein unseres Microcontrollers \textit{geändert} hat! Dazu benötigen wir einen Zwischenspeicher, der den Schaltzustand bei der vorherigen Messung speichert. Wechselt dieser Zustand, müssen wir das Licht umschalten.
+
+
+
+!en \subsubsection{Flickering}
+!de \subsubsection{Prellen}
+
+
+
+!en X
+
+!de Problematisch dabei ist, dass elektrische Schalter prellen. Das heisst, sie stellen den Kontakt nicht so her wie wir es annehmen. Anstatt einmal einzuschalten, prallen die mechanischen Elemente des Schalters beim Aufprall voneinander ab und trennen die Verbindung wieder, um sie Millisekunden später dank der Elastizität der Schaltelemente wieder zu schliessen. Das kann sich unterschiedlich oft wiederholen. Wie das genau abläuft ist von unzähligen Faktoren abhängig. Die elektrische Konsequenz ist vereinfacht in Grafik \ref{S005SignalDiagam-Flicker} dargestellt.
+
+
+
+!en X
+
+!de Diesem Problem begegnen wir elektronisch. Anstatt mit dem Schalter einfach direkt das Bein des Eingangs am Schaltkreis auf Masse zu ziehen, verzögern wir die Spannungsänderung mit einem Kondensator wie in Abbildung \ref{S005FlickerReduction}.
+
+
+%\begin{wrapfigure}{R}{0.25\textwidth}
+\begin{figure}[htbp]
+  \centering
+%  \begin{center}
+    \includegraphics[width=0.24\textwidth]{LED/S005_stable-decisions_no-flicker.pdf}
+%  \end{center}
+!en   \caption{Flicker reduction}
+!de   \caption{Prellunterdrückung}
+  \label{S005FlickerReduction}
+\end{figure}
+
+
+
+
+!en X
+
+!de Die Auswirkung dieser Massnahmen wird in Abbildung \ref{S005SignalDiagam} dargestellt. Grafik \ref{S005SignalDiagam-Ideal} zeigt den Spannungsverlauf am Eingangsbein des Microcontrollers wie wir ihn uns wünschen. In der Grafik \ref{S005SignalDiagam-Ideal+C} kann man erkennen, wie sich das Hinzufügen eines Kondensators (und des Widerstandes) darauf auswirken würde. Beim idealen rechteckigen Spannungsverlauf, wäre der Umschaltzeitpunkt identisch mit dem Zeitpunkt des Signalwechsels am Eingang des Microcontrollers. Durch den Kondensator wird dieser Umschaltzeitpunkt verzögert.
+
+
+
+
+!en X
+
+!de Den vereinfachten tatsächlichen Spannungsverlauf beim Schalten des Schalters zeigt Grafik \ref{S005SignalDiagam-Flicker} während Grafik \ref{S005SignalDiagam-Flicker+C} demonstriert, auf welche Weise uns der Einsatz eines Kondensators, der über einen Widerstand geladen wird, vor unkontrollierten Signalen schützt.
+
+
+
+
+!en X
+
+!de Die Kreise '\texttt{a}' und '\texttt{b}' umkreisen die Punkte an denen der tatsächliche Spannungsverlauf die Umschaltschwellen von \texttt{1} nach \texttt{0} (bzw. umgekehrt) schneidet und am Microcontoller tatsächlich der Eingangspegel wechselt. Die vertikale rote Linie in den Grafiken \ref{S005SignalDiagam-Ideal+C} und \ref{S005SignalDiagam-Flicker+C} zeigen den Moment, ab dem unser Programm den Wechsel der Eingangsspannung feststellen kann.
+
+
+
+\begin{figure}%[htbp]
+  \begin{subfigure}[htbp]{0.485\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{LED/S005_stable-decisions_ideal_signal.pdf}
+    \caption{ideal}
+    \label{S005SignalDiagam-Ideal}
+  \end{subfigure}
+  \quad
+  \begin{subfigure}[htbp]{0.485\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{LED/S005_stable-decisions_ideal_signal+C.pdf}
+!en     \caption{ideal + Capacitor}
+!de     \caption{ideal + Kondensator}
+    \label{S005SignalDiagam-Ideal+C}
+  \end{subfigure}
+
+  \begin{subfigure}[htbp]{0.485\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{LED/S005_stable-decisions_ideal_signal+flicker.pdf}
+!en     \caption{flickering}
+!de     \caption{prellend}
+    \label{S005SignalDiagam-Flicker}
+  \end{subfigure}
+  \quad
+  \begin{subfigure}[htbp]{0.485\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{LED/S005_stable-decisions_ideal_signal+flicker+C.pdf}
+!en     \caption{flickering + Capacitor}
+!de     \caption{prellend + Kondensator}
+    \label{S005SignalDiagam-Flicker+C}
+  \end{subfigure}
+!en   \caption{Stable Decisions - Signal Diagram}
+!de   \caption{Stabile Entscheidungen - Signaldiagramme}
+  \label{S005SignalDiagam}
+\end{figure}
+
+%\begin{figure}[htbp]
+%  \centering
+%  \includegraphics[width=80mm]{LED/S005_stable-decisions_ideal_signal+flicker.pdf}
+%  \includegraphics[width=80mm]{LED/S005_stable-decisions_ideal_signal+flicker+C.pdf}
+%!en   \caption{Stable Decisions - Signal Diagram flickering without and with Capacitor}
+%!de   \caption{Stabile Entscheidungen - Signaldiagramm prellend ohne und mit Kondensator}
+%  \label{S005SignalDiagam-ideal+flicker+C}
+%\end{figure}
+
+
+
+!en X
+
+!de Die blaue Linie in Grafik \ref{S005SignalDiagam-Flicker+C} zeigt den Verlauf des Pegels am Eingang nach dem Bedienen des Schalters, dessen Folgen in der roten Linie zu sehen sind. Man könnte den Eindruck gewinnen, als träte infolge der Kondensatorschaltung eine nennenswerte Schaltverzögerung ein. Dies ist aber nicht der Fall. Die Verzögerung liegt, je nach Dimensionierung des Kondensators und des Widerstandes im Bereich von Microsekunden oder Millisekunden. Eine Verzögerung also, die also nur für Maschinen spürbar ist. Die Grafiken in Abbildung \ref{S005SignalDiagam} täuschen über die wahren Verhältnisse hinweg.
 
 
 
 !en \subsubsection{Fast feedback}
 !de \subsubsection{Schnelle Rückmeldung}
 
-!en Our feedback device is the light we control. We have no display oder acoustic device to us as feedback but the very same object that goes to be controlled. User feedback therefore simply means to manipulate the status of the light. Even if its cool in movies to do anything without any visible feedback, real living bio entities require 'immediate feedback' for every action. Otherwise they run into problems.
-
-!de Unser einziges Rückmeldegerät, dass dem 
 
 
+!en X
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=120mm]{LED/S005_stable-decisions_ideal_signal.png}
-  \caption{Stable Decisions - Signal Diagram}
-  \label{S005SignalDiagam}
-\end{figure}
-
-Figure \ref{S005SignalDiagam} shows the signal we have to expect (idealised). You have to remember, that our micro controller reads the 'LOW' status of the signal 100.000 times or more often. We do not measure time! The natural timing unit in micro controllers is cycles. Read cycles, CPU cycles, sensor cycles. This is important to recognise especially because different clock frequencies and different voltage leads to different physical cycle durations. A program that measures a certain event by 1000 cycles will receive 2000 if the clock is doubled up.
-
-Different clock frequencies lead to different CPU dependent cycles. Different voltage may lead to different sensor cycles, depending on the specification of the sensor in question and the characteristics of the signal to measure. Further, different voltage may lead to different absolute sensor signals, but this is another chapter.
-
-The signal we need to recognise at the moment is the switch from HIGH to LOW and back again. The LOW level will stay for an undefined time / amount of measure cycles. What we have to focus on is the change of the signal!
-
-To deal with this there are only two moments in all this 'endless' button down phase - between 't1' and 't2' - where it is applicable to really change the LEDs status. At the beginning, as the signal changes from HIGH to LOW (t1) or at the end, where the signal changes from LOW to HIGH again (t2).
-
-To give the human who uses our device (the user) immediate feedback about success or failure of his action, we decide to use the first phase (t1) to do all the action. So we have a simple mission: If the signal is LOW now and was HIGH the last time we looked, we change the LEDs state. This satisfies also the endless LOW state of the input signal and the change from LOW to HIGH where we have to do nothing. Not even accidentally! This way, the human feels his request immediately answered, even if he is unable to comprehend on which grade immediately it real is answered.
+!de Unser einziges Rückmeldegerät, mit dem wir dem Anwender unserer Applikation auch nur irgend etwas anzeigen können ist die angesteuerte Lampe/LED. Es gibt sonst nichts. Darum bleibt uns als Kommunikationsschnittstelle nur die angesteuerte Lichtquelle selbst. Auch wenn es in manchen Filmen cool erscheinen mag, wenn Akteure ohne Rückmeldungen an komplizierten Anlagen herumspielen und irgendwo in der Welt passiert etwas, die normale Bioeinheit erwartet eine 'sofortige Reaktion' für jede erfolgreiches Aktion. Passiert das nicht, wird es für den Nutzer schwierig.
 
 
-\subsection{Finding the event}
 
-To find the event the signal has gone to ground, we have to be aware of the status of the signal from the previous query cycle. Which is easy but expensive. We simply use a register to store the previous input status.
+!en X
 
-We simply have to check if the last seen status was HIGH as log as the current status is LOW. The status accumulator register follows the status of the input signal after being used to query the change event.
-
-If the one moment we are waiting for passes, we invert the LED status. That's all
-
-
-\subsection{And some modesty}
-
-In respect of things to come, we have to be modest in our style. The 'endless loop' which keeps the micro controller running and waiting without going wild, will be used for some important things:
+!de Wie bereits erwähnt, zwingt uns diese Erwartungshaltung dazu, auf das Auftreten der ersten Schaltflanke im Schaltzyklus (HOCH nach NIEDRIG oder \texttt{1} nach \texttt{0}) zu reagieren. Wir kümmern uns nur um den Moment, in dem der Eingangspegel abfällt. Das ermöglicht uns auf die beiden wichtigen Aufgaben zu reagieren die vor uns stehen.
 
 \begin{itemize}
-  \item It mostly contains the main program
-  \item It possibly consist of multiple parts
-  \item It consist of an undefined amount of functional separate program parts
+!en   \item Give feedback as fast as possible
+!de   \item So schnell wie möglich Rückmeldung geben
+!en   \item Switch only ones if the user switches (in his eyes) ones
+!de   \item Nur einmal schalten wenn der Nutzer glaubt, nur einmal geschaltet zu haben
 \end{itemize}
+
+
+
+!en \subsection{Finding the event}
+!de \subsection{Das richtige Ereignis finden}
+
+
+
+!en X
+
+!de Für den Microcontroller erscheint alles was Menschen tun und erleben regelrecht endlos langwierig. Einmal ist der Schalter für Millionen Arbeitszyklen gedrückt, dann wieder für Milliarden von Zyklen losgelassen. In all dieser endlosen Langeweile passiert manchmal etwas. Um unseren Moment zu finden, muss unser Programm feststellen, dass sich etwas geändert hat.
+
+
+
+!en X
+
+!de Änderungen können nur im Vergleich zwischen zwei Zuständen festgestellt werden! Messen können wir zur gleichen Zeit aber nur einen Zustand. Das heisst, unser Programm muss sich merken, wie der Zustand bei der letzten Messung war um diesen mit der aktuellen Messung zu vergleichen.
+
+
+
+!en X
+
+!de War der Zustand eben noch HOCH und wurde in der Aktuellen Messung als NIEDRIG festgestellt ist das lang ersehnte Ereignis eingetreten. Dann muss das Programm handeln, also den Schaltzustand der LED umkehren.
+
+
+
+!en \subsection{And some modesty}
+!de \subsection{Programmierte Umsicht}
+
+
+!en X
+
+!de In Rücksichtnahme auf die Dinge, die noch kommen werden, müssen wir Umsicht walten lassen. Die Endlosschleife, die unser Programm am Leben und um Zaum hält, führt (ganz allgemein) einige wichtige Aufgaben aus:
+
+\begin{itemize}
+!en   \item It mostly contains the main program
+!de   \item Sie enthält den grössten Teil des Hauptprogramms
+!en   \item It possibly consist of multiple parts
+!de   \item Dieses Programm besteht vielleicht aus mehreren Teilen
+!en   \item It consist of an undefined amount of functional separate program parts
+!de   \item Wenn es Teile gibt, haben diese völlig verschiedenen Aufgaben
+\end{itemize}
+
+
+
+!en X
+
+!de Darum müssen wir darauf achten, dass wir keine voreiligen Schlüsse ziehen und Programmteile überspringen, in der Annahme (=scheinbare Gewissheit) dass darin nichts mehr passieren würde.
+
+
 
 So we have to ensure, to don't make any shortcut back to the 'main' label. As there can only be one Highlander, there can only be one jump back to 'main'. This jump resides at the very end of the main sequence. Like this:
 
