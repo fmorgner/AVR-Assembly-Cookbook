@@ -427,11 +427,7 @@ led_ok:
 
 !en X
 
-!de Darum müssen wir darauf achten, dass wir keine voreiligen Schlüsse ziehen und Programmteile überspringen, in der Annahme (=scheinbare Gewissheit) dass darin nichts mehr passieren würde.
-
-
-
-So we have to ensure, to don't make any shortcut back to the 'main' label. As there can only be one Highlander, there can only be one jump back to 'main'. This jump resides at the very end of the main sequence. Like this:
+!de Darum müssen wir darauf achten, dass wir keine voreiligen Schlüsse ziehen und Programmteile überspringen, in der Annahme dass darin nichts mehr passieren würde. Ebenso wie es nur einen Highlander geben kann, kann es nur einen Sprung zurück zu '\texttt{main}' geben. Dieser Sprung befindet sich am Ende aller Funktionsbläcke in der Hauptprogrammschleife:
 
 \begin{lstlisting}
 main:
@@ -446,12 +442,15 @@ main:
 
   C_begin:
             block     C or goto to end of block C
-  C_end
+  C_end:
 
 mein_end:
             finalise
             rjmp      main
 \end{lstlisting}
 
-In our flow diagram one part has to reach the next part regardless of how the program is flowing. The rounded rectangle 'next' represents the central point behind our (currently) one part. This is the position where the next program part would follow in the same manner.
 
+
+!en X
+
+!de Um konsistent zu bleiben, ist es ausserdem wichtig, dass einzelne Funktionsblöcke in sich geschlossen sind. Wir springen nicht von Block A nach Block B, sondern von Block A nach 'Ende von Block A'. Auf diese Weise bleiben die Blöcke unabhängig in können in ihrer Reihenfolge vertauscht werden ohne Gefahr zu laufen, den prinzipiellen Ablauf zu zerstören. Ein Block folgt dem nächsten und jeder Block ist unabhängig von jedem anderen Block.

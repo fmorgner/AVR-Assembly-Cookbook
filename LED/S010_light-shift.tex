@@ -1,21 +1,34 @@
-\section{Light Shift}
+!en \section{Light Shift}
+!de \section{Lichtverschiebung}
 
-Next we will start with showing off. A little bit at least. We will put three lights in a row and lighten one of them up. Each time we press the button the light will shift to the next LED. After the last light, we start with the first one.
+!en X
 
-It would be much easier to do this with 8 lights, but here we are. We will keep the existing circuit as untouched as possible and, not at last, we are constantly on he search for a challenge.
+!de Langsam wird es Zeit etwas anzugeben. Nur ein wenig! Wir werden drei LEDs in eine Reihe schalten und eine nach der anderen einschalten. Der Wechsel wird jeweils mit einem Druck auf den Schalter ausgelöst.
 
-So here is the enhanced circuit:
+
+
+!en It would be much easier to do this with 8 lights, but here we are. We will keep the existing circuit as untouched as possible and, not at last, we are constantly on he search for a challenge.
+
+!de Es wäre viel einfacher, das mit 8 LEDs zu machen, dafür haben wir aber zu wenig Platz. Wir werden die existierenden Schaltung weitgehend unberührt lassen und nur die LEDs hinzufügen.
+
+
+!en X:
+
+!de Dies ist der erweiterte Schaltplan, die Erweiterung ist, wie gewohnt, rot gekennzeichnet.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=120mm]{LED/S010_light-shift_Circuit_schema.png}
-  \caption{Light Shift - Schema}
+!en   \caption{Light Shift - Schema}
+!de   \caption{Lichtverschiebung - Schaltplan}
   \label{atmega8-light-shift-schema}
 \end{figure}
 
-As you can see, we added the three LEDs to the remaining pins on the right side of the chip, so it is easy to build in Hardware on a breadboard. For this we have to pay with a higher degree of complexity in our code
 
-And this is the code:
+
+!en X
+
+!de Die zusätzlichen LEDs haben wir direkt hinter die bereits vorhandene LED angeschlossen. Das ist am einfachsten auf dem Breadboard führt aber leide rzu einer erhöhten Komplexität des Programmcodes:
 
 \begin{lstlisting}
 ; LED/S010_light-shift.asm
