@@ -1,4 +1,4 @@
-; let-there-be-light.asm
+; let-there-be-light/code.asm
 ; -------------------------------------------------------------------------
 ; begin                 : 2012-01-22
 ; copyright             : Copyright (C) 2012 by Manfred Morgner
@@ -28,7 +28,7 @@
 ; -------------------------------------------------------------------------
 ; Schema description
 ;
-; PB5/ATmega-pin19/Arduino-pin13: LED with 330 Ohm  to GND
+; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
 
 .DEVICE atmega8
 
@@ -38,9 +38,9 @@
 
 
 start:
-                                                           ; ATmega-Pin19/Arduino-Pin13 is PORTB BIT 5
-            sbi     DDRB,         5                        ; set PORTB/BIT5 to output mode
-            sbi     PORTB,        5                        ; set output BIT to 'on'
+                                                           ; ATmega-Pin19/Arduino-dPin13 is PORTB/Bit5
+            sbi     DDRB,         5                        ; set PORTB/Bit5 to output mode
+            sbi     PORTB,        5                        ; set output Bit to 'on'
 
 main:
             rjmp    main                                   ; loop forever, nothings more to do
