@@ -29,7 +29,7 @@
 ; Furhter it will switch the light to the other state if you pull Arduino
 ; Digital Pin 2 to ground or - respectively - PORTD Bit 2 on your ATmega MC
 ;
-; Between it actions, the MC will sleep (CPU on hold)
+; Between its actions, the MC will sleep (CPU on hold)
 
 ; choose the device you wish to use:
 .DEVICE atmega8
