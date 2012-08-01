@@ -30,6 +30,8 @@
 ;
 ; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
 
+; TEST: 01.08.2012
+
 .DEVICE atmega8
 
 

@@ -1,4 +1,4 @@
-; stable-decisions+symbols.asm
+; stable-decisions+symbols/code.asm
 ; -------------------------------------------------------------------------
 ; begin                 : 2012-01-22
 ; copyright             : Copyright (C) 2012 by Manfred Morgner
@@ -30,50 +30,67 @@
 ; Connector 8 to ground or - respectively - PORTB Bit 0 on your ATmega MC
 ;
 ; Which means, we have to manage a state
+; -------------------------------------------------------------------------
+; Schema description
+;
+; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
+; PD2/ATmega-Pin04/Arduino-dPin02: Switch to GND
 
-; choose the device you wish to use:
+; TEST: 01.08.2012
+
 .DEVICE atmega8
-;.DEVICE atmega168
-;.DEVICE atmega328
 
 
-.equ ctlIO     = DDRB                                      ; control register for the port we use
-.equ prtIO     = PORTB                                     ; the PORT we us for Input and Output
-.equ pinIO     = PINB                                      ; the PINs of the PORT
+.equ ctlInput  = DDRD                                      ; control register for the input port we use (D)
+.equ prtInput  = PORTD                                     ; the PORT we use for Input
+.equ pinInput  = PIND                                      ; the PINset of the same PORT
+.equ bitInput  = 2                                         ; input bit (Pin 8 on Arduino)
 
-                                                           ; Arduino Pin 13 is PORTB bit 5 on the ATmega MC
-.equ bitOutput = 5                                         ; output bit (Pin 13 on Arduino)
-.equ bitInput  = 0                                         ; input bit (Pin 8 on Arduino)
+.equ ctlOutput = DDRB                                      ; control register for the output port we use (B)
+.equ prtOutput = PORTB                                     ; the PORT we us for Output
+.equ pinOutput = PINB                                      ; the PINset of the same PORT
+.equ bitOutput = 5                                         ; ATmega-Pin19/Arduino-dPin13 is PORTB/Bit5
 
 .equ LOW       = 0                                         ; 0 or "clr register"
 .equ HIGH      = 1
 
-.def bStatus   = r16                                       ; input line status accumulator
+.def bStatus   = r16                                       ; input signal status accumulator
 
+
+; ADDRESS TABLE
 
 .org 0x0000
+;           ddddddd llllllllllllllllllllllllll             ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             rjmp    start                                  ; register 'start' as Programm Start Routine
 
 
-start:
-            sbi     ctlIO,        bitOutput                ; set PORTB/bit5 to output mode
-            cbi     ctlIO,        bitInput                 ; set PORTB/bit0 to input mode
-            sbi     prtIO,        bitInput                 ; enable pullup resistor on PORTB/bit0
+; MICRO CONTROLLER INITIALISATION SECTION
 
-            ldi     bStatus,      HIGH                     ; 'last state' will be 'high' to begin with
+;llllllllllllllllllllllllll:
+start:
+
+;           ddddddd ooooooooooooo rrrrrrrrrrrrrrrrrrrrrrrr ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+            sbi     ctlOutput,    bitOutput                ; set Output Pin to output mode
+            sbi     prtOutput,    bitOutput                ; set Output Pin to 'on'
+
+            cbi     ctlInput,     bitInput                 ; set Input Port at Input Pin to Input Mode
+            sbi     prtInput,     bitInput                 ; enable pullup resistor on Input Port at Input Pin
+
+            ldi     bStatus,      HIGH                     ; 'last input state' will be assumded as 'high' to begin with
 
 main:
-            sbic    pinIO,        bitInput                 ; skip next command if bit 0 of PORTB is 0
+            sbic    pinInput,     bitInput                 ; skip next command if bit 0 of PORTB is 0
             rjmp    led_keep                               ; nothings to do, we skip the whole procedure
             tst     bStatus                                ; find out if bStatus already is NULL
             breq    led_ok                                 ; if so, we already chenged the LED state
             clr     bStatus                                ; if not, we finally register that input became 'LOW'
-            sbis    pinIO,        bitOutput                ; to change the LED state we have to read it
+            sbis    pinOutput,    bitOutput                ; to change the LED state we have to read it
             rjmp    led_on                                 ; it was set to 'on'
-            cbi     prtIO,        bitOutput                ; set LED on bit 5 to 'off'
+            cbi     prtOutput,    bitOutput                ; set LED on bit 5 to 'off'
             rjmp    led_ok                                 ; LED handling will end for this squence
 led_on:
-            sbi     prtIO,        bitOutput                ; set LED on bit 5 to 'on'
+            sbi     prtOutput,    bitOutput                ; set LED on bit 5 to 'on'
             rjmp    led_ok                                 ; LED handling will end for this sequence
 led_keep:
             ldi     bStatus,      HIGH                     ; we are in 'pin high' mode - reset bStatus to 'high'

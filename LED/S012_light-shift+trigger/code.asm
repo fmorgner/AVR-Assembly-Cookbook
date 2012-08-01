@@ -32,8 +32,18 @@
 ; It will use 'high to low' trigger on INT0 interrupt input
 ;
 ; Between it actions, the MC will sleep (CPU on hold)
+; -------------------------------------------------------------------------
+; Schema description
+;
+; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
+; PB4/ATmega-Pin18/Arduino-dPin12: LED with 330 Ohm to GND
+; PB3/ATmega-Pin17/Arduino-dPin11: LED with 330 Ohm to GND
+; PB2/ATmega-Pin16/Arduino-dPin10: LED with 330 Ohm to GND
+; PD2/ATmega-Pin04/Arduino-dPin02: Switch to GND
 
-; choose the device you wish to use:
+
+; TEST: 01.08.2012
+
 .DEVICE atmega8
 
 
@@ -43,17 +53,16 @@
 
 ; I/O assignments
 
-.equ ddrOutput          = DDRB                             ; control register for the output port we use
-.equ prtOutput          = PORTB                            ; the PORT we us for Output
-.equ pinOutput          = PINB                             ; the PINs of the Input PORT
-
 .equ ddrInput           = DDRD                             ; control register for the input port we use
 .equ prtInput           = PORTD                            ; the PORT we us for Input
 .equ pinInput           = PIND                             ; the PINs of the Input PORT
-
-                                                           ; Arduino Pin 13 is PORTB bit 5 on the ATmega MC
-.equ bitOutput          = 5                                ; output bit for prtOutput (Digital Pin 13 on Arduino)
 .equ bitInput           = 2                                ; input bit for prtInput   (Digital Pin  2 on Arduino)
+
+.equ ddrOutput          = DDRB                             ; control register for the output port we use
+.equ prtOutput          = PORTB                            ; the PORT we us for Output
+.equ pinOutput          = PINB                             ; the PINs of the Input PORT
+.equ bitSignal          = 5                                ; ATmega-Pin19/Arduino-dPin13 is PORTB/Bit5
+
 .equ bitLightStart      = 4                                ; the start LED for light shifting (Pin 12 on Arduino)
 
 .equ mskLightShift      = 0x1C                             ; = 0b00011100, (Pins 10 to 12 on Arduino)
@@ -92,6 +101,7 @@
 ; INTERRUPT SERVICE ROUTINES - ADDRESS TABLE
 
 .org 0x0000
+;           ddddddd llllllllllllllllllllllllll             ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             rjmp    start                                  ; register 'start' as Programm Start Routine
             rjmp    ext_int0                               ; INT0 input interrupt
 
@@ -150,11 +160,11 @@ start:
 
 ; Prepair the ports and bits we need for our use
 
-            sbi     ddrOutput,    bitOutput                ; Set PORTB/bit5 to output mode
-            sbi     prtOutput,    bitOutput                ; Set LED on bit 5 to 'on'
+            sbi     ddrOutput,    bitSignal                ; set Output Port at Signal Bit to Output Mode
+            sbi     prtOutput,    bitSignal                ; set Signal LED at Signal Bit on Output Port to 'on'
 
-            cbi     ddrInput,     bitInput                 ; Set PORTD/bit2 to input mode
-            sbi     prtInput,     bitInput                 ; Enable pullup resistor on PORTD/bit2
+            cbi     ddrInput,     bitInput                 ; set Input Port to Input Mode
+            sbi     prtInput,     bitInput                 ; enalbe Pullup Resistor on Input Port at Input Pin
 
 ; Switch on interrupts from INT0 (Port D pin 2)
 
