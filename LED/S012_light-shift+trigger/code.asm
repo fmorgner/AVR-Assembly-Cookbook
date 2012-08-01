@@ -1,4 +1,4 @@
-; stable-decisions-trigger.asm
+; stable-decisions-trigger/code.asm
 ; -------------------------------------------------------------------------
 ; begin                 : 2012-06-11
 ; copyright             : Copyright (C) 2012 by Manfred Morgner
