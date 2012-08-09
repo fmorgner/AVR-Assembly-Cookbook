@@ -33,35 +33,42 @@
 ; -------------------------------------------------------------------------
 ; Schema description
 ;
-; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
-; PD2/ATmega-Pin04/Arduino-dPin02: Switch to GND
+; PB5/ATmega8-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
+; PD2/ATmega8-Pin04/Arduino-dPin02: Switch to GND
+
 
 ; TEST: 01.08.2012
 
 .DEVICE atmega8
 
 
-.equ ctlInput  = DDRD                                      ; control register for the input port we use (D)
-.equ prtInput  = PORTD                                     ; the PORT we use for Input
-.equ pinInput  = PIND                                      ; the PINset of the same PORT
-.equ bitInput  = 2                                         ; input bit (Pin 8 on Arduino)
+; DEFINITION SECTION
 
-.equ ctlOutput = DDRB                                      ; control register for the output port we use (B)
-.equ prtOutput = PORTB                                     ; the PORT we us for Output
-.equ pinOutput = PINB                                      ; the PINset of the same PORT
-.equ bitOutput = 5                                         ; ATmega-Pin19/Arduino-dPin13 is PORTB/Bit5
+;aaa nnnnnnnnnnnnnnnnnn = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-.equ LOW       = 0                                         ; 0 or "clr register"
-.equ HIGH      = 1
+; I/O assignments
 
-.def bStatus   = r16                                       ; input signal status accumulator
+.equ ctlInput           = DDRD                             ; control register for the Input Port we use (D)
+.equ prtInput           = PORTD                            ; the PORT we use for Input
+.equ pinInput           = PIND                             ; the PINset of the Input PORT
+.equ bitInput           = 2                                ; Input Bit (digital Pin 2 on Arduino)
+
+.equ ctlOutput          = DDRB                             ; control register for the output port we use (B)
+.equ prtOutput          = PORTB                            ; the PORT we us for Output
+.equ pinOutput          = PINB                             ; the PINset of the Input PORT
+.equ bitOutput          = 5                                ; ATmega-Pin19/Arduino-dPin13 is PORTB/Bit5
+
+.equ LOW                = 0                                ; 0 or "clr register"
+.equ HIGH               = 1
+
+.def bStatus            = r16                              ; input signal status accumulator
 
 
 ; ADDRESS TABLE
 
 .org 0x0000
 ;           ddddddd llllllllllllllllllllllllll             ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-            rjmp    start                                  ; register 'start' as Programm Start Routine
+            rjmp    start                                  ; register 'start' as Programm Start Point
 
 
 ; MICRO CONTROLLER INITIALISATION SECTION

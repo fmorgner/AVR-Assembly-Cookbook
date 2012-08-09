@@ -31,8 +31,9 @@
 ; -------------------------------------------------------------------------
 ; Schema description
 ;
-; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
-; PD2/ATmega-Pin04/Arduino-dPin02: Switch to GND
+; PB5/ATmega8-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
+; PD2/ATmega8-Pin04/Arduino-dPin02: Switch to GND
+
 
 ; TEST: 01.08.2012
 
@@ -43,7 +44,7 @@
 
 .org 0x0000
 ;           ddddddd llllllllllllllllllllllllll             ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-            rjmp    start                                  ; register 'start' as Programm Start Routine
+            rjmp    start                                  ; register 'start' as Programm Start Point
 
 
 ; MICRO CONTROLLER INITIALISATION SECTION

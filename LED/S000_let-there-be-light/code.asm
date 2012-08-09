@@ -28,21 +28,32 @@
 ; -------------------------------------------------------------------------
 ; Schema description
 ;
-; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
+; PB5/ATmega8-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
+
 
 ; TEST: 01.08.2012
 
 .DEVICE atmega8
 
 
+; ADDRESS TABLE
+
 .org 0x0000
-            rjmp    start                                  ; register 'start' as Programm Start Routine
+;           ddddddd llllllllllllllllllllllllll             ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+            rjmp    start                                  ; register 'start' as Programm Start Point
 
 
+; MICRO CONTROLLER INITIALISATION SECTION
+
+;llllllllllllllllllllllllll:
 start:
+;           ddddddd ooooooooooooo rrrrrrrrrrrrrrrrrrrrrrrr ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
                                                            ; ATmega-Pin19/Arduino-dPin13 is PORTB/Bit5
             sbi     DDRB,         5                        ; set PORTB/Bit5 to output mode
             sbi     PORTB,        5                        ; set output Bit to 'on'
+
+; PROGRAM SECTION
 
 main:
             rjmp    main                                   ; loop forever, nothings more to do

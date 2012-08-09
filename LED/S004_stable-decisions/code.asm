@@ -33,8 +33,9 @@
 ; -------------------------------------------------------------------------
 ; Schema description
 ;
-; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
-; PD2/ATmega-Pin04/Arduino-dPin02: Switch to GND
+; PB5/ATmega8-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
+; PD2/ATmega8-Pin04/Arduino-dPin02: Switch to GND
+
 
 ; TEST: 01.08.2012
 
@@ -45,7 +46,7 @@
 
 .org 0x0000
 ;           ddddddd llllllllllllllllllllllllll             ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-            rjmp    start                                  ; register 'start' as Programm Start Routine
+            rjmp    start                                  ; register 'start' as Programm Start Point
 
 
 ; MICRO CONTROLLER INITIALISATION SECTION
@@ -60,7 +61,7 @@ start:
             cbi     DDRD,         2                        ; set PORTD/Bit2 to input mode
             sbi     PORTD,        2                        ; enable pullup resistor on PORTD/Bit2
 
-            ldi     r16,          1                        ; 'last state' will be 'high' to begin with
+            ldi     r16,          1                        ; 'last state' will be 'remembered' as 'high' to begin with
 
 ; PROGRAM SECTION
 

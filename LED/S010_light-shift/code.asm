@@ -33,11 +33,12 @@
 ; -------------------------------------------------------------------------
 ; Schema description
 ;
-; PB5/ATmega-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
-; PB4/ATmega-Pin18/Arduino-dPin12: LED with 330 Ohm to GND
-; PB3/ATmega-Pin17/Arduino-dPin11: LED with 330 Ohm to GND
-; PB2/ATmega-Pin16/Arduino-dPin10: LED with 330 Ohm to GND
-; PD2/ATmega-Pin04/Arduino-dPin02: Switch to GND
+; PB5/ATmega8-Pin19/Arduino-dPin13: LED with 330 Ohm to GND
+; PB4/ATmega8-Pin18/Arduino-dPin12: LED with 330 Ohm to GND
+; PB3/ATmega8-Pin17/Arduino-dPin11: LED with 330 Ohm to GND
+; PB2/ATmega8-Pin16/Arduino-dPin10: LED with 330 Ohm to GND
+; PD2/ATmega8-Pin04/Arduino-dPin02: Switch to GND
+
 
 ; TEST: 01.08.2012
 
@@ -50,19 +51,19 @@
 
 ; I/O assignments
 
-.equ ctlInput  = DDRD                                      ; control register for the input port we use (D)
-.equ prtInput  = PORTD                                     ; the PORT we use for Input
-.equ pinInput  = PIND                                      ; the PINset of the same PORT
-.equ bitInput  = 2                                         ; input bit (Pin 8 on Arduino)
+.equ ctlInput           = DDRD                             ; control register for the Input Port we use (D)
+.equ prtInput           = PORTD                            ; the PORT we use for Input
+.equ pinInput           = PIND                             ; the PINset of the Input PORT
+.equ bitInput           = 2                                ; Input Bit (digital Pin 2 on Arduino)
 
-.equ ctlOutput = DDRB                                      ; control register for the output port we use (B)
-.equ prtOutput = PORTB                                     ; the PORT we us for Output
-.equ pinOutput = PINB                                      ; the PINset of the same PORT
-.equ bitSignal = 5                                         ; ATmega-Pin19/Arduino-dPin13 is PORTB/Bit5
+.equ ctlOutput          = DDRB                             ; control register for the output port we use (B)
+.equ prtOutput          = PORTB                            ; the PORT we us for Output
+.equ pinOutput          = PINB                             ; the PINset of the Input PORT
+.equ bitSignal          = 5                                ; ATmega-Pin19/Arduino-dPin13 is PORTB/Bit5
 
-.equ bitLightStart      = 4                                ; the start LED for light shifting (Pin 12 on Arduino)
+.equ bitLightStart      = 4                                ; the start LED for light shifting (digital Pin 12 on Arduino)
 
-.equ mskLightShift      = 0x1C                             ; = 0b00011100, (Pins 10 to 12 on Arduino)
+.equ mskLightShift      = 0x1C                             ; = 0b00011100, (digital Pins 10 to 12 on Arduino)
 
 .equ LOW                = 0                                ; 0 or "clr register"
 .equ HIGH               = 1
@@ -78,7 +79,7 @@
 
 .org 0x0000
 ;    ddddddd llllllllllllllllllllllllll                    ; ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-     rjmp    start                                         ; register 'start' as Programm Start Routine
+     rjmp    start                                         ; register 'start' as Programm Start Point
 
 
 ; MICRO CONTROLLER INITIALISATION SECTION
