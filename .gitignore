@@ -2,6 +2,7 @@
 
 *.hex
 *.lst
+*.err
 
 *.aux
 *.log
