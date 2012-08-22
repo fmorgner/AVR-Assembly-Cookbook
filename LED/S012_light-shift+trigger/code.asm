@@ -65,7 +65,7 @@
 
 .equ bitLightStart      = 4                                ; the start LED for light shifting (digital Pin 12 on Arduino)
 
-.equ mskLightShift      = 0x1C                             ; = 0b00011100, (digital Pins 10 to 12 on Arduino)
+.equ mskaLightShift     = 0x1C                             ; = 0b00011100, (digital Pins 10 to 12 on Arduino)
 
 ; Power Save Mode constants 'mska' = Mask to AND with Register, 'msko' = Mask to OR with Register
 
@@ -116,8 +116,8 @@ start:
             cli                                            ; Disable interrupts (SREG) while setting up
 
             ldi     regTemp,      high(RAMEND)             ; Initialise stack for interrupt handling
-            out     SPH,          regTemp
-            ldi     regTemp,      low(RAMEND)
+            out     SPH,          regTemp                  ; => If we use interrupts, we need to setup the stack pointer!
+            ldi     regTemp,      low(RAMEND)              ; => because ISR calls need the stack for 'RETI'
             out     SPL,          regTemp
 
 ; On power save configuration read: "8-bit AVR with 8KBytes In-System Programmable Flash" page 35
@@ -206,11 +206,11 @@ main:
 ext_int0:                                                  ; Interrupt Service Routine (ISR) for INT0
             in      regData,      pinOutput                ; read in data of Output Port
             mov     regTemp,      regData                  ; copy data for manipulation
-            andi    regData,      0xFF - mskLightShift     ; mask out all bits not used in light shifting (to restore them later)
+            andi    regData,      0xFF - mskaLightShift    ; mask out all bits not used in light shifting (to restore them later)
 
-            andi    regTemp,      mskLightShift            ; mask out all bits used in light shifting (to be sure)
+            andi    regTemp,      mskaLightShift           ; mask out all bits used in light shifting (to be sure)
             lsr     regTemp                                ; shift the active light to the right
-            andi    regTemp,      mskLightShift            ; mask out all bits not used in light shifting
+            andi    regTemp,      mskaLightShift           ; mask out all bits not used in light shifting
             brne    shift_ok                               ; if this is not NULL, we are done
             ldi     regTemp,      1 << bitLightStart       ; we have to set the start light to on
 shift_ok:
