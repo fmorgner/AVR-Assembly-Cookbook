@@ -81,7 +81,7 @@
 ; Interrupt Trigger Mode constants
 
 .equ mskaExtInt0        = 0b11111100                       ; AND Mask: External INT0
-.equ mskoExtInt0LvlLow  = 0b00000000                       ;  OR Mask: level low - enables wake up from power donw mode
+.equ mskoExtInt0LvlLow  = 0b00000000                       ;  OR Mask: level low - enables wake up from power down mode
 .equ mskoExtInt0LvlChng = 0b00000001                       ;  OR Mask: any level change
 .equ mskoExtInt0EdgeH2L = 0b00000010                       ;  OR Mask: falling edge
 .equ mskoExtInt0EdgeL2H = 0b00000011                       ;  OR Mask: rising edge
