@@ -1,0 +1,16 @@
+!en \section{A short introduction to shift registers}
+!de \section{Eine kurze Einführung zu Schieberegistern}
+
+!en Shift registers are great little devices. They allow you to add a whole lot of inputs or outputs to your microcontroller without using too much of the pins. This comes in handy, if for example you are trying to light up a lot of LEDs simultanously or if you are using a very small (in pin count) microcontroller for your project and still want to be able to use a lot of peripherals. In this chapter, we are going to take a look at the two main types of shoft registers, namely serial-in-parallel-out and parallel-in-serial-out shift registers.
+
+!de X
+
+!en As for the former we're going to use the readily available 74HC595 but you can use the 4094BCN more or less interchangeably even though you need to keep in mind, that the maximum frequency at which you can shift data into the register is much higher for the 74HC595 compared to the 4094BCN. Please consult the datasheet of your specific IC if you are unsure about the maximum operation frequency of it.
+
+!de X
+
+!en On the parallel-in-serial-out front of things, we are going to use the 74HC165 which is also readily available from a lot of parts sellers. The more or less equivalent 4021BE is again a lot "slower" than the former. These differences in speed might not be too much of an issue if you are working with relatively low clockspeeds, say 1 MHz, but if you want to go above 3 MHz you should be using the 74HC series registers.
+
+!de X
+
+\input{Shift-Registers/S000_shift-from-sram/book.tex}
