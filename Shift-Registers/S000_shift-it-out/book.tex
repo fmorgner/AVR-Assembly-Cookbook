@@ -1,10 +1,55 @@
-\section{SRAM to Shift Register}
+!en \section{Shift it out!}
+!de \section{Schieb es raus!}
 
-Sending SRAM content/data to shift registers has some applications. Some of them are
+en! In certain situations, the use of shift registers is absolutely essential. The most generic use case is if you need to output more bits than you have GPIO pins available on your microcntroller. Shift registers are also used if you need to output more bits simultaneously than your microcontroller allow, for example if its critical to your projact that you can output 16 bits in the same moment. Using traditional manners of AVR programming, you could only achieve the output of 8 bits at the same instant, even though you might have 32 GPIO pins. That is because the AVR architecture allows you to set the state of only one port per instruction, causing to be the second 8 bits to be set 1 cycle after the first 8. Using shift registers allows you to output 16 or more bits simultaneously. As you can see, shift registers are of great value and can be used for a lot of projects, including but not limited to:
 
 \begin{itemize}
   \item {Light chains}
   \item {Raster displays}
+  \item {Parallel bus architectures}
 \end{itemize}
 
-It is an important way to communicate with the technical environment in certain situations. Most importantly if you have more bit to output as pins on your micro controller.
+en! In this chapter, we are going to take a byte stored in the SRAM of our \at, shift it into a serial-in-parallel-out shift register and finally latch it to the shift registers outputs. We are using data from SRAM since it is one of the more realistic scenarios than using just the contents of a register. Additionally it it not that much more complicated. Without further ado lets see the code:
+
+\begin{lstlisting}
+; Shift-Registers/S000_shift-it-out.asm
+.DEVICE atmega8 ; set controller type
+
+.def temp            = r16
+
+.equ strobePin       = 0
+.equ outputEnablePin = 1
+
+.org 0x0000
+
+setup:
+    ldi     temp,   HIGH(RAMEND)
+    out     SPH,    temp
+    ldi     temp,   LOW (RAMEND)
+    out     SPL,    temp
+
+    ldi     temp,   0b00101111
+    out     DDRB,   temp
+
+    ldi     temp,   0b01010001
+    out     SPCR,   temp
+
+    ldi     temp,   $aa
+    sts     aByte,  temp
+
+main:
+    lds     temp,   aByte
+    out     SPDR,   temp
+
+waitForTransfer:
+    sbis    SPSR,   SPIF
+    rjmp    waitForTransfer
+    sbi     PORTB,  strobePin
+    sbi     PORTB,  outputEnablePin
+
+loop:    rjmp loop
+
+.dseg
+
+aByte:   .byte   1 ; Reserve one byte in SRAM for the storage of the LED status
+\end{lstlisting}

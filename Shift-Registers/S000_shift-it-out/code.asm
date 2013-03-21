@@ -23,106 +23,46 @@
 ;   Boston, MA  02111-1307, USA.                                          |
 ; =========================================================================
 ;
-; Shift SRAM
-;
-; This program aims to demonstrate the use of a CD4094BCN shift register to
-; expand the number of available pins of an Atmel(r) AVR(tm) microcontroller.
-; In particular, this program loads a byte of data received from SRAM into the
-; shift register. It does so by loading the byte from SRAM into a temporary
-; register and afterwards clocking in the register data into the data register
-; of the shift register. When it finishes shifting the data into the shift
-; register, it pulses the latch pin to latch the data from the data register
-; onto the output register of the shift register. Please note the data loaded
-; from SRAM get shifted into the shift register in reverse order, meaning that
-; the LSB of the SRAM data becomes the MSB of the shift register data and vice
-; versa. The program expects the following connections:
-;
-; - uC PORTD0 to the DATA of the shift register
-; - uC PORTC0 to the CLOCK of the shift register
-; - uC PORTC1 to the STROBE/LATCH pin of shift register
-;
-; This program deliberately doesn't use loop for performace reasons. It also
-; shifts out even a zero instead of checking for it since this saves some
-; cycles too. The third design consideration worth noting is that it uses
-; two ports, eventhough only one shift register is being used. Using two ports
-; also saves us some processing time.
-;
-; At the end one fun fact: This program fits exactly into 100 bytes of program
-; memory.
 
-.DEVICE atmega8p ; set controller type
+.DEVICE atmega8 ; set controller type
 
-.def    temp1 = r16 ; Register for temporary storage
-.def    clock = r17 ; Register for the shift-register clock selection
-.def    zero  = r18 ; Register representing a 0
+.def temp            = r16 ; Register for temporary storage
 
-.org    0
+.equ strobePin       = 0 ; PORTB0 is connected to the shift registers strobe/latch pin.
+.equ outputEnablePin = 1 ; PORTB1 is connected to the shift registers Output Enable pin.
+
+.org 0x0000
 
 setup:
-    ldi     temp1,  HIGH(RAMEND)    ; Stackpointer initialization
-    out     SPH,    temp1           ; -- " --
-    ldi     temp1,  LOW (RAMEND)    ; -- " --
-    out     SPL,    temp1           ; -- " --
+    ldi     temp,   HIGH(RAMEND) ; Stackpointer initialization
+    out     SPH,    temp         ; -- " --
+    ldi     temp,   LOW (RAMEND) ; -- " --
+    out     SPL,    temp         ; -- " --
 
-    clr     zero
+    ldi     temp,   0b00101111   ; Set PORTB0, PORTB1, PORTB2, PORTB3 and PORTB5 as outputs
+    out     DDRB,   temp         ; -- " --
 
-    ldi     temp1,  $01             ; Set PORTD0 to output
-    out     DDRD,   temp1           ; -- " --
+    ldi     temp,   0b01010001   ; Set up SPI: No interrupt, enable SPI, master mode, MSB first, SPI mode 0, clock = sysclock/16
+    out     SPCR,   temp         ; -- " --
 
-    ldi     temp1,  $03             ; Set PORTC0 and PORTC1 to output
-    out     DDRC,   temp1           ; -- " --
-
-    ldi     temp1,  $aa             ; Fill the "leds" byte with 10101010
-    sts     leds,   temp1           ; -- " --
-
-    ldi     clock,  $01             ; Select data clock mode                       
+    ldi     temp,   $aa          ; Fill the "aByte" byte with 10101010
+    sts     aByte,  temp         ; Store the byte in SRAM
 
 main:
-    lds     temp1,  leds            ; Get the LED data from SRAM into the temporary register
+    lds     temp,   aByte        ; read back the value stored at location "aByte" in SRAM to the temp register
+    out     SPDR,   temp         ; shift out the value stored in temp
+    
+waitForTransfer:
+    sbis    SPSR,   SPIF         ; wait for the transfer to finish
+    rjmp    waitForTransfer
 
-    out     PORTD,  temp1           ; Output the state of the first LED to PORTD
-    out     PORTC,  clock           ; Clock the first bit into the storage register
-    out     PORTC,  zero            ; -- " --
+latchAndOutput:
+    sbi     PORTB,  strobePin
+    sbi     PORTB,  outputEnablePin
 
-    lsr     temp1                   ; Shift temp1 right so we can output the second bit
-    out     PORTD,  temp1           ; Output the state of the second LED to PORTD
-    out     PORTC,  clock           ; Clock the second bit into the storage register
-    out     PORTC,  zero            ; -- " --
-
-    lsr     temp1                   ; Shift temp1 right so we can output the third bit
-    out     PORTD,  temp1           ; Output the state of the third LED to PORTD
-    out     PORTC,  clock           ; Clock the third bit into the storage register
-    out     PORTC,  zero            ; -- " --
-
-    lsr     temp1                   ; Shift temp1 right so we can output the fourth bit
-    out     PORTD,  temp1           ; Output the state of the fourth LED to PORTD
-    out     PORTC,  clock           ; Clock the fourth bit into the storage register
-    out     PORTC,  zero            ; -- " --
-
-    lsr     temp1                   ; Shift temp1 right so we can output the fifth bit
-    out     PORTD,  temp1           ; Output the state of the fifth LED to PORTD
-    out     PORTC,  clock           ; Clock the fifth bit into the storage register
-    out     PORTC,  zero            ; -- " --
-
-    lsr     temp1                   ; Shift temp1 right so we can output the sixth bit
-    out     PORTD,  temp1           ; Output the state of the sixth LED to PORTD
-    out     PORTC,  clock           ; Clock the sixth bit into the storage register
-    out     PORTC,  zero            ; -- " --
-
-    lsr     temp1                   ; Shift temp1 right so we can output the seventh bit
-    out     PORTD,  temp1           ; Output the state of the seventh LED to PORTD
-    out     PORTC,  clock           ; Clock the seventh bit into the storage register
-    out     PORTC,  zero            ; -- " --
-
-    lsr     temp1                   ; Shift temp1 right so we can output the eighth bit
-    out     PORTD,  temp1           ; Output the state of the eighth LED to PORTD
-    out     PORTC,  clock           ; Clock the eighth bit into the storage register
-    out     PORTC,  zero            ; -- " --
-
-    lsl     clock                   ; Select latch clock mode
-    out     PORTC,  clock           ; Latch data into the output register
-    out     PORTC,  zero            ; -- " --
+loop:
+    rjmp loop
 
 .dseg
 
-leds:   .byte   1 ; Reserve one byte in SRAM for the storage of the LED status
+aByte:   .byte   1 ; Reserve one byte in SRAM for the storage of the LED status
